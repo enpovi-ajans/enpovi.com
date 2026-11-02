@@ -111,6 +111,20 @@ header{position:sticky;top:0;z-index:20;background:var(--forest);color:#fff;padd
 .toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14.5px;font-weight:600;z-index:60;opacity:0;transition:.2s;pointer-events:none;max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:translateX(-50%)}
 footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
+.sec{font-family:var(--f-d);font-size:22px;margin:26px 2px 0;letter-spacing:-.01em}
+.tdh{display:flex;align-items:center;gap:8px;margin:18px 2px 10px}
+.tdh b{font-family:var(--f-d);font-size:22px}
+.tdh span{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border-radius:6px;padding:2px 7px;background:var(--lime);color:#0A2B22}
+.late{margin-top:14px;border:1px solid #E0A33A;border-radius:18px;background:var(--card);overflow:hidden}
+.late summary{cursor:pointer;padding:14px 16px;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.late summary::-webkit-details-marker{display:none}
+.late summary::after{content:"Göster";color:var(--green);font-size:13.5px}
+.late[open] summary::after{content:"Gizle"}
+.late #lateList{padding:0 10px 4px}
+.late .lday{font-size:13px;font-weight:700;color:var(--mute);margin:6px 4px 8px}
+.tip{margin-top:14px;border-radius:16px;background:var(--soft);border:1px solid var(--line);padding:12px 14px;font-size:14px}
+.tip b{display:block;margin-bottom:2px}
+.tip button{margin-top:8px;font-weight:700;font-size:13px;color:var(--green)}
 .empty{color:var(--mute);text-align:center;padding:30px 0}
 @media (min-width:700px){.media img,.media video{height:300px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -123,12 +137,17 @@ footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
   <div class="prog"><i id="progbar"></i></div>
 </header>
 <main class="w">
+  <div class="tip" id="tip" hidden></div>
   <section class="today" id="today"></section>
+  <div id="todayList"></div>
+  <details class="late" id="late" hidden><summary id="lateSum"></summary><div id="lateList"></div></details>
+  <h2 class="sec" id="secTitle">Sonraki günler</h2>
   <div class="filt" id="filt">
-    <button aria-pressed="true" data-f="all">Tümü</button>
+    <button aria-pressed="true" data-f="all">Sonraki günler</button>
     <button aria-pressed="false" data-f="feed">Gönderi ve Reels</button>
     <button aria-pressed="false" data-f="story">Hikâyeler</button>
     <button aria-pressed="false" data-f="todo">Paylaşılmayanlar</button>
+    <button aria-pressed="false" data-f="month">Tüm ay</button>
   </div>
   <div id="list"></div>
 </main>
@@ -154,7 +173,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
   <li>Etiketi görselin alt-orta boş alanına yerleştirip paylaşın.</li></ol>
   <h3>Bilgisayardan</h3>
   <ol><li>Kaydet butonu dosyaları doğrudan İndirilenler klasörüne indirir.</li></ol>
-  <p style="color:var(--mute);font-size:13px;margin-top:16px">“Paylaştım” işaretleri bu cihazda saklanır.</p>
+  <h3>“Paylaştım” işaretleri</h3><ol><li>İşaretler bu telefonda kalıcı olarak saklanır; ertesi gün ya da haftalar sonra açtığınızda aynen durur.</li><li>Her zaman aynı telefondan ve aynı tarayıcıdan açın. En kolayı paneli <b>Ana Ekrana Ekle</b>mek.</li><li>Gizli sekme veya tarayıcı verilerini silmek işaretleri sıfırlar.</li></ol>
 </div></div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -237,18 +256,36 @@ function renderToday(){
   const next=E.find(e=>e.date>TODAY&&e.kind!=='story');
   const [d,n]=progress();
   let h=`<div class="k">${esc(D.meta.name)} · ${esc(D.meta.theme)}</div>`;
+  let listHTML='';
   if(t.length){
     const feed=t.filter(e=>e.kind!=='story');
-    h+=`<h1>Bugün <em>${feed.length?feed.length+' paylaşım':'1 hikâye'}</em> var.</h1><p>${feed.map(e=>`${e.time} · ${K[e.kind][0]}: ${esc(e.title)}`).join('<br>')||'Sadece günlük hikâye paylaşılacak.'}${feed.length?'<br>+ günlük hikâye':''}</p>
-      <button class="jump" data-go="${TODAY}">Bugünün içeriklerine git ↓</button>`;
+    const todo=t.filter(e=>!isDone(e.id)).length;
+    h+=`<h1>${todo?`Bugün <em>${todo} paylaşım</em> var.`:'Bugünün işi <em>tamam.</em>'}</h1><p>${feed.map(e=>`${e.time} · ${K[e.kind][0]}: ${esc(e.title)}`).join('<br>')}${feed.length?'<br>':''}+ günlük hikâye</p>`;
+    listHTML=`<div class="tdh"><b>${esc(t[0].day)}</b><span>Bugün</span></div>`+t.map(cardHTML).join('');
   }else if(TODAY<E[0].date){
-    h+=`<h1>Plan <em>${esc(E[0].day)}</em> başlıyor.</h1><p>İlk paylaşım: ${esc(E[0].title)}</p><button class="jump" data-go="${E[0].date}">İlk güne git ↓</button>`;
+    const first=E.filter(e=>e.date===E[0].date);
+    h+=`<h1>Plan <em>${esc(E[0].day)}</em> başlıyor.</h1><p>İlk gün paylaşılacaklar aşağıda.</p>`;
+    listHTML=`<div class="tdh"><b>${esc(E[0].day)}</b><span>İlk gün</span></div>`+first.map(cardHTML).join('');
   }else{
     h+=`<h1>Bu ayın planı <em>tamamlandı.</em></h1><p>${d} / ${n} içerik paylaşıldı olarak işaretli.</p>`;
   }
-  h+=`<div class="stat"><span>✓ ${d}/${n} paylaşıldı</span>${late.length?`<span style="background:#E0A33A;color:#1b1200">${late.length} geciken</span>`:''}${next&&t.length?`<span>Sıradaki: ${esc(next.day.split(' ').slice(0,2).join(' '))} ${next.time}</span>`:''}</div>`;
+  h+=`<div class="stat"><span>✓ ${d}/${n} paylaşıldı</span>${late.length?`<span style="background:#E0A33A;color:#1b1200">${late.length} geciken</span>`:''}${next?`<span>Sıradaki: ${esc(next.day.split(' ').slice(0,2).join(' '))} ${next.time}</span>`:''}</div>`;
   $('#today').innerHTML=h;
-  const j=$('#today .jump'); if(j)j.onclick=()=>{const el=document.getElementById('d-'+j.dataset.go);el&&el.scrollIntoView({behavior:'smooth'})};
+  $('#todayList').innerHTML=listHTML;
+  const L=$('#late');
+  if(late.length){
+    L.hidden=false; $('#lateSum').textContent=`Geciken ${late.length} içerik`;
+    let lh='',ld='';late.forEach(e=>{if(e.date!==ld){lh+=`<div class="lday">${esc(e.day)}</div>`;ld=e.date}lh+=cardHTML(e)});
+    $('#lateList').innerHTML=lh;
+  }else{L.hidden=true;$('#lateList').innerHTML=''}
+  bind($('#todayList'));bind($('#lateList'));
+}
+function updateSummary(){
+  const D=data();const E=entries();const late=E.filter(e=>e.date<TODAY&&!isDone(e.id));const [d,n]=progress();
+  const st=$('#today .stat'); if(st){const sp=st.querySelectorAll('span');sp[0].textContent=`✓ ${d}/${n} paylaşıldı`;}
+  const t=E.filter(e=>e.date===TODAY);const h1=$('#today h1');
+  if(t.length&&h1){const todo=t.filter(e=>!isDone(e.id)).length;h1.innerHTML=todo?`Bugün <em>${todo} paylaşım</em> var.`:'Bugünün işi <em>tamam.</em>'}
+  if(!late.length){$('#late').hidden=true}else{$('#lateSum').textContent=`Geciken ${late.length} içerik`}
 }
 function cardHTML(e){
   const [kn,kc]=K[e.kind]; const done=isDone(e.id);
@@ -259,11 +296,11 @@ function cardHTML(e){
   else media=`<div class="media ${e.prev.length===1?'one':''}">${e.prev.map((p,i)=>`<img class="r45" src="${p}" alt="Kare ${i+1}" loading="lazy">`).join('')}</div>`;
   const nfiles=e.files.length;
   const saveLab=isReel?'Videoyu kaydet':nfiles>1?`${nfiles} kareyi kaydet`:'Görseli kaydet';
-  let h=`<article class="card ${done?'done':''}" id="c-${e.id}">
+  let h=`<article class="card ${done?'done':''}" data-card="${e.id}">
    <div class="ch"><span class="badge" style="background:${kc}">${kn}${e.kind==='carousel'?' · '+nfiles:''}</span>${e.time?`<span class="time">${e.time}</span>`:'<span class="ser">Gün içinde</span>'}${e.series?`<span class="ser">${esc(e.series)}</span>`:''}<span class="ok">✓ Paylaşıldı</span></div>
    <div class="ct">${esc(e.title)}${e.proposal?' <span class="ser">(onaya bağlı öneri)</span>':''}</div>${media}`;
   if(isStory&&e.sticker){h+=`<div class="stk"><div class="h">Eklenecek etiket: ${esc(e.sticker.name)}</div><div class="q">${esc(e.sticker.text)}</div><div class="n">${esc(e.sticker.note)}</div></div>`}
-  if(!isStory){h+=`<div class="cap" id="cap-${e.id}">${esc(e.caption)}</div><button class="more" data-more="${e.id}">Açıklamanın tamamını göster</button>`}
+  if(!isStory){h+=`<div class="cap">${esc(e.caption)}</div><button class="more" data-more="${e.id}">Açıklamanın tamamını göster</button>`}
   h+=`<div class="acts"><button class="b pri" data-save="${e.id}">${IC.dl}<span class="lab">${saveLab}</span></button>`;
   if(isReel) h+=`<button class="b" data-cover="${e.id}">${IC.img}<span class="lab">Kapağı kaydet</span></button>`;
   if(!isStory) h+=`<button class="b" data-copy="${e.id}">${IC.cp}<span>Açıklamayı kopyala</span></button>`;
@@ -274,7 +311,8 @@ function cardHTML(e){
 }
 function renderList(){
   const D=data(); let E=entries();
-  if(F==='feed')E=E.filter(e=>e.kind!=='story'); if(F==='story')E=E.filter(e=>e.kind==='story'); if(F==='todo')E=E.filter(e=>!isDone(e.id));
+  const upcoming=e=>e.date>TODAY||(TODAY<entries()[0].date&&e.date>entries()[0].date);
+  if(F==='all')E=E.filter(upcoming); if(F==='feed')E=E.filter(e=>e.kind!=='story'&&upcoming(e)); if(F==='story')E=E.filter(e=>e.kind==='story'&&upcoming(e)); if(F==='todo')E=E.filter(e=>!isDone(e.id));
   const W=D.meta.weeks; let h='',lastDate='',lastWeek=0;
   const weekOf=date=>{const d=+date.slice(8);if(M==='nov')return d<=8?1:d<=15?2:d<=22?3:4;return d<=6?1:d<=13?2:d<=20?3:4};
   E.forEach(e=>{
@@ -286,21 +324,31 @@ function renderList(){
   });
   if(lastDate)h+='</div>';
   $('#list').innerHTML=h||'<div class="empty">Bu filtrede içerik yok.</div>';
-  bind();
+  bind($('#list'));
 }
 function find(id){const D=data();return D.items.find(x=>x.id===id)||D.stories.find(x=>x.id===id)}
-function bind(){
-  const L=$('#list');
+function bind(L){
+  if(!L)return;
   L.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>{const e=find(b.dataset.save);const n=e.files.length;
     save(b,e.id,e.files,{ready:(e.kind==='reel'?'Video hazır · Kaydetmek için dokun':n>1?`${n} kare hazır · Kaydetmek için dokun`:'Hazır · Kaydetmek için dokun')})});
   L.querySelectorAll('[data-cover]').forEach(b=>b.onclick=()=>{const e=find(b.dataset.cover);save(b,e.id+'-cover',[e.cover],{ready:'Kapak hazır · Dokun'})});
   L.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(find(b.dataset.copy).caption,'Açıklama kopyalandı. Instagram\'da yapıştırın.'));
   L.querySelectorAll('[data-copyst]').forEach(b=>b.onclick=()=>copy(find(b.dataset.copyst).sticker.text,'Etiket metni kopyalandı'));
-  L.querySelectorAll('[data-more]').forEach(b=>b.onclick=()=>{const c=$('#cap-'+b.dataset.more);c.classList.toggle('open');b.textContent=c.classList.contains('open')?'Kısalt':'Açıklamanın tamamını göster'});
+  L.querySelectorAll('[data-more]').forEach(b=>b.onclick=()=>{const c=b.previousElementSibling;c.classList.toggle('open');b.textContent=c.classList.contains('open')?'Kısalt':'Açıklamanın tamamını göster'});
   L.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>{const id=b.dataset.done;const v=!isDone(id);store.set('done:'+id,v?'1':'');
-    b.setAttribute('aria-pressed',v);b.querySelector('span').textContent=v?'Paylaşıldı':'Paylaştım';$('#c-'+id).classList.toggle('done',v);renderToday();if(v)toast('Harika! Paylaşıldı olarak işaretlendi')});
+    document.querySelectorAll(`[data-card="${id}"]`).forEach(c=>{c.classList.toggle('done',v);const x=c.querySelector('[data-done]');x.setAttribute('aria-pressed',v);x.querySelector('span').textContent=v?'Paylaşıldı':'Paylaştım'});
+    updateSummary();if(v)toast('Harika! Paylaşıldı olarak işaretlendi')});
 }
 function render(){renderMonths();renderToday();renderList()}
+(function tip(){
+  const ua=navigator.userAgent;const inApp=/Instagram|FBAN|FBAV|WhatsApp|Telegram|Line\/|wv\)|GSA\//i.test(ua);
+  const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(standalone||store.get('tipclosed')==='1'||!isMobile)return;
+  const ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const t=$('#tip');t.hidden=false;
+  t.innerHTML=`<b>${inApp?'Bu sayfayı tarayıcıda açın':'Paneli ana ekrana ekleyin'}</b>${inApp?(ios?'Sağ alttaki pusula simgesine ya da menüden “Safari’de aç”a dokunun. ':'Menüden “Tarayıcıda aç”ı seçin. '):''}Sonra ${ios?'Safari’de Paylaş → <b style="display:inline">Ana Ekrana Ekle</b>':'Chrome menüsünden <b style="display:inline">Ana ekrana ekle</b>'} ile panel uygulama gibi açılır ve “Paylaştım” işaretleriniz kalıcı olarak saklanır.<br><button id="tipX">Anladım</button>`;
+  $('#tipX').onclick=()=>{store.set('tipclosed','1');t.hidden=true};
+})();
 document.querySelectorAll('#filt button').forEach(b=>b.onclick=()=>{F=b.dataset.f;document.querySelectorAll('#filt button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderList()});
 $('#helpBtn').onclick=()=>{$('#help').hidden=false};$('#helpX').onclick=()=>{$('#help').hidden=true};$('#help').onclick=e=>{if(e.target.id==='help')$('#help').hidden=true};
 
@@ -309,7 +357,7 @@ const curKey=now.getMonth()===10?'nov':now.getMonth()===11?'dec':now.getMonth()=
 const saved=store.get('m');
 M=(curKey&&PLAN[curKey])?curKey:(saved&&PLAN[saved])?saved:'nov';
 render();
-if(entries().some(e=>e.date===TODAY)){setTimeout(()=>{},0)}
+
 })();
 </script>
 </body>
