@@ -151,7 +151,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
   </div>
   <div id="list"></div>
 </main>
-<footer>Kartepe Ferah Cafe &amp; Restaurant · Hazırlayan: Yasin Çakır</footer>
+<footer><span id="brandName">Kartepe Ferah Cafe &amp; Restaurant</span> · Hazırlayan: Yasin Çakır</footer>
 
 <div class="sheet" id="help" hidden><div class="in">
   <button class="x" id="helpX">Kapat</button>
@@ -168,7 +168,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
   <li>Son ekranda <b>Kapağı düzenle → Film rulosundan ekle</b> ile kapağı seçin.</li>
   <li>Açıklamayı yapıştırıp paylaşın.</li></ol>
   <h3>Hikâye</h3>
-  <ol><li>Görseli kaydedin, Instagram'da <b>+ → Hikâye</b> ile açın.</li>
+  <ol><li>Görseli ya da videoyu kaydedin, Instagram'da <b>+ → Hikâye</b> ile açın. Video hikâyelerin yazıları ve sesi hazırdır.</li>
   <li>Kartta yazan etiketi (anket, soru, geri sayım…) üstteki <b>etiket simgesinden</b> ekleyin. Metni kopyala butonuyla alabilirsiniz.</li>
   <li>Etiketi görselin alt-orta boş alanına yerleştirip paylaşın.</li></ol>
   <h3>Bilgisayardan</h3>
@@ -292,12 +292,12 @@ function cardHTML(e){
   const isReel=e.kind==='reel', isStory=e.kind==='story';
   let media;
   if(isReel) media=`<div class="media"><video class="r916" src="${e.files[0].src}" poster="${e.prev[0]}" controls playsinline preload="none"></video><img class="r916" src="${e.prev[0]}" alt="Kapak" loading="lazy"></div>`;
-  else if(isStory) media=`<div class="media"><img class="r916" src="${e.prev[0]}" alt="" loading="lazy"></div>`;
+  else if(isStory) media=e.video?`<div class="media"><video class="r916" src="${e.files[0].src}" poster="${e.prev[0]}" controls playsinline preload="none"></video></div>`:`<div class="media"><img class="r916" src="${e.prev[0]}" alt="" loading="lazy"></div>`;
   else media=`<div class="media ${e.prev.length===1?'one':''}">${e.prev.map((p,i)=>`<img class="r45" src="${p}" alt="Kare ${i+1}" loading="lazy">`).join('')}</div>`;
   const nfiles=e.files.length;
-  const saveLab=isReel?'Videoyu kaydet':nfiles>1?`${nfiles} kareyi kaydet`:'Görseli kaydet';
+  const saveLab=(isReel||e.video)?'Videoyu kaydet':nfiles>1?`${nfiles} kareyi kaydet`:'Görseli kaydet';
   let h=`<article class="card ${done?'done':''}" data-card="${e.id}">
-   <div class="ch"><span class="badge" style="background:${kc}">${kn}${e.kind==='carousel'?' · '+nfiles:''}</span>${e.time?`<span class="time">${e.time}</span>`:'<span class="ser">Gün içinde</span>'}${e.series?`<span class="ser">${esc(e.series)}</span>`:''}<span class="ok">✓ Paylaşıldı</span></div>
+   <div class="ch"><span class="badge" style="background:${kc}">${kn}${e.video?' · Video':''}${e.kind==='carousel'?' · '+nfiles:''}</span>${e.time?`<span class="time">${e.time}</span>`:'<span class="ser">Gün içinde</span>'}${e.series?`<span class="ser">${esc(e.series)}</span>`:''}<span class="ok">✓ Paylaşıldı</span></div>
    <div class="ct">${esc(e.title)}${e.proposal?' <span class="ser">(onaya bağlı öneri)</span>':''}</div>${media}`;
   if(isStory&&e.sticker){h+=`<div class="stk"><div class="h">Eklenecek etiket: ${esc(e.sticker.name)}</div><div class="q">${esc(e.sticker.text)}</div><div class="n">${esc(e.sticker.note)}</div></div>`}
   if(!isStory){h+=`<div class="cap">${esc(e.caption)}</div><button class="more" data-more="${e.id}">Açıklamanın tamamını göster</button>`}
@@ -330,7 +330,7 @@ function find(id){const D=data();return D.items.find(x=>x.id===id)||D.stories.fi
 function bind(L){
   if(!L)return;
   L.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>{const e=find(b.dataset.save);const n=e.files.length;
-    save(b,e.id,e.files,{ready:(e.kind==='reel'?'Video hazır · Kaydetmek için dokun':n>1?`${n} kare hazır · Kaydetmek için dokun`:'Hazır · Kaydetmek için dokun')})});
+    save(b,e.id,e.files,{ready:((e.kind==='reel'||e.video)?'Video hazır · Kaydetmek için dokun':n>1?`${n} kare hazır · Kaydetmek için dokun`:'Hazır · Kaydetmek için dokun')})});
   L.querySelectorAll('[data-cover]').forEach(b=>b.onclick=()=>{const e=find(b.dataset.cover);save(b,e.id+'-cover',[e.cover],{ready:'Kapak hazır · Dokun'})});
   L.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(find(b.dataset.copy).caption,'Açıklama kopyalandı. Instagram\'da yapıştırın.'));
   L.querySelectorAll('[data-copyst]').forEach(b=>b.onclick=()=>copy(find(b.dataset.copyst).sticker.text,'Etiket metni kopyalandı'));
@@ -340,6 +340,7 @@ function bind(L){
     updateSummary();if(v)toast('Harika! Paylaşıldı olarak işaretlendi')});
 }
 function render(){renderMonths();renderToday();renderList()}
+if(window.BRAND){$('#brandName').textContent=BRAND.name;document.title=BRAND.short+' Yayın Paneli';const t=document.querySelector('.hb .t');if(t)t.textContent=BRAND.short==='Ferah'?'Yayın Paneli':'Yayın Paneli · '+BRAND.tag}
 (function tip(){
   const ua=navigator.userAgent;const inApp=/Instagram|FBAN|FBAV|WhatsApp|Telegram|Line\/|wv\)|GSA\//i.test(ua);
   const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
