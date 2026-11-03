@@ -19,7 +19,8 @@ em{font-family:var(--f-s);font-style:italic;font-weight:400}
 .w{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
 
 .marka{font-family:var(--f-d);font-weight:700;letter-spacing:-.03em;line-height:1;display:inline-flex;align-items:baseline}
-.marka i{font-style:normal;color:var(--lime)}
+.marka{--nokta:#9BCB3C}
+.marka .logo{display:block;height:1em;width:auto;overflow:visible}
 
 .alan{display:block;margin-top:14px}
 .alan span{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px}
