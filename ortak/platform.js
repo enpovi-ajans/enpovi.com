@@ -13,9 +13,20 @@
   }) : null;
 
   const kucuk = s => String(s || '').trim().toLowerCase();
+  /* Kullanıcı adı girişi: Supabase e-posta istediği için kullanıcı adı "<ad>@uye.enpovi.com" olarak saklanır.
+     Bu alan adına e-posta gitmez; şifreyi yönetici panelden yeniler. */
+  const UYE_ALAN = '@uye.enpovi.com';
+  const TR = { 'ç':'c','ğ':'g','ı':'i','İ':'i','ö':'o','ş':'s','ü':'u' };
+  const kadiTemizle = s => String(s || '').trim().replace(/[çğıİöşü]/gi, c => TR[c] || TR[c.toLowerCase()] || c).toLowerCase().replace(/\s+/g, '');
+  const kadiGecerli = s => /^[a-z0-9][a-z0-9._-]{2,29}$/.test(s);
+  // Kullanıcının yazdığı (kullanıcı adı ya da e-posta) → Supabase e-postası
+  const girisEposta = s => { const t = kucuk(s); return t.includes('@') ? t : kadiTemizle(t) + UYE_ALAN; };
+  // Supabase e-postası → ekranda gösterilecek ad
+  const gorunen = e => { const t = kucuk(e); return t.endsWith(UYE_ALAN) ? t.slice(0, -UYE_ALAN.length) : t; };
+  const kadiMi = e => kucuk(e).endsWith(UYE_ALAN);
   function hata(e){
     const m = String((e && (e.message || e.error_description || e.msg)) || e || '');
-    if (/Invalid login credentials/i.test(m)) return 'E-posta ya da şifre hatalı.';
+    if (/Invalid login credentials/i.test(m)) return 'Kullanıcı adı / e-posta ya da şifre hatalı.';
     if (/Email not confirmed/i.test(m)) return 'Bu hesabın e-postası henüz onaylanmamış.';
     if (/Password should be at least|weak.?password/i.test(m)) return 'Şifre en az 8 karakter olmalı.';
     if (/rate limit|too many/i.test(m)) return 'Çok fazla deneme yapıldı. Birkaç dakika sonra tekrar deneyin.';
@@ -42,11 +53,12 @@
       if (/JWT|token|401/i.test(String(e.message || e.code || ''))) { try { await sb.auth.signOut({ scope: 'local' }); } catch (_) {} return null; }
       throw e;
     }
-    return { email, admin: (y.data || []).length > 0, slugs: (u.data || []).map(r => r.slug).sort() };
+    // email: ekranda gösterilen ad (kullanıcı adı ya da e-posta); eposta: Supabase'deki gerçek adres
+    return { email: gorunen(email), eposta: email, kadi: kadiMi(email), admin: (y.data || []).length > 0, slugs: (u.data || []).map(r => r.slug).sort() };
   }
 
   const Ajans = {
-    hazir, BASE,
+    hazir, BASE, UYE_ALAN, kadiTemizle, kadiGecerli, girisEposta, gorunen, kadiMi,
     adres: p => BASE + String(p || '').replace(/^\//, ''),
     girisli(slug){ const L = C.girisli || []; return hazir && (L.includes('*') || L.includes(slug)); },
     /* Panel giriş istiyor mu? config'teki liste YA DA panele bağlı en az bir hesap varsa evet.
@@ -65,7 +77,7 @@
     anahtar(ay, id){ return Ajans.ayKodu(ay) + ':' + id; },
     oturum(yenile){ if (!hazir) return Promise.resolve(null); if (yenile || !_oturum) _oturum = oturumYukle().catch(e => { _oturum = null; throw e; }); return _oturum; },
     async girisYap(email, sifre){
-      const r = await sb.auth.signInWithPassword({ email: kucuk(email), password: sifre });
+      const r = await sb.auth.signInWithPassword({ email: girisEposta(email), password: sifre });
       ok(r); _oturum = null; return Ajans.oturum(true);
     },
     async cikis(){ try { await sb.auth.signOut(); } catch (e) { try { await sb.auth.signOut({ scope: 'local' }); } catch (_) {} } _oturum = null; },
@@ -80,7 +92,7 @@
         let q = sb.from('paylasimlar').select('slug,icerik_id,paylasan,paylasildi_at').order('icerik_id').range(from, from + N - 1);
         if (slug) q = q.eq('slug', slug);
         const rows = ok(await q) || [];
-        rows.forEach(r => out.set(slug ? r.icerik_id : r.slug + '/' + r.icerik_id, { at: r.paylasildi_at, by: r.paylasan }));
+        rows.forEach(r => out.set(slug ? r.icerik_id : r.slug + '/' + r.icerik_id, { at: r.paylasildi_at, by: gorunen(r.paylasan) }));
         if (rows.length < N) break; from += N;
       }
       return out;
@@ -100,6 +112,8 @@
     /* Yönetici: hesaplar ve üyelikler */
     async uyeler(){ return ok(await sb.from('uyeler').select('email,slug,created_at').order('slug').order('email')) || []; },
     async uyeEkle(email, slug){ ok(await sb.from('uyeler').upsert({ email: kucuk(email), slug }, { onConflict: 'email,slug', ignoreDuplicates: true })); },
+    /* Yönetici, müşteri hesabının şifresini yeniler (Supabase'de uye_sifre_ata fonksiyonu gerekir). */
+    async uyeSifreAta(email, yeni){ ok(await sb.rpc('uye_sifre_ata', { e: kucuk(email), yeni })); },
     async uyeSil(email, slug){ ok(await sb.from('uyeler').delete().eq('email', kucuk(email)).eq('slug', slug)); },
     /* Müşteri için hesap açar (yöneticinin oturumunu bozmadan, ayrı bir istemciyle). */
     async hesapOlustur(email, sifre){

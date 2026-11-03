@@ -35,7 +35,7 @@ h1{font-family:var(--f-d);font-size:26px;letter-spacing:-.02em;margin:0}
 
   <form id="girisForm" hidden novalidate>
     <h1>Giriş yap</h1>
-    <label class="alan"><span>E-posta</span><input id="email" type="email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required></label>
+    <label class="alan"><span>Kullanıcı adı veya e-posta</span><input id="email" type="text" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" required></label>
     <label class="alan"><span>Şifre</span><div class="sifre-kutu"><input id="sifre" type="password" autocomplete="current-password" required><button type="button" data-goster="sifre">Göster</button></div></label>
     <div id="girisMesaj" class="mesaj kotu" role="alert" hidden></div>
     <button class="btn ana tam" id="girisBtn" type="submit" style="margin-top:18px">Giriş yap</button>
@@ -44,8 +44,8 @@ h1{font-family:var(--f-d);font-size:26px;letter-spacing:-.02em;margin:0}
 
   <form id="unuttumForm" hidden novalidate>
     <h1>Şifre sıfırlama</h1>
-    <p style="color:var(--mute);margin:8px 0 0;font-size:14.5px">E-posta adresinizi yazın, şifre yenileme bağlantısı gönderelim.</p>
-    <label class="alan"><span>E-posta</span><input id="email2" type="email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required></label>
+    <p style="color:var(--mute);margin:8px 0 0;font-size:14.5px">Kullanıcı adıyla giriş yapıyorsanız şifrenizi ajansınız yeniler. E-postayla giriş yapıyorsanız adresinizi yazın, yenileme bağlantısı gönderelim.</p>
+    <label class="alan"><span>Kullanıcı adı veya e-posta</span><input id="email2" type="text" autocomplete="username" autocorrect="off" autocapitalize="off" spellcheck="false" required></label>
     <div id="unuttumMesaj" class="mesaj" role="status" hidden></div>
     <button class="btn ana tam" id="unuttumGonder" type="submit" style="margin-top:18px">Bağlantı gönder</button>
     <div class="alt"><button type="button" class="link" id="geriBtn">Girişe dön</button></div>
@@ -131,7 +131,7 @@ async function basla(){
 $('#girisForm').onsubmit=async ev=>{
   ev.preventDefault();
   const email=$('#email').value.trim(),sifre=$('#sifre').value;
-  if(!email||!sifre){mesaj('#girisMesaj','E-posta ve şifreyi yazın.','kotu');return}
+  if(!email||!sifre){mesaj('#girisMesaj','Kullanıcı adınızı (ya da e-postanızı) ve şifrenizi yazın.','kotu');return}
   const b=$('#girisBtn');b.disabled=true;b.textContent='Giriş yapılıyor…';mesaj('#girisMesaj','');
   try{await yonlendir(await A.girisYap(email,sifre))}
   catch(e){mesaj('#girisMesaj',A.hata(e),'kotu')}
@@ -142,6 +142,7 @@ $('#geriBtn').onclick=()=>goster('#girisForm');
 $('#unuttumForm').onsubmit=async ev=>{
   ev.preventDefault();
   const email=$('#email2').value.trim();
+  if(email&&!email.includes('@')){mesaj('#unuttumMesaj','Kullanıcı adıyla açılan hesapların şifresini ajansınız yeniler. Enpovi\'ye yazın, yeni şifreniz hemen iletilsin.','iyi');return}
   if(!/^\S+@\S+\.\S+$/.test(email)){mesaj('#unuttumMesaj','Geçerli bir e-posta yazın.','kotu');return}
   const b=$('#unuttumGonder');b.disabled=true;
   try{await A.sifreSifirla(email);mesaj('#unuttumMesaj','Bu e-postayla bir hesap varsa sıfırlama bağlantısı gönderildi. Gelen kutunuzu (ve gereksiz klasörünü) kontrol edin.','iyi')}

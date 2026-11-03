@@ -161,12 +161,12 @@ h2.sb{font-family:var(--f-d);font-size:24px;letter-spacing:-.02em;margin:22px 2p
       <h3>Yeni hesap</h3>
       <div class="iki">
         <label class="alan"><span>Müşteri</span><select id="hSlug" required></select></label>
-        <label class="alan"><span>E-posta</span><input id="hEmail" type="email" inputmode="email" autocapitalize="off" spellcheck="false" autocomplete="off" required></label>
+        <label class="alan"><span>Kullanıcı adı veya e-posta</span><input id="hEmail" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="örn. bimser" required></label>
       </div>
       <label class="alan"><span>Geçici şifre</span>
         <div class="sifre-sat"><div class="sifre-kutu"><input id="hSifre" type="text" autocomplete="new-password" spellcheck="false" minlength="8" required><button type="button" id="hGoster">Gizle</button></div><button type="button" class="btn" id="hUret">Oluştur</button></div>
       </label>
-      <div class="ipucu">Bu e-postayla zaten hesap varsa yeni hesap açılmaz, yalnızca seçilen panele bağlanır ve mevcut şifresi geçerli kalır.</div>
+      <div class="ipucu">Kullanıcı adı yeterli (en az 3 karakter; harf, rakam, nokta, tire). E-posta yazarsanız müşteri e-postasıyla girer. Şifre unutulursa aşağıdaki listeden "Şifre yenile" ile yenisini verirsiniz.<br>Bu kullanıcı adı ya da e-postayla zaten hesap varsa yeni hesap açılmaz, yalnızca seçilen panele bağlanır ve mevcut şifresi geçerli kalır.</div>
       <div id="hMesaj" class="mesaj" role="status" hidden></div>
       <button class="btn ana tam" id="hBtn" type="submit" style="margin-top:14px">Hesabı oluştur ve panele bağla</button>
       <div class="teslim" id="teslim" hidden>
@@ -372,7 +372,14 @@ function hesaplar(){
   const grup={};UYE.forEach(u=>(grup[u.slug]=grup[u.slug]||[]).push(u));
   const tum=[...MUS.map(m=>m.slug),...Object.keys(grup).filter(s=>!musteri(s))];
   $('#uyeListe').innerHTML=tum.map(s=>{const m=musteri(s);const L=grup[s]||[];
-    return `<div class="ugrup"><h4><i style="background:${m?m.renk:'#999'}"></i>${esc(m?m.ad:s)}${girisAcik(s)?' · giriş açık':' · giriş kapalı (hesap açınca açılır)'}</h4>${L.length?L.map(u=>`<div class="usat"><span>${esc(u.email)}</span><button data-sil="${esc(u.email)}" data-slug="${esc(s)}">Kaldır</button></div>`).join(''):'<div class="bos-not">Bu panele bağlı hesap yok.</div>'}</div>`}).join('');
+    return `<div class="ugrup"><h4><i style="background:${m?m.renk:'#999'}"></i>${esc(m?m.ad:s)}${girisAcik(s)?' · giriş açık':' · giriş kapalı (hesap açınca açılır)'}</h4>${L.length?L.map(u=>`<div class="usat"><span>${esc(A.gorunen(u.email))}${A.kadiMi(u.email)?'':' <small style="opacity:.6">(e-posta)</small>'}</span><div style="display:flex;gap:2px;flex:none"><button data-sifre="${esc(u.email)}" data-slug="${esc(s)}" style="color:inherit">Şifre yenile</button><button data-sil="${esc(u.email)}" data-slug="${esc(s)}">Kaldır</button></div></div>`).join(''):'<div class="bos-not">Bu panele bağlı hesap yok.</div>'}</div>`}).join('');
+  $('#uyeListe').querySelectorAll('[data-sifre]').forEach(b=>b.onclick=async()=>{
+    if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Yeni şifre verilsin mi?';setTimeout(()=>{if(b.isConnected){b.classList.remove('emin');b.textContent='Şifre yenile'}},4000);return}
+    b.disabled=true;const yeni=sifreUret();
+    try{await A.uyeSifreAta(b.dataset.sifre,yeni);const m=musteri(b.dataset.slug);teslimGoster(teslimMetni(m,b.dataset.sifre,yeni,false,true));hMesaj(`${A.gorunen(b.dataset.sifre)} için yeni şifre oluşturuldu. Eski şifre artık geçmez.`,'iyi');$('#hForm').scrollIntoView({behavior:'smooth'})}
+    catch(e){toast(/uye_sifre_ata|function/i.test(String(e&&e.message))?'Supabase\'de şifre yenileme fonksiyonu kurulu değil.':A.hata(e))}
+    finally{b.disabled=false;b.classList.remove('emin');b.textContent='Şifre yenile'}
+  });
   $('#uyeListe').querySelectorAll('[data-sil]').forEach(b=>b.onclick=async()=>{
     if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Emin misin?';setTimeout(()=>{if(b.isConnected){b.classList.remove('emin');b.textContent='Kaldır'}},4000);return}
     b.disabled=true;
@@ -380,14 +387,23 @@ function hesaplar(){
     catch(e){b.disabled=false;toast(A.hata(e))}
   });
 }
+function teslimMetni(m,email,sifre,vardi,yenilendi){
+  const adres=location.origin+A.adres('giris/');const ad=m?m.ad:'';
+  const kim=A.kadiMi(email)?`Kullanıcı adı: ${A.gorunen(email)}`:`E-posta: ${email}`;
+  if(vardi)return `Merhaba, ${ad} yayın paneliniz hesabınıza eklendi.\nGiriş: ${adres}\n${kim}\nMevcut şifrenizle giriş yapabilirsiniz.`;
+  return `Merhaba, ${ad} yayın paneli ${yenilendi?'yeni ':''}giriş bilgileriniz:\nGiriş: ${adres}\n${kim}\nŞifre: ${sifre}\nGiriş yaptıktan sonra sağ üstteki hesap simgesinden şifrenizi değiştirebilirsiniz.`;
+}
+function teslimGoster(metin){$('#teslimMetin').textContent=metin;$('#teslimWa').href='https://wa.me/?text='+encodeURIComponent(metin);$('#teslim').hidden=false;$('#teslimKopya').onclick=()=>kopyala(metin,'Mesaj kopyalandı')}
 function hMesaj(t,tur){const e=$('#hMesaj');e.textContent=t;e.hidden=!t;e.className='mesaj '+(tur||'')}
 $('#hUret').onclick=()=>{$('#hSifre').value=sifreUret();$('#hSifre').type='text';$('#hGoster').textContent='Gizle'};
 $('#hGoster').onclick=()=>{const i=$('#hSifre');const g=i.type==='password';i.type=g?'text':'password';$('#hGoster').textContent=g?'Gizle':'Göster'};
 $('#hForm').onsubmit=async ev=>{
   ev.preventDefault();$('#teslim').hidden=true;
-  const slug=$('#hSlug').value,email=$('#hEmail').value.trim().toLowerCase(),sifre=$('#hSifre').value;
+  const slug=$('#hSlug').value,giris=$('#hEmail').value.trim(),sifre=$('#hSifre').value;
   if(!slug){hMesaj('Müşteriyi seçin.','kotu');return}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){hMesaj('Geçerli bir e-posta yazın.','kotu');return}
+  if(giris.includes('@')){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(giris)){hMesaj('Geçerli bir e-posta yazın.','kotu');return}}
+  else if(!A.kadiGecerli(A.kadiTemizle(giris))){hMesaj('Kullanıcı adı en az 3 karakter olmalı; harf, rakam, nokta ve tire kullanılabilir.','kotu');return}
+  const email=A.girisEposta(giris),kim=A.gorunen(email);
   if(sifre.length<8){hMesaj('Şifre en az 8 karakter olmalı.','kotu');return}
   const b=$('#hBtn');b.disabled=true;b.textContent='Hazırlanıyor…';hMesaj('');
   try{
@@ -395,14 +411,10 @@ $('#hForm').onsubmit=async ev=>{
     await A.uyeEkle(email,slug);
     await uyeYukle();hesaplar();
     const m=musteri(slug);const adres=location.origin+A.adres('giris/');
-    if(r.vardi){hMesaj(`${email} zaten kayıtlıydı. ${m.ad} paneline bağlandı, mevcut şifresi geçerli.`,'iyi')}
+    if(r.vardi){hMesaj(`${kim} zaten kayıtlıydı. ${m.ad} paneline bağlandı, mevcut şifresi geçerli.`,'iyi')}
     else if(r.onayGerekli){hMesaj('Hesap açıldı ve bağlandı, ancak Supabase\'de "Confirm email" açık: müşteri e-postasındaki bağlantıyı onaylamadan giriş yapamaz.','kotu')}
     else{hMesaj(`Hesap açıldı ve ${m.ad} paneline bağlandı. Panelde giriş hemen açıldı, müşteri şimdi girebilir.`,'iyi')}
-    const metin=r.vardi
-      ?`Merhaba, ${m.ad} yayın paneliniz hesabınıza eklendi.\nGiriş: ${adres}\nE-posta: ${email}\nMevcut şifrenizle giriş yapabilirsiniz.`
-      :`Merhaba, ${m.ad} yayın paneli giriş bilgileriniz:\nGiriş: ${adres}\nE-posta: ${email}\nŞifre: ${sifre}\nGiriş yaptıktan sonra sağ üstteki hesap simgesinden şifrenizi değiştirebilirsiniz.`;
-    $('#teslimMetin').textContent=metin;$('#teslimWa').href='https://wa.me/?text='+encodeURIComponent(metin);$('#teslim').hidden=false;
-    $('#teslimKopya').onclick=()=>kopyala(metin,'Mesaj kopyalandı');
+    teslimGoster(teslimMetni(m,email,sifre,r.vardi,false));
     $('#hEmail').value='';$('#hSifre').value=sifreUret();
   }catch(e){hMesaj(A.hata(e),'kotu')}
   finally{b.disabled=false;b.textContent='Hesabı oluştur ve panele bağla'}
