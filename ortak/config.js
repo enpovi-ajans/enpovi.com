@@ -5,5 +5,5 @@
 window.ENPOVI_AYAR = {
   url: "https://fwiskbotrdpyavtodlfv.supabase.co",
   anon: "sb_publishable_PBb7z7vXx34Et5sa4f2mpg_HmgpAD-3",
-  girisli: []
+  girisli: ["gesa-kemer-dunyasi"]
 };
