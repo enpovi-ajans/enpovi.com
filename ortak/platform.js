@@ -49,6 +49,15 @@
     hazir, BASE,
     adres: p => BASE + String(p || '').replace(/^\//, ''),
     girisli(slug){ const L = C.girisli || []; return hazir && (L.includes('*') || L.includes(slug)); },
+    /* Panel giriş istiyor mu? config'teki liste YA DA panele bağlı en az bir hesap varsa evet.
+       Hesap açıldığı anda giriş açılır; yayın beklemeye gerek yok. */
+    async girisGerekli(slug){
+      if (!hazir) return false;
+      if (Ajans.girisli(slug)) return true;
+      const r = await sb.rpc('giris_gerekli', { s: slug });
+      if (r.error) throw r.error;
+      return r.data === true;
+    },
     hata,
     /* Bir içeriğin kalıcı anahtarı: "<ayın ilk tarihinin YYYY-AA'sı>:<id>" (örn. 2026-11:n-g1).
        Aynı id gelecek yıl tekrar kullanılsa da kayıtlar karışmaz. */

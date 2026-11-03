@@ -245,6 +245,7 @@ async function veriYukle(){
 async function paylasimYukle(){SHR=await A.paylasimlar(null)}
 async function uyeYukle(){UYE=await A.uyeler()}
 const pk=e=>e.slug+'/'+e.key;
+const girisAcik=s=>A.girisli(s)||UYE.some(u=>u.slug===s);
 const durum=e=>SHR.has(pk(e))?'ok':e.date<BUGUN?'gec':'bek';
 const musteri=s=>MUS.find(m=>m.slug===s);
 
@@ -262,7 +263,7 @@ function ozet(){
     let son=null;m.entries.forEach(e=>{const s=SHR.get(pk(e));if(s&&(!son||s.at>son.at))son=s});
     const yuzde=ay.length?Math.round(ok/ay.length*100):0;
     const sonraki=m.entries.find(e=>e.date>BUGUN&&e.kind!=='story');
-    const girisli=A.girisli(m.slug);
+    const girisli=girisAcik(m.slug);
     return {m,gec:gec.length,h:`<article class="mk">
       <div class="ust"><span class="nok" style="background:${m.renk}"></span><h3>${esc(m.ad)}</h3><span class="gl ${girisli?'on':''}">${girisli?'Girişli':'Girişsiz'}</span></div>
       ${m.hata?`<div class="mesaj kotu">Plan okunamadı: ${esc(m.hata)}</div>`:ay.length?`
@@ -369,11 +370,11 @@ function hesaplar(){
   const grup={};UYE.forEach(u=>(grup[u.slug]=grup[u.slug]||[]).push(u));
   const tum=[...MUS.map(m=>m.slug),...Object.keys(grup).filter(s=>!musteri(s))];
   $('#uyeListe').innerHTML=tum.map(s=>{const m=musteri(s);const L=grup[s]||[];
-    return `<div class="ugrup"><h4><i style="background:${m?m.renk:'#999'}"></i>${esc(m?m.ad:s)}${A.girisli(s)?'':' · giriş kapalı'}</h4>${L.length?L.map(u=>`<div class="usat"><span>${esc(u.email)}</span><button data-sil="${esc(u.email)}" data-slug="${esc(s)}">Kaldır</button></div>`).join(''):'<div class="bos-not">Bu panele bağlı hesap yok.</div>'}</div>`}).join('');
+    return `<div class="ugrup"><h4><i style="background:${m?m.renk:'#999'}"></i>${esc(m?m.ad:s)}${girisAcik(s)?' · giriş açık':' · giriş kapalı (hesap açınca açılır)'}</h4>${L.length?L.map(u=>`<div class="usat"><span>${esc(u.email)}</span><button data-sil="${esc(u.email)}" data-slug="${esc(s)}">Kaldır</button></div>`).join(''):'<div class="bos-not">Bu panele bağlı hesap yok.</div>'}</div>`}).join('');
   $('#uyeListe').querySelectorAll('[data-sil]').forEach(b=>b.onclick=async()=>{
     if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Emin misin?';setTimeout(()=>{if(b.isConnected){b.classList.remove('emin');b.textContent='Kaldır'}},4000);return}
     b.disabled=true;
-    try{await A.uyeSil(b.dataset.sil,b.dataset.slug);UYE=UYE.filter(u=>!(u.email===b.dataset.sil&&u.slug===b.dataset.slug));hesaplar();toast('Hesabın panel erişimi kaldırıldı')}
+    try{await A.uyeSil(b.dataset.sil,b.dataset.slug);UYE=UYE.filter(u=>!(u.email===b.dataset.sil&&u.slug===b.dataset.slug));hesaplar();toast(UYE.some(u=>u.slug===b.dataset.slug)?'Hesabın panel erişimi kaldırıldı':'Erişim kaldırıldı. Bu panele bağlı hesap kalmadığı için panel yeniden girişsiz açılır.')}
     catch(e){b.disabled=false;toast(A.hata(e))}
   });
 }
@@ -394,7 +395,7 @@ $('#hForm').onsubmit=async ev=>{
     const m=musteri(slug);const adres=location.origin+A.adres('giris/');
     if(r.vardi){hMesaj(`${email} zaten kayıtlıydı. ${m.ad} paneline bağlandı, mevcut şifresi geçerli.`,'iyi')}
     else if(r.onayGerekli){hMesaj('Hesap açıldı ve bağlandı, ancak Supabase\'de "Confirm email" açık: müşteri e-postasındaki bağlantıyı onaylamadan giriş yapamaz.','kotu')}
-    else{hMesaj(`Hesap açıldı ve ${m.ad} paneline bağlandı.`,'iyi')}
+    else{hMesaj(`Hesap açıldı ve ${m.ad} paneline bağlandı. Panelde giriş hemen açıldı, müşteri şimdi girebilir.`,'iyi')}
     const metin=r.vardi
       ?`Merhaba, ${m.ad} yayın paneliniz hesabınıza eklendi.\nGiriş: ${adres}\nE-posta: ${email}\nMevcut şifrenizle giriş yapabilirsiniz.`
       :`Merhaba, ${m.ad} yayın paneli giriş bilgileriniz:\nGiriş: ${adres}\nE-posta: ${email}\nŞifre: ${sifre}\nGiriş yaptıktan sonra sağ üstteki hesap simgesinden şifrenizi değiştirebilirsiniz.`;
@@ -427,12 +428,13 @@ async function basla(){
   let t='ozet';try{t=sessionStorage.getItem('ysekme')||'ozet'}catch(e){}
   sekme(['ozet','takvim','hesap'].includes(t)?t:'ozet');
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')yenile()});
-  A.onAuth(ev=>{if(ev==='SIGNED_OUT')location.replace(A.adres('giris/'))});
+  A.onAuth(ev=>{if(ev==='SIGNED_OUT'&&!cikiyor)location.replace(A.adres('giris/'))});
 }
 $('#accBtn').onclick=()=>{$('#hesapSheet').hidden=false};
 $('#hsX').onclick=()=>{$('#hesapSheet').hidden=true};
 $('#hesapSheet').onclick=ev=>{if(ev.target.id==='hesapSheet')$('#hesapSheet').hidden=true};
-$('#cikisBtn').onclick=async()=>{await A.cikis();location.replace(A.adres('giris/'))};
+let cikiyor=false;
+$('#cikisBtn').onclick=async()=>{cikiyor=true;await A.cikis();location.replace(A.adres('giris/'))};
 $('#pwForm').onsubmit=async ev=>{ev.preventDefault();const v=$('#pwNew').value;if(v.length<8){toast('Şifre en az 8 karakter olmalı');return}try{await A.sifreDegistir(v);$('#pwNew').value='';toast('Şifren değiştirildi')}catch(e){toast(A.hata(e))}};
 basla();
 })();

@@ -401,7 +401,8 @@ function kapi(baslik,metin,butonlar){
   $('#bootMsg').innerHTML=`<div class="kapi"><h2>${esc(baslik)}</h2><p>${esc(metin)}</p>${butonlar||''}</div>`;
 }
 function girise(){location.replace(AJ.adres('giris/?r='+encodeURIComponent(location.pathname)))}
-async function cikis(){await AJ.cikis();girise()}
+let cikiyor=false;
+async function cikis(){cikiyor=true;await AJ.cikis();girise()}
 function hesapKur(){
   $('#accBtn').hidden=false;$('#accMail').textContent=ME.email;
   if(ME.admin){$('#accAdmin').hidden=false;$('#accAdminLink').href=AJ.adres('yonetim/')}
@@ -417,8 +418,11 @@ async function yenile(){
   try{const n=await AJ.paylasimlar(SLUG);const a=[...SRV.keys()].sort().join('|'),b=[...n.keys()].sort().join('|');SRV=n;if(a!==b){const y=scrollY;render();scrollTo(0,y)}}catch(e){}
 }
 async function boot(){
-  if(!(AJ&&AJ.girisli(SLUG))){render();return}
+  if(!(AJ&&AJ.hazir)){render();return}
   $('#bootMsg').hidden=false;document.querySelector('main').hidden=true;
+  let gerekli=false;
+  try{gerekli=await AJ.girisGerekli(SLUG)}catch(e){gerekli=false} // bağlantı yoksa panel eskisi gibi açılır
+  if(!gerekli){$('#bootMsg').hidden=true;document.querySelector('main').hidden=false;render();return}
   let o;
   try{o=await AJ.oturum(true)}catch(e){kapi('Bağlanılamadı',AJ.hata(e),'<button class="kbtn pri" onclick="location.reload()">Tekrar dene</button>');return}
   if(!o){girise();return}
@@ -435,7 +439,7 @@ async function boot(){
   $('#bootMsg').hidden=true;document.querySelector('main').hidden=false;
   render();
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')yenile()});
-  AJ.onAuth(ev=>{if(ev==='SIGNED_OUT')girise()});
+  AJ.onAuth(ev=>{if(ev==='SIGNED_OUT'&&!cikiyor)girise()});
 }
 boot();
 
