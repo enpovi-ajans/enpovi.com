@@ -1,3 +1,446 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Enpovi</title>
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0A2B22;color:#fff;font-family:-apple-system,system-ui,sans-serif}p{opacity:.7}</style></head>
-<body><div style="text-align:center"><h1>Enpovi</h1><p>Sosyal medya içerik yönetimi</p></div></body></html>
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0A2B22">
+<meta name="description" content="Enpovi: işletmenizin aylık Instagram içeriklerini üretir, telefonunuzdan tek dokunuşla paylaşacağınız Yayın Paneli ile teslim eder.">
+<title>Enpovi · Sosyal medya ajansı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --forest:#0A2B22; --green:#0E6B3A; --lime:#9BCB3C; --lime2:#C4E57A;
+  --bg:#F2F4EE; --card:#FFFFFF; --soft:#E8EDE3; --ink:#0B231C; --mute:#56665E; --line:#D9E0D5;
+  --c-post:#0E6B3A; --c-car:#C7861A; --c-reel:#D2532A; --c-story:#7A55C8;
+  --f-d:"Bricolage Grotesque",system-ui,sans-serif; --f-s:"Instrument Serif",Georgia,serif; --f-b:"Instrument Sans",-apple-system,system-ui,sans-serif;
+  --r:22px; color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#07120E; --card:#0E1C17; --soft:#13251E; --ink:#E9F0EA; --mute:#9DB0A6; --line:#20342B; --green:#5FBF7F; color-scheme:dark}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+em{font-family:var(--f-s);font-style:italic;font-weight:400;letter-spacing:0}
+.w{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+.marka{font-family:var(--f-d);font-weight:700;letter-spacing:-.035em;line-height:1;text-decoration:none}
+.marka i{font-style:normal;color:var(--lime)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:15.5px;text-decoration:none;line-height:1.1;transition:transform .15s,background .2s,box-shadow .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn svg{width:19px;height:19px;flex:none}
+.btn.lime{background:var(--lime);color:var(--forest);box-shadow:0 10px 30px -10px rgba(155,203,60,.7)}
+.btn.lime:hover{background:var(--lime2)}
+.btn.cam{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.btn.cam:hover{background:rgba(255,255,255,.14)}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:8px}
+
+/* Üst menü */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;padding-top:env(safe-area-inset-top);transition:background .25s,box-shadow .25s}
+.nav.dolu{background:rgba(10,43,34,.84);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.07)}
+.nav .w{display:flex;align-items:center;gap:14px;height:64px}
+.nav .marka{font-size:27px;color:#fff}
+.nav nav{display:flex;gap:26px;margin-left:auto}
+.nav nav a{color:rgba(255,255,255,.75);text-decoration:none;font-size:14.5px;font-weight:600}
+.nav nav a:hover{color:#fff}
+.nav .giris{margin-left:auto;min-height:40px;padding:8px 16px;font-size:14px}
+.nav nav + .giris{margin-left:0}
+@media (max-width:860px){.nav nav{display:none}.nav nav + .giris{margin-left:auto}}
+
+/* Kahraman */
+.hero{position:relative;background:var(--forest);color:#fff;overflow:hidden;padding:calc(104px + env(safe-area-inset-top)) 0 0;isolation:isolate}
+.hero:before{content:"";position:absolute;right:-12%;top:-22%;width:720px;height:720px;border-radius:50%;background:radial-gradient(closest-side,rgba(155,203,60,.28),transparent);z-index:-1}
+.hero:after{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,#000 30%,transparent 90%);-webkit-mask-image:linear-gradient(to bottom,#000 30%,transparent 90%)}
+.hero .w{display:grid;grid-template-columns:1.08fr .92fr;gap:40px;align-items:end}
+.etiket{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);background:rgba(155,203,60,.1);border:1px solid rgba(155,203,60,.25);padding:7px 12px;border-radius:999px}
+.etiket b{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(155,203,60,.2);animation:nabiz 2s infinite}
+@keyframes nabiz{50%{box-shadow:0 0 0 8px rgba(155,203,60,0)}}
+.hero h1{font-family:var(--f-d);font-weight:700;font-size:clamp(44px,7.4vw,86px);line-height:.95;letter-spacing:-.045em;margin:22px 0 0}
+.hero h1 em{color:var(--lime);font-size:1.08em;letter-spacing:-.02em}
+.hero .alt{font-size:clamp(17px,2vw,19.5px);color:rgba(255,255,255,.78);max-width:34ch;margin:22px 0 0}
+.hero .butonlar{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+.hero .metin{padding-bottom:84px}
+.mini{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;color:rgba(255,255,255,.62);font-size:14px}
+.mini span{display:flex;align-items:center;gap:8px}
+.mini svg{width:17px;height:17px;color:var(--lime)}
+
+/* Telefon */
+.sahne{position:relative;display:flex;justify-content:center;align-self:end}
+.tel{position:relative;width:310px;height:610px;border-radius:52px 52px 0 0;background:#030B08;padding:12px 12px 0;box-shadow:0 0 0 1.5px #24453A,0 40px 90px -20px rgba(0,0,0,.7)}
+.tel .ekran{position:relative;height:100%;border-radius:41px 41px 0 0;overflow:hidden;background:#EEF1EA;color:#0B231C;font-size:12px}
+.tel .ada{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:92px;height:27px;border-radius:20px;background:#030B08;z-index:3}
+.p-ust{background:var(--forest);color:#fff;padding:46px 14px 10px}
+.p-ust .s{display:flex;align-items:center;gap:8px}
+.p-ust .av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--lime),#3E8E4E);display:grid;place-items:center;font-family:var(--f-d);font-weight:800;font-size:12px;color:var(--forest)}
+.p-ust .t{font-family:var(--f-d);font-weight:700;font-size:14px}
+.p-ay{display:flex;gap:5px;margin-top:10px}
+.p-ay span{border-radius:999px;padding:4px 10px;font-weight:600;font-size:11px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.75)}
+.p-ay span.on{background:var(--lime);color:var(--forest)}
+.p-bugun{margin:10px;background:var(--forest);color:#fff;border-radius:16px;padding:12px}
+.p-bugun .k{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);font-weight:700}
+.p-bugun .h{font-family:var(--f-d);font-weight:700;font-size:19px;line-height:1.05;letter-spacing:-.02em;margin-top:4px}
+.p-bugun .h em{color:var(--lime)}
+.p-bar{height:5px;border-radius:9px;background:rgba(255,255,255,.12);margin-top:10px;overflow:hidden}
+.p-bar i{display:block;height:100%;width:28%;background:var(--lime);border-radius:9px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.p-liste{padding:0 10px;display:flex;flex-direction:column;gap:8px}
+.p-k{display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:8px;border:1px solid #DCE3D9}
+.p-k .g{width:52px;height:52px;border-radius:10px;flex:none;position:relative;overflow:hidden}
+.p-k .g:after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,transparent 40%,rgba(0,0,0,.35))}
+.p-k .b{min-width:0;flex:1}
+.p-k .tip{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:2px 6px;border-radius:5px}
+.p-k .ad{font-weight:700;font-size:12.5px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-k .z{color:#5B6B63;font-size:10.5px}
+.p-k .ok{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid #DCE3D9;display:grid;place-items:center;transition:.3s}
+.p-k .ok svg{width:15px;height:15px;opacity:0;transform:scale(.4);transition:.3s;color:#fff}
+.p-k.yapildi .ok{background:#2BA35F;border-color:#2BA35F}
+.p-k.yapildi .ok svg{opacity:1;transform:none}
+.p-k.yapildi .ad{text-decoration:line-through;text-decoration-color:rgba(0,0,0,.25)}
+.g1{background:radial-gradient(circle at 30% 30%,#F4C77B,#B5532B 60%,#5A2312)}
+.g2{background:linear-gradient(135deg,#1E5A45,#9BCB3C)}
+.g3{background:radial-gradient(circle at 70% 20%,#F6E4C6,#7A55C8 70%)}
+.g4{background:linear-gradient(200deg,#D2532A,#3A120A)}
+.yuzen{position:absolute;z-index:4;background:#fff;color:#0B231C;border-radius:16px;padding:10px 13px;box-shadow:0 20px 40px -12px rgba(0,0,0,.45);display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;white-space:nowrap}
+.yuzen small{display:block;color:#56665E;font-weight:500;font-size:11.5px}
+.yuzen .i{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:none}
+.yuzen .i svg{width:17px;height:17px}
+.y1{left:-60px;top:440px;animation:suzul 6s ease-in-out infinite}
+.y2{right:-40px;top:555px;animation:suzul 6s ease-in-out 1.5s infinite}
+@keyframes suzul{50%{transform:translateY(-10px)}}
+
+/* Kayan bant */
+.bant{background:var(--lime);color:var(--forest);overflow:hidden;padding:16px 0}
+.bant .ic{display:flex;gap:38px;width:max-content;animation:kay 32s linear infinite}
+.bant span{font-family:var(--f-d);font-weight:700;font-size:21px;letter-spacing:-.02em;display:flex;align-items:center;gap:38px;white-space:nowrap}
+.bant span:after{content:"✦";font-size:15px;opacity:.55}
+@keyframes kay{to{transform:translateX(-50%)}}
+
+/* Bölümler */
+section.b{padding:104px 0}
+.bas{max-width:720px}
+.ust-yazi{font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+h2{font-family:var(--f-d);font-weight:700;font-size:clamp(34px,5vw,56px);line-height:1;letter-spacing:-.04em;margin:12px 0 0}
+h2 em{color:var(--green)}
+.bas p{color:var(--mute);font-size:18px;margin:18px 0 0;max-width:52ch}
+
+/* Paket */
+.paket{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px}
+.kutu{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px 22px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.kutu:hover{transform:translateY(-4px);box-shadow:0 24px 40px -24px rgba(10,43,34,.35)}
+.kutu .say{font-family:var(--f-d);font-weight:800;font-size:64px;line-height:.9;letter-spacing:-.05em}
+.kutu .say small{font-size:.42em;font-weight:700;letter-spacing:-.02em;margin-left:2px}
+.kutu h3{font-family:var(--f-d);font-size:20px;letter-spacing:-.02em;margin:16px 0 6px}
+.kutu p{margin:0;color:var(--mute);font-size:15px}
+.kutu .cizgi{position:absolute;top:0;left:22px;right:22px;height:4px;border-radius:0 0 6px 6px}
+.ek{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.ek span{display:inline-flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:600;font-size:14.5px}
+.ek svg{width:17px;height:17px;color:var(--green)}
+
+/* Süreç */
+.koyu-b{background:var(--forest);color:#fff}
+.koyu-b h2 em{color:var(--lime)}
+.koyu-b .ust-yazi{color:var(--lime)}
+.koyu-b .bas p{color:rgba(255,255,255,.7)}
+.adimlar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px;counter-reset:a}
+.adim{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;position:relative}
+.adim:before{counter-increment:a;content:"0" counter(a);font-family:var(--f-d);font-weight:700;font-size:15px;color:var(--lime)}
+.adim:after{content:"";position:absolute;top:-1px;left:0;width:0;height:2px;background:var(--lime);transition:width 1.1s cubic-bezier(.2,.8,.2,1) .3s}
+.adim.gor:after{width:56px}
+.adim h3{font-family:var(--f-d);font-size:23px;letter-spacing:-.02em;margin:14px 0 8px;line-height:1.1}
+.adim p{margin:0;color:rgba(255,255,255,.7);font-size:15.5px}
+
+/* Panel özellikleri */
+.panel-g{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.ozellik{display:flex;flex-direction:column;gap:12px;margin-top:34px}
+.oz{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.oz .i{width:44px;height:44px;border-radius:13px;background:var(--soft);color:var(--green);display:grid;place-items:center;flex:none}
+.oz .i svg{width:21px;height:21px}
+.oz h3{margin:0;font-size:16.5px;font-weight:700}
+.oz p{margin:3px 0 0;color:var(--mute);font-size:15px}
+.vitrin{position:relative;background:var(--forest);border-radius:32px;padding:34px 26px;overflow:hidden;color:#fff;isolation:isolate}
+.vitrin:before{content:"";position:absolute;width:420px;height:420px;right:-160px;top:-160px;border-radius:50%;background:radial-gradient(closest-side,rgba(155,203,60,.35),transparent);z-index:-1}
+.vitrin .ay{font-family:var(--f-d);font-weight:700;font-size:26px;letter-spacing:-.02em}
+.vitrin .ay em{color:var(--lime)}
+.gunler,.takvim{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.gunler{margin-top:22px;font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-align:center;margin-bottom:6px}
+.takvim .gun{aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.06);position:relative;font-size:11px;padding:5px 6px;color:rgba(255,255,255,.6);font-weight:600}
+.takvim .gun.bos{background:transparent}
+.takvim .gun i{position:absolute;left:6px;bottom:6px;width:7px;height:7px;border-radius:50%}
+.takvim .gun i+i{left:16px}
+.takvim .gun.bugun{background:var(--lime);color:var(--forest);box-shadow:0 0 0 3px rgba(155,203,60,.25)}
+.lejant{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:22px;font-size:13px;color:rgba(255,255,255,.75)}
+.lejant span{display:flex;align-items:center;gap:7px}
+.lejant i{width:9px;height:9px;border-radius:50%}
+
+/* Sektörler */
+.sektor{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px}
+.sk{border-radius:var(--r);padding:26px 22px 22px;min-height:210px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;color:#fff;position:relative;overflow:hidden;isolation:isolate}
+.sk h3{font-family:var(--f-d);font-size:24px;letter-spacing:-.02em;line-height:1.05;margin:0}
+.sk p{margin:8px 0 0;opacity:.82;font-size:14.5px}
+.sk .ik{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.14);display:grid;place-items:center}
+.sk .ik svg{width:23px;height:23px}
+.sk:after{content:"";position:absolute;right:-50px;bottom:-50px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.07);z-index:-1}
+.s1{background:#B5532B}.s2{background:#0E6B3A}.s3{background:#2D3E8F}.s4{background:#6B3FA6}
+
+/* SSS */
+.sss{max-width:780px;margin:44px auto 0}
+.sss details{border-bottom:1px solid var(--line)}
+.sss summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:18px;align-items:center;padding:22px 0;font-family:var(--f-d);font-weight:600;font-size:19px;letter-spacing:-.01em}
+.sss summary::-webkit-details-marker{display:none}
+.sss summary:after{content:"";flex:none;width:30px;height:30px;border-radius:50%;background:var(--soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239BCB3C' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center/15px no-repeat;transition:transform .25s}
+.sss details[open] summary:after{transform:rotate(45deg)}
+.sss p{margin:0 0 22px;color:var(--mute);font-size:16px;max-width:62ch}
+
+/* Son çağrı */
+.son{padding:0 0 calc(24px + env(safe-area-inset-bottom))}
+.son-kart{background:var(--forest);color:#fff;border-radius:36px;padding:64px 28px;text-align:center;position:relative;overflow:hidden;isolation:isolate}
+.son-kart:before{content:"";position:absolute;left:-20%;right:-20%;bottom:-60%;height:120%;background:radial-gradient(closest-side,rgba(155,203,60,.33),transparent);z-index:-1}
+.son-kart h2{font-size:clamp(36px,6vw,64px)}
+.son-kart h2 em{color:var(--lime)}
+.son-kart p{color:rgba(255,255,255,.72);font-size:18px;max-width:40ch;margin:18px auto 0}
+.son-kart .butonlar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+footer{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:30px 0 6px;color:var(--mute);font-size:14px}
+footer .marka{font-size:22px;color:var(--ink)}
+footer a{text-decoration:none;font-weight:600}
+
+/* Görünme animasyonu */
+.js .r{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.js .r.gor{opacity:1;transform:none}
+.r.d1{transition-delay:.08s}.r.d2{transition-delay:.16s}.r.d3{transition-delay:.24s}
+
+@media (max-width:960px){
+  .hero .w{grid-template-columns:1fr;gap:10px}
+  .hero .metin{padding-bottom:36px}
+  .paket,.adimlar,.sektor{grid-template-columns:1fr 1fr}
+  .panel-g{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:560px){
+  section.b{padding:76px 0}
+  .hero{padding-top:calc(92px + env(safe-area-inset-top))}
+  .hero h1{font-size:clamp(42px,12.6vw,58px)}
+  .hero .butonlar .btn{flex:1 1 100%}
+  .mini{gap:10px 18px;margin-top:26px}
+  .tel{width:286px;height:540px}
+  .y1{left:-6px;top:395px}.y2{right:-4px;top:478px}
+  .yuzen{font-size:12px;padding:8px 11px}
+  .paket{gap:10px}
+  .kutu{padding:20px 16px}
+  .kutu .say{font-size:50px}
+  .kutu h3{font-size:17px;margin-top:12px}
+  .kutu p{font-size:13.5px}
+  .adimlar{grid-template-columns:1fr;gap:28px;margin-top:40px}
+  .sektor{gap:10px}
+  .sk{min-height:180px;padding:18px 16px}
+  .sk h3{font-size:19px}.sk p{font-size:13px}
+  .vitrin{padding:26px 18px}
+  .bas p{font-size:16.5px}
+  .sss summary{font-size:17px;padding:18px 0}
+  .son-kart{padding:48px 20px;border-radius:28px}
+  .son-kart .butonlar .btn{flex:1 1 100%}
+  .bant span{font-size:18px}
+  footer{justify-content:center;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.js .r{opacity:1;transform:none}html{scroll-behavior:auto}}
+[hidden]{display:none!important}
+</style>
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-ok2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16.5 9.5"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2z"/></symbol>
+  <symbol id="i-gir" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></symbol>
+  <symbol id="i-tak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></symbol>
+  <symbol id="i-ind" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></symbol>
+  <symbol id="i-kop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+  <symbol id="i-sen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/></symbol>
+  <symbol id="i-saat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-yem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2.5v8a2 2 0 0 0 2 2v9M11 2.5v6a2 2 0 0 1-2 2M7 2.5v6M17 21.5v-19c-2.5 1-4 3.5-4 7v4h4"/></symbol>
+  <symbol id="i-dav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 8.7l5.4-.8z"/></symbol>
+  <symbol id="i-ara" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h-1a1 1 0 0 1-1-1v-4l2-5h11l3 5h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1"/><circle cx="7.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/><path d="M9.5 17.5h5"/></symbol>
+  <symbol id="i-mag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5l1.5-5h13l1.5 5M4 9.5V20h16V9.5M4 9.5c0 1.7 1.3 3 3 3s3-1.3 3-3c0 1.7 1.3 3 2.5 3s3-1.3 3-3c0 1.7 1.3 3 3 3M9.5 20v-5h5v5"/></symbol>
+</svg>
+
+<header class="nav" id="nav"><div class="w">
+  <a class="marka" href="#" aria-label="Enpovi ana sayfa">enpovi<i>.</i></a>
+  <nav aria-label="Bölümler"><a href="#paket">Paket</a><a href="#surec">Süreç</a><a href="#panel">Yayın Paneli</a><a href="#sss">Sorular</a></nav>
+  <a class="btn cam giris" href="giris/"><svg><use href="#i-gir"/></svg>Müşteri girişi</a>
+</div></header>
+
+<section class="hero"><div class="w">
+  <div class="metin">
+    <span class="etiket r"><b></b>Sosyal medya ajansı</span>
+    <h1 class="r d1">Instagram'ınız <em>her ay</em> hazır.</h1>
+    <p class="alt r d2">Aylık içerik paketinizi biz üretiyoruz: gönderi, Reels, hikâye ve açıklamalar. Siz telefonunuzdan tek dokunuşla paylaşıyorsunuz.</p>
+    <div class="butonlar r d3">
+      <a class="btn lime" data-wa href="#iletisim"><svg><use href="#i-wa"/></svg>Teklif alın</a>
+      <a class="btn cam" href="#panel">Yayın Paneli'ni görün</a>
+    </div>
+    <div class="mini r d3">
+      <span><svg><use href="#i-ok2"/></svg>Hazır açıklama ve saat</span>
+      <span><svg><use href="#i-ok2"/></svg>Her gün bir hikâye</span>
+      <span><svg><use href="#i-ok2"/></svg>Telefondan paylaşım</span>
+    </div>
+  </div>
+  <div class="sahne r d2" aria-hidden="true">
+    <div class="yuzen y1"><span class="i" style="background:#EAF4D6;color:#0E6B3A"><svg><use href="#i-saat"/></svg></span><span>Bugün 19:30<small>Reels paylaşım saati</small></span></div>
+    <div class="yuzen y2"><span class="i" style="background:#2BA35F;color:#fff"><svg><use href="#i-ok"/></svg></span><span>Paylaşıldı<small>Ajans da görüyor</small></span></div>
+    <div class="tel"><div class="ada"></div><div class="ekran">
+      <div class="p-ust">
+        <div class="s"><span class="av">M</span><span class="t">Markanız · Yayın Paneli</span></div>
+        <div class="p-ay"><span class="on">Kasım</span><span>Aralık</span><span>Ocak</span></div>
+      </div>
+      <div class="p-bugun"><div class="k">Bugün</div><div class="h">2 içerik <em>sizi</em> bekliyor</div><div class="p-bar"><i id="bar"></i></div></div>
+      <div class="p-liste" id="liste">
+        <div class="p-k yapildi"><span class="g g1"></span><span class="b"><span class="tip" style="background:var(--c-post)">Gönderi</span><div class="ad">Haftanın lezzeti</div><div class="z">12:00 · açıklama hazır</div></span><span class="ok"><svg><use href="#i-ok"/></svg></span></div>
+        <div class="p-k"><span class="g g4"></span><span class="b"><span class="tip" style="background:var(--c-reel)">Reels</span><div class="ad">Mutfaktan 15 saniye</div><div class="z">19:30 · kapak hazır</div></span><span class="ok"><svg><use href="#i-ok"/></svg></span></div>
+        <div class="p-k"><span class="g g3"></span><span class="b"><span class="tip" style="background:var(--c-story)">Hikâye</span><div class="ad">Anket: Hangisi?</div><div class="z">21:00 · etiketli</div></span><span class="ok"><svg><use href="#i-ok"/></svg></span></div>
+        <div class="p-k"><span class="g g2"></span><span class="b"><span class="tip" style="background:var(--c-car)">Kaydırmalı</span><div class="ad">5 adımda sipariş</div><div class="z">Yarın · 6 slayt</div></span><span class="ok"><svg><use href="#i-ok"/></svg></span></div>
+      </div>
+    </div></div>
+  </div>
+</div></section>
+
+<div class="bant" aria-hidden="true"><div class="ic">
+  <span>Gönderi</span><span>Kaydırmalı</span><span>Reels</span><span>Günlük hikâye</span><span>Açıklama</span><span>Paylaşım takvimi</span><span>Yayın Paneli</span>
+  <span>Gönderi</span><span>Kaydırmalı</span><span>Reels</span><span>Günlük hikâye</span><span>Açıklama</span><span>Paylaşım takvimi</span><span>Yayın Paneli</span>
+</div></div>
+
+<section class="b" id="paket"><div class="w">
+  <div class="bas r">
+    <div class="ust-yazi">Aylık paket</div>
+    <h2>Bir ayın içeriği, <em>tek seferde.</em></h2>
+    <p>Ay başında tüm içerikleriniz hazır olur. Ne paylaşacağınızı düşünmezsiniz, saati gelince paylaşırsınız.</p>
+  </div>
+  <div class="paket">
+    <div class="kutu r"><span class="cizgi" style="background:var(--c-post)"></span><div class="say">12</div><h3>Gönderi</h3><p>4'ü kaydırmalı. Markanızın renkleri ve fotoğraflarıyla.</p></div>
+    <div class="kutu r d1"><span class="cizgi" style="background:var(--c-reel)"></span><div class="say">4<small>–6</small></div><h3>Reels</h3><p>Kendi videolarınızdan kurgulanır, kapak ve yazılarıyla.</p></div>
+    <div class="kutu r d2"><span class="cizgi" style="background:var(--c-story)"></span><div class="say">30</div><h3>Hikâye</h3><p>Her güne bir tane. Anket, soru, geri sayım etiketleriyle.</p></div>
+    <div class="kutu r d3"><span class="cizgi" style="background:var(--c-car)"></span><div class="say">1<small> panel</small></div><h3>Tüm ay tek linkte</h3><p>Açıklamalar, etiketler ve paylaşım saatleri dahil.</p></div>
+  </div>
+  <div class="ek r">
+    <span><svg><use href="#i-ok2"/></svg>Aylık içerik takvimi</span>
+    <span><svg><use href="#i-ok2"/></svg>Video hikâyeler</span>
+    <span><svg><use href="#i-ok2"/></svg>Özel gün içerikleri</span>
+    <span><svg><use href="#i-ok2"/></svg>Kampanya duyuruları</span>
+  </div>
+</div></section>
+
+<section class="b koyu-b" id="surec"><div class="w">
+  <div class="bas r">
+    <div class="ust-yazi">Nasıl çalışıyoruz</div>
+    <h2>Siz işinize bakın, <em>gerisi bizde.</em></h2>
+    <p>Sizden tek istediğimiz, işletmenizi tanımamız için birkaç fotoğraf ve video.</p>
+  </div>
+  <div class="adimlar">
+    <div class="adim r"><h3>Tanışıyoruz</h3><p>Hizmetlerinizi, hedef kitlenizi ve kampanyalarınızı öğreniyoruz. Fotoğraf ve videolarınızı topluyoruz.</p></div>
+    <div class="adim r d1"><h3>Planlıyoruz</h3><p>Ayın içerik planını, özel günleri ve paylaşım saatlerini hazırlıyoruz.</p></div>
+    <div class="adim r d2"><h3>Üretiyoruz</h3><p>Görseller, Reels kurguları, hikâyeler ve açıklamalar markanıza özel tasarlanıyor.</p></div>
+    <div class="adim r d3"><h3>Teslim ediyoruz</h3><p>Hepsi Yayın Paneli'nize yüklenir. Size kalan, saati gelince paylaşmak.</p></div>
+  </div>
+</div></section>
+
+<section class="b" id="panel"><div class="w panel-g">
+  <div>
+    <div class="bas r">
+      <div class="ust-yazi">Yayın Paneli</div>
+      <h2>Telefonunuzda <em>hazır bir ay.</em></h2>
+      <p>Size özel, şifreli bir panel. Uygulama indirmeden telefonunuzun tarayıcısından açılır.</p>
+    </div>
+    <div class="ozellik">
+      <div class="oz r"><span class="i"><svg><use href="#i-tak"/></svg></span><div><h3>Günü gününe takvim</h3><p>Bugün ne paylaşılacak, hangi saatte, tek bakışta.</p></div></div>
+      <div class="oz r d1"><span class="i"><svg><use href="#i-ind"/></svg></span><div><h3>Tek dokunuşla indir ve paylaş</h3><p>Görsel ve videolar doğrudan telefonunuza ya da Instagram'a.</p></div></div>
+      <div class="oz r d2"><span class="i"><svg><use href="#i-kop"/></svg></span><div><h3>Açıklamayı kopyala</h3><p>Metin ve etiketler hazır, yapıştırmanız yeterli.</p></div></div>
+      <div class="oz r d3"><span class="i"><svg><use href="#i-sen"/></svg></span><div><h3>"Paylaştım" işareti</h3><p>Hangi cihazdan girerseniz girin işaretleriniz senkron kalır, biz de takip ederiz.</p></div></div>
+    </div>
+  </div>
+  <div class="vitrin r d1" aria-hidden="true">
+    <div class="ay">Kasım <em>takvimi</em></div>
+    <div class="gunler"><span>Pt</span><span>Sa</span><span>Ça</span><span>Pe</span><span>Cu</span><span>Ct</span><span>Pz</span></div>
+    <div class="takvim" id="takvim"></div>
+    <div class="lejant"><span><i style="background:#4FBF7A"></i>Gönderi</span><span><i style="background:#E3A93C"></i>Kaydırmalı</span><span><i style="background:#F07A4E"></i>Reels</span><span><i style="background:#A58BE6"></i>Hikâye</span></div>
+  </div>
+</div></section>
+
+<section class="b" style="padding-top:0"><div class="w">
+  <div class="bas r">
+    <div class="ust-yazi">Kimlerle çalışıyoruz</div>
+    <h2>Yerel işletmeler için <em>özenle.</em></h2>
+    <p>Restorandan sürücü kursuna, her sektörün diline uygun içerik.</p>
+  </div>
+  <div class="sektor">
+    <div class="sk s1 r"><span class="ik"><svg><use href="#i-yem"/></svg></span><div><h3>Restoran & kafe</h3><p>Menü, lezzet ve mekân içerikleri</p></div></div>
+    <div class="sk s2 r d1"><span class="ik"><svg><use href="#i-dav"/></svg></span><div><h3>Catering & organizasyon</h3><p>Etkinlik, düğün ve kurumsal</p></div></div>
+    <div class="sk s3 r d2"><span class="ik"><svg><use href="#i-ara"/></svg></span><div><h3>Sürücü kursu</h3><p>Kayıt dönemi ve eğitim içerikleri</p></div></div>
+    <div class="sk s4 r d3"><span class="ik"><svg><use href="#i-mag"/></svg></span><div><h3>Mağaza & üretici</h3><p>Ürün tanıtımı ve kampanyalar</p></div></div>
+  </div>
+</div></section>
+
+<section class="b" id="sss" style="padding-top:0"><div class="w">
+  <div class="bas r" style="margin:0 auto;text-align:center">
+    <div class="ust-yazi">Sorular</div>
+    <h2>Merak <em>edilenler</em></h2>
+  </div>
+  <div class="sss r">
+    <details><summary>İçerikleri kim paylaşıyor?</summary><p>İçerikleri biz hazırlıyoruz, siz Yayın Paneli'nden kendi hesabınızda paylaşıyorsunuz. Her içeriğin saati, açıklaması ve etiketleri hazır olduğu için birkaç saniye sürer.</p></details>
+    <details><summary>Fotoğraf ve videoları kim çekiyor?</summary><p>Mevcut fotoğraf ve videolarınızdan yola çıkıyoruz. Gerçek fotoğraf kullanmayı tercih ediyoruz, çünkü müşterileriniz sizi gerçekten tanısın istiyoruz.</p></details>
+    <details><summary>Yayın Paneli için uygulama indirmem gerekiyor mu?</summary><p>Hayır. Size gönderdiğimiz bağlantıyı telefonunuzun tarayıcısında açıp e-posta ve şifrenizle giriyorsunuz.</p></details>
+    <details><summary>Bir içeriği değiştirmek istersem?</summary><p>Bize yazmanız yeterli. Panel güncellendiğinde değişiklik aynı bağlantıda görünür.</p></details>
+  </div>
+</div></section>
+
+<section class="son" id="iletisim"><div class="w">
+  <div class="son-kart r">
+    <h2>Bu ayın içeriği <em>hazır olsun.</em></h2>
+    <p>İşletmenizi anlatın, size uygun paketi birlikte belirleyelim.</p>
+    <div class="butonlar">
+      <a class="btn lime" data-wa href="#iletisim"><svg><use href="#i-wa"/></svg>WhatsApp'tan yazın</a>
+      <a class="btn cam" href="giris/"><svg><use href="#i-gir"/></svg>Müşteri girişi</a>
+    </div>
+  </div>
+  <footer><a class="marka" href="#">enpovi<i>.</i></a><span>© <span id="yil">2026</span> Enpovi · Sosyal medya içerik yönetimi</span><a href="giris/">Müşteri girişi</a></footer>
+</div></section>
+
+<script>
+/* İletişim: WhatsApp numarasını ülke koduyla, boşluksuz yazın (örn. "905xxxxxxxxx"). Boş kalırsa WhatsApp butonları gizlenir. */
+var WHATSAPP = "";
+var MESAJ = "Merhaba, Enpovi'nin aylık içerik paketi hakkında bilgi almak istiyorum.";
+document.getElementById("yil").textContent = new Date().getFullYear();
+document.querySelectorAll("[data-wa]").forEach(function(a){
+  if (!WHATSAPP){ a.hidden = true; return }
+  a.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(MESAJ); a.target = "_blank"; a.rel = "noopener";
+});
+
+var nav = document.getElementById("nav");
+function navKontrol(){ nav.classList.toggle("dolu", scrollY > 30) }
+addEventListener("scroll", navKontrol, {passive:true}); navKontrol();
+
+var io = "IntersectionObserver" in window ? new IntersectionObserver(function(es){
+  es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("gor"); io.unobserve(e.target) } });
+}, {rootMargin:"0px 0px -8% 0px"}) : null;
+document.querySelectorAll(".r,.adim").forEach(function(el){ io ? io.observe(el) : el.classList.add("gor") });
+
+/* Telefondaki "Paylaştım" canlandırması */
+var kartlar = [].slice.call(document.querySelectorAll("#liste .p-k")), bar = document.getElementById("bar"), sira = 1;
+function ilerle(){
+  if (sira >= 3){ kartlar[1].classList.remove("yapildi"); kartlar[2].classList.remove("yapildi"); sira = 1 }
+  else { kartlar[sira].classList.add("yapildi"); sira++ }
+  bar.style.width = (28 + 30 * (sira - 1)) + "%";
+}
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(ilerle, 2200);
+
+/* Örnek takvim (görsel amaçlı): Kasım 2026, Pazar başlıyor */
+var renk = {g:"#4FBF7A",k:"#E3A93C",r:"#F07A4E",h:"#A58BE6"}, html = "", bugun = new Date();
+var gonderi = {2:"g",5:"k",7:"r",9:"g",12:"k",14:"r",16:"g",19:"k",21:"r",23:"g",26:"k",28:"r",30:"g"};
+for (var i = 0; i < 6; i++) html += '<div class="gun bos"></div>';
+for (var d = 1; d <= 30; d++){
+  var n = (gonderi[d] ? '<i style="background:' + renk[gonderi[d]] + '"></i>' : '') + '<i style="background:' + renk.h + '"></i>';
+  var bu = bugun.getFullYear() === 2026 && bugun.getMonth() === 10 && bugun.getDate() === d;
+  html += '<div class="gun' + (bu ? ' bugun' : '') + '">' + d + n + '</div>';
+}
+document.getElementById("takvim").innerHTML = html;
+</script>
+</body>
+</html>
