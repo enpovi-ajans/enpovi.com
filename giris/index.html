@@ -13,31 +13,56 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Serif:ital@1&family=Instrument+Sans:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../ortak/stil.css">
 <style>
-body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;background:var(--forest)}
-.ust{color:#fff;padding:calc(36px + env(safe-area-inset-top)) 0 28px}
-.ust .marka{font-size:44px;color:#fff}
-.ust p{margin:10px 0 0;color:rgba(255,255,255,.75);font-size:15.5px;max-width:30ch}
-.ust p em{color:var(--lime)}
-.kart{flex:1;background:var(--bg);border-radius:26px 26px 0 0;padding:24px 0 calc(28px + env(safe-area-inset-bottom))}
-.kart .w,.ust .w{max-width:440px}
-h1{font-family:var(--f-d);font-size:26px;letter-spacing:-.02em;margin:0}
+body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;background:var(--forest);position:relative;isolation:isolate}
+body:before{content:"";position:fixed;right:-30vw;top:-30vh;width:110vw;height:110vw;max-width:900px;max-height:900px;border-radius:50%;background:radial-gradient(closest-side,rgba(155,203,60,.26),transparent);z-index:-1;pointer-events:none}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(to bottom,#000 10%,transparent 70%);-webkit-mask-image:linear-gradient(to bottom,#000 10%,transparent 70%)}
+.ust{color:#fff;padding:calc(22px + env(safe-area-inset-top)) 0 34px}
+.ust .w,.kart .w{max-width:460px}
+.ust .bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ust .marka{font-size:38px;color:#fff}
+.ust .ana-link{color:rgba(255,255,255,.7);text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 12px;white-space:nowrap}
+.ust .ana-link:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.ust h2{font-family:var(--f-d);font-weight:700;font-size:clamp(30px,8.4vw,40px);line-height:1;letter-spacing:-.035em;margin:34px 0 0}
+.ust h2 em{color:var(--lime);font-size:1.06em;letter-spacing:0}
+.ust p{margin:12px 0 0;color:rgba(255,255,255,.72);font-size:15.5px;max-width:34ch}
+.ust .rozet{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.ust .rozet span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.8);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:5px 10px}
+.ust .rozet i{width:6px;height:6px;border-radius:50%;background:var(--lime);font-style:normal}
+.kart{flex:1;background:var(--bg);border-radius:30px 30px 0 0;padding:28px 0 calc(28px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px -30px rgba(0,0,0,.6)}
+h1{font-family:var(--f-d);font-size:28px;letter-spacing:-.025em;margin:0;line-height:1.1}
 .alt{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px;flex-wrap:wrap}
-.secim{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.secim a{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;text-decoration:none;color:var(--ink);font-weight:700}
-.secim a span{color:var(--green);font-size:14px}
-.not{color:var(--mute);font-size:13.5px;margin-top:22px;text-align:center}
+.secim{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.secim a{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 16px 16px 18px;text-decoration:none;color:var(--ink);font-weight:700;transition:transform .15s,border-color .15s}
+.secim a:hover{border-color:var(--green)}
+.secim a:active{transform:scale(.98)}
+.secim a span{color:var(--green);font-size:14px;white-space:nowrap}
+.not{color:var(--mute);font-size:13px;margin-top:26px;text-align:center}
+.not a{color:inherit;font-weight:600}
+form h1+p{color:var(--mute);margin:8px 0 0;font-size:14.5px}
+.kart .giris-alt{color:var(--mute);font-size:14.5px;margin:6px 0 0}
+@media (min-width:900px){
+  body{flex-direction:row;align-items:center;justify-content:center;gap:0;padding:40px}
+  .ust{flex:0 1 460px;padding:0 48px 0 0}
+  .ust .w{padding:0}
+  .ust h2{font-size:52px}
+  .kart{flex:0 0 440px;border-radius:30px;padding:34px 0;box-shadow:0 40px 90px -30px rgba(0,0,0,.6)}
+  .kart .w{padding:0 32px}
+}
 </style>
 </head>
 <body>
 <div class="ust"><div class="w">
-  <div class="marka" aria-label="Enpovi"><svg class="logo" role="img" aria-label="Enpovi" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 302.0 105.4"><g transform="translate(-2.80 89.30)"><path d="M30.2 1.4Q23.3 1.4 18.15 -0.5Q13.0 -2.4 9.6 -5.95Q6.2 -9.5 4.5 -14.45Q2.8 -19.4 2.8 -25.4Q2.8 -31.4 4.45 -36.65Q6.1 -41.9 9.4 -45.85Q12.7 -49.8 17.7 -52.0Q22.7 -54.2 29.2 -54.2Q35.7 -54.2 40.55 -52.0Q45.4 -49.8 48.45 -45.75Q51.5 -41.7 52.75 -36.05Q54.0 -30.4 53.2 -23.4L13.2 -23.0V-31.6L42.7 -31.9L38.5 -27.5Q39.2 -32.4 38.1 -35.55Q37.0 -38.7 34.75 -40.2Q32.5 -41.7 29.3 -41.7Q25.7 -41.7 23.2 -39.8Q20.7 -37.9 19.5 -34.4Q18.3 -30.9 18.3 -25.9Q18.3 -17.7 21.5 -14.0Q24.7 -10.3 30.2 -10.3Q32.8 -10.3 34.5 -11.0Q36.2 -11.7 37.3 -12.85Q38.4 -14.0 38.95 -15.5Q39.5 -17.0 39.7 -18.6L54.0 -16.5Q53.7 -13.0 52.25 -9.8Q50.8 -6.6 48.0 -4.05Q45.2 -1.5 40.85 -0.05Q36.5 1.4 30.2 1.4Z M57.2 0.0V-31.0V-52.8H70.5L70.6 -34.8H72.1Q73.1 -41.3 75.35 -45.6Q77.6 -49.9 81.3 -52.05Q85.0 -54.2 90.3 -54.2Q99.3 -54.2 103.95 -48.05Q108.6 -41.9 108.6 -28.9V0.0H92.4V-26.9Q92.4 -34.0 90.35 -37.3Q88.3 -40.6 84.1 -40.6Q80.6 -40.6 78.25 -38.4Q75.9 -36.2 74.65 -32.0Q73.4 -27.8 73.4 -21.8V0.0Z M113.6 16.1V-29.2V-52.8H127.2L127.3 -37.2L128.7 -37.1Q129.7 -42.9 131.95 -46.7Q134.2 -50.5 137.75 -52.35Q141.3 -54.2 146.1 -54.2Q152.8 -54.2 157.55 -50.9Q162.3 -47.6 164.85 -41.35Q167.4 -35.1 167.4 -26.3Q167.4 -17.6 164.95 -11.4Q162.5 -5.2 157.85 -1.9Q153.2 1.4 146.7 1.4Q141.9 1.4 138.5 -0.4Q135.1 -2.2 132.8 -5.85Q130.5 -9.5 129.2 -14.9H127.6Q128.2 -12.1 128.7 -9.2Q129.2 -6.3 129.5 -3.5Q129.8 -0.7 129.8 1.9V16.1ZM140.7 -11.6Q143.9 -11.6 146.15 -13.45Q148.4 -15.3 149.55 -18.6Q150.7 -21.9 150.7 -25.9Q150.7 -30.3 149.45 -33.65Q148.2 -37.0 145.9 -38.85Q143.6 -40.7 140.4 -40.7Q137.9 -40.7 135.9 -39.6Q133.9 -38.5 132.5 -36.5Q131.1 -34.5 130.4 -32.0Q129.7 -29.5 129.7 -26.6V-25.1Q129.7 -22.7 130.25 -20.7Q130.8 -18.7 131.8 -17.0Q132.8 -15.3 134.15 -14.1Q135.5 -12.9 137.15 -12.25Q138.8 -11.6 140.7 -11.6Z M195.3 1.4Q187.4 1.4 181.35 -1.7Q175.3 -4.8 171.9 -10.95Q168.5 -17.1 168.5 -26.4Q168.5 -35.9 171.95 -42.05Q175.4 -48.2 181.5 -51.2Q187.6 -54.2 195.4 -54.2Q203.4 -54.2 209.45 -51.1Q215.5 -48.0 218.9 -41.85Q222.3 -35.7 222.3 -26.4Q222.3 -16.8 218.75 -10.65Q215.2 -4.5 209.05 -1.55Q202.9 1.4 195.3 1.4ZM195.7 -10.4Q199.1 -10.4 201.4 -12.1Q203.7 -13.8 204.85 -17.2Q206.0 -20.6 206.0 -25.4Q206.0 -30.7 204.75 -34.3Q203.5 -37.9 201.05 -39.85Q198.6 -41.8 195.0 -41.8Q191.7 -41.8 189.4 -40.1Q187.1 -38.4 185.95 -35.0Q184.8 -31.6 184.8 -26.6Q184.8 -18.7 187.65 -14.55Q190.5 -10.4 195.7 -10.4Z M237.8 0.0 221.1 -52.7H238.7L248.4 -12.9H249.5L259.4 -52.7H276.1L259.4 0.0Z M277.3 0.0V-52.8H293.5V0.0Z" fill="currentColor"/><circle cx="289.00" cy="-73.50" r="15.80" fill="var(--nokta,#9BCB3C)" fill-opacity="0.28"/><circle cx="289.00" cy="-73.50" r="10.80" fill="var(--nokta,#9BCB3C)"/></g></svg></div>
-  <p>İçerik takviminiz, görselleriniz ve paylaşım <em>durumunuz</em> tek yerde.</p>
+  <div class="bar"><div class="marka" aria-label="Enpovi"><svg class="logo" role="img" aria-label="Enpovi" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 302.0 105.4"><g transform="translate(-2.80 89.30)"><path d="M30.2 1.4Q23.3 1.4 18.15 -0.5Q13.0 -2.4 9.6 -5.95Q6.2 -9.5 4.5 -14.45Q2.8 -19.4 2.8 -25.4Q2.8 -31.4 4.45 -36.65Q6.1 -41.9 9.4 -45.85Q12.7 -49.8 17.7 -52.0Q22.7 -54.2 29.2 -54.2Q35.7 -54.2 40.55 -52.0Q45.4 -49.8 48.45 -45.75Q51.5 -41.7 52.75 -36.05Q54.0 -30.4 53.2 -23.4L13.2 -23.0V-31.6L42.7 -31.9L38.5 -27.5Q39.2 -32.4 38.1 -35.55Q37.0 -38.7 34.75 -40.2Q32.5 -41.7 29.3 -41.7Q25.7 -41.7 23.2 -39.8Q20.7 -37.9 19.5 -34.4Q18.3 -30.9 18.3 -25.9Q18.3 -17.7 21.5 -14.0Q24.7 -10.3 30.2 -10.3Q32.8 -10.3 34.5 -11.0Q36.2 -11.7 37.3 -12.85Q38.4 -14.0 38.95 -15.5Q39.5 -17.0 39.7 -18.6L54.0 -16.5Q53.7 -13.0 52.25 -9.8Q50.8 -6.6 48.0 -4.05Q45.2 -1.5 40.85 -0.05Q36.5 1.4 30.2 1.4Z M57.2 0.0V-31.0V-52.8H70.5L70.6 -34.8H72.1Q73.1 -41.3 75.35 -45.6Q77.6 -49.9 81.3 -52.05Q85.0 -54.2 90.3 -54.2Q99.3 -54.2 103.95 -48.05Q108.6 -41.9 108.6 -28.9V0.0H92.4V-26.9Q92.4 -34.0 90.35 -37.3Q88.3 -40.6 84.1 -40.6Q80.6 -40.6 78.25 -38.4Q75.9 -36.2 74.65 -32.0Q73.4 -27.8 73.4 -21.8V0.0Z M113.6 16.1V-29.2V-52.8H127.2L127.3 -37.2L128.7 -37.1Q129.7 -42.9 131.95 -46.7Q134.2 -50.5 137.75 -52.35Q141.3 -54.2 146.1 -54.2Q152.8 -54.2 157.55 -50.9Q162.3 -47.6 164.85 -41.35Q167.4 -35.1 167.4 -26.3Q167.4 -17.6 164.95 -11.4Q162.5 -5.2 157.85 -1.9Q153.2 1.4 146.7 1.4Q141.9 1.4 138.5 -0.4Q135.1 -2.2 132.8 -5.85Q130.5 -9.5 129.2 -14.9H127.6Q128.2 -12.1 128.7 -9.2Q129.2 -6.3 129.5 -3.5Q129.8 -0.7 129.8 1.9V16.1ZM140.7 -11.6Q143.9 -11.6 146.15 -13.45Q148.4 -15.3 149.55 -18.6Q150.7 -21.9 150.7 -25.9Q150.7 -30.3 149.45 -33.65Q148.2 -37.0 145.9 -38.85Q143.6 -40.7 140.4 -40.7Q137.9 -40.7 135.9 -39.6Q133.9 -38.5 132.5 -36.5Q131.1 -34.5 130.4 -32.0Q129.7 -29.5 129.7 -26.6V-25.1Q129.7 -22.7 130.25 -20.7Q130.8 -18.7 131.8 -17.0Q132.8 -15.3 134.15 -14.1Q135.5 -12.9 137.15 -12.25Q138.8 -11.6 140.7 -11.6Z M195.3 1.4Q187.4 1.4 181.35 -1.7Q175.3 -4.8 171.9 -10.95Q168.5 -17.1 168.5 -26.4Q168.5 -35.9 171.95 -42.05Q175.4 -48.2 181.5 -51.2Q187.6 -54.2 195.4 -54.2Q203.4 -54.2 209.45 -51.1Q215.5 -48.0 218.9 -41.85Q222.3 -35.7 222.3 -26.4Q222.3 -16.8 218.75 -10.65Q215.2 -4.5 209.05 -1.55Q202.9 1.4 195.3 1.4ZM195.7 -10.4Q199.1 -10.4 201.4 -12.1Q203.7 -13.8 204.85 -17.2Q206.0 -20.6 206.0 -25.4Q206.0 -30.7 204.75 -34.3Q203.5 -37.9 201.05 -39.85Q198.6 -41.8 195.0 -41.8Q191.7 -41.8 189.4 -40.1Q187.1 -38.4 185.95 -35.0Q184.8 -31.6 184.8 -26.6Q184.8 -18.7 187.65 -14.55Q190.5 -10.4 195.7 -10.4Z M237.8 0.0 221.1 -52.7H238.7L248.4 -12.9H249.5L259.4 -52.7H276.1L259.4 0.0Z M277.3 0.0V-52.8H293.5V0.0Z" fill="currentColor"/><circle cx="289.00" cy="-73.50" r="15.80" fill="var(--nokta,#9BCB3C)" fill-opacity="0.28"/><circle cx="289.00" cy="-73.50" r="10.80" fill="var(--nokta,#9BCB3C)"/></g></svg></div><a class="ana-link" href="../">enpovi.com</a></div>
+  <h2>Yayın Paneli'nize <em>hoş geldiniz.</em></h2>
+  <p>İçerik takviminiz, görselleriniz ve paylaşım durumunuz tek yerde.</p>
+  <div class="rozet"><span><i></i>Hazır açıklamalar</span><span><i></i>Tek dokunuşla indir</span><span><i></i>Paylaştım takibi</span></div>
 </div></div>
 <main class="kart"><div class="w">
   <div id="yukleniyor" class="yukleniyor">Yükleniyor…</div>
 
   <form id="girisForm" hidden novalidate>
     <h1>Giriş yap</h1>
+    <p class="giris-alt">Size gönderilen kullanıcı adı ve şifreyle girin.</p>
     <label class="alan"><span>Kullanıcı adı veya e-posta</span><input id="email" type="text" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" required></label>
     <label class="alan"><span>Şifre</span><div class="sifre-kutu"><input id="sifre" type="password" autocomplete="current-password" required><button type="button" data-goster="sifre">Göster</button></div></label>
     <div id="girisMesaj" class="mesaj kotu" role="alert" hidden></div>
@@ -47,7 +72,7 @@ h1{font-family:var(--f-d);font-size:26px;letter-spacing:-.02em;margin:0}
 
   <form id="unuttumForm" hidden novalidate>
     <h1>Şifre sıfırlama</h1>
-    <p style="color:var(--mute);margin:8px 0 0;font-size:14.5px">Kullanıcı adıyla giriş yapıyorsanız şifrenizi ajansınız yeniler. E-postayla giriş yapıyorsanız adresinizi yazın, yenileme bağlantısı gönderelim.</p>
+    <p>Kullanıcı adıyla giriş yapıyorsanız şifrenizi ajansınız yeniler. E-postayla giriş yapıyorsanız adresinizi yazın, yenileme bağlantısı gönderelim.</p>
     <label class="alan"><span>Kullanıcı adı veya e-posta</span><input id="email2" type="text" autocomplete="username" autocorrect="off" autocapitalize="off" spellcheck="false" required></label>
     <div id="unuttumMesaj" class="mesaj" role="status" hidden></div>
     <button class="btn ana tam" id="unuttumGonder" type="submit" style="margin-top:18px">Bağlantı gönder</button>
@@ -78,7 +103,7 @@ h1{font-family:var(--f-d);font-size:26px;letter-spacing:-.02em;margin:0}
     <div class="mesaj">Platform kurulumu tamamlanmadı. Panelinize size gönderilen bağlantıdan ulaşabilirsiniz.</div>
   </section>
 
-  <p class="not">Enpovi · Sosyal medya içerik yönetimi</p>
+  <p class="not">Sorun mu yaşıyorsunuz? <a href="https://wa.me/905372121441" target="_blank" rel="noopener">Enpovi'ye yazın</a></p>
 </div></main>
 <div class="toast" id="toast" role="status"></div>
 
