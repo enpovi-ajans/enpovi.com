@@ -268,14 +268,16 @@ function ozet(){
       <div class="ust"><span class="nok" style="background:${m.renk}"></span><h3>${esc(m.ad)}</h3><span class="gl ${girisli?'on':''}">${girisli?'Girişli':'Girişsiz'}</span></div>
       ${m.hata?`<div class="mesaj kotu">Plan okunamadı: ${esc(m.hata)}</div>`:ay.length?`
       <div class="bar"><i style="width:${yuzde}%;background:${m.renk}"></i></div>
-      <div class="sat"><span><b>${ok}/${ay.length}</b> paylaşıldı (bu ay)</span><span><b>${bugOk}/${bug.length}</b> bugün</span>${gec.length?`<span class="gec"><b>${gec.length}</b> geciken</span>`:''}</div>
+      <div class="sat"><span><b>${ok}/${ay.length}</b> paylaşıldı (bu ay)</span><span><b>${bugOk}/${bug.length}</b> bugünkü plan</span>${gec.length?`<span class="gec"><b>${gec.length}</b> geciken</span>`:''}</div>
       <div class="sat" style="margin-top:4px">${son?`<span>Son paylaşım: <b>${esc(saat(son.at))}</b></span>`:'<span>Henüz işaretlenen yok</span>'}${sonraki?`<span>Sıradaki: <b>${esc(trTarih(sonraki.date).split(' ').slice(0,2).join(' '))} ${esc(sonraki.time)}</b></span>`:''}</div>`
       :`<div class="sat" style="margin-top:10px"><span>Bu ay için planlanmış içerik yok.</span></div>`}
       <div class="alt"><button data-takvim="${esc(m.slug)}">Takvimde gör</button><a href="${esc(A.adres(m.slug+'/'))}">Paneli aç</a></div>
     </article>`};
   });
   kart.sort((a,b)=>b.gec-a.gec);
-  $('#kpi').innerHTML=`<div><b>${bugunT}</b><span>bugün planlı</span></div><div><b>${bugunOk}</b><span>bugün paylaşıldı</span></div><div class="${gecT?'uyari':''}"><b>${gecT}</b><span>geciken</span></div>`;
+  const yerelGun=iso=>{const d=new Date(iso);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`};
+  let bugunYapilan=0;MUS.forEach(m=>m.entries.forEach(e=>{const s=SHR.get(pk(e));if(s&&yerelGun(s.at)===BUGUN)bugunYapilan++}));
+  $('#kpi').innerHTML=`<div><b>${bugunOk}/${bugunT}</b><span>bugünkü plan paylaşıldı</span></div><div><b>${bugunYapilan}</b><span>bugün yapılan paylaşım</span></div><div class="${gecT?'uyari':''}"><b>${gecT}</b><span>geciken</span></div>`;
   $('#mlist').innerHTML=kart.map(k=>k.h).join('')||'<div class="bos-not">Henüz müşteri yok.</div>';
   $('#mlist').querySelectorAll('[data-takvim]').forEach(b=>b.onclick=()=>{FILTRE=b.dataset.takvim;AY=BU_AY;SECILI=null;sekme('takvim')});
 }
