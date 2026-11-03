@@ -23,6 +23,7 @@
   --green:#5FBF7F; --lime:#A8D650; --done:#4CC27F;
   --c-post:#4FBF7A; --c-car:#E3A93C; --c-reel:#F07A4E; --c-story:#A58BE6; color-scheme:dark}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
 html{scroll-padding-top:120px}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
@@ -34,7 +35,10 @@ header{position:sticky;top:0;z-index:20;background:var(--forest);color:#fff;padd
 .hb{display:flex;align-items:center;gap:10px;padding-block:10px}
 .hb img{height:26px}
 .hb .t{font-family:var(--f-d);font-weight:700;font-size:17px;letter-spacing:-.01em}
-.hb .help{margin-left:auto;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 12px}
+.hb .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb .acc{flex:none;width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center}
+.hb .acc svg{width:18px;height:18px}
+.hb .help{flex:none;margin-left:auto;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 12px}
 .months{display:flex;gap:6px;padding-bottom:10px;overflow-x:auto;scrollbar-width:none}
 .months::-webkit-scrollbar{display:none}
 .months button{flex:none;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
@@ -126,16 +130,25 @@ footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
 .tip b{display:block;margin-bottom:2px}
 .tip button{margin-top:8px;font-weight:700;font-size:13px;color:var(--green)}
 .empty{color:var(--mute);text-align:center;padding:30px 0}
+.kapi{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 18px;text-align:center}
+.kapi h2{font-family:var(--f-d);font-size:22px;margin:0 0 6px}.kapi p{margin:0 0 14px;color:var(--mute);font-size:14.5px}
+.kbtn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;border-radius:14px;font-weight:700;font-size:15px;padding:8px 16px;border:1px solid var(--line);background:var(--card);text-decoration:none;color:var(--ink)}
+.kbtn.pri{background:var(--forest);color:#fff;border-color:var(--forest)}
+.hesap .row{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.hesap input{width:100%;min-height:48px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px 12px;font:inherit;font-size:16px;color:var(--ink)}
+.hesap .mail{color:var(--mute);font-size:14.5px;margin:0;overflow-wrap:anywhere}
+.sync{font-size:12.5px;color:var(--mute);text-align:center;margin-top:10px}
 @media (min-width:700px){.media img,.media video{height:300px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <header>
-  <div class="w hb"><img src="logo_w.png" alt="Kartepe Ferah"><span class="t">Yayın Paneli</span><button class="help" id="helpBtn">Nasıl paylaşılır?</button></div>
+  <div class="w hb"><img src="logo_w.png" alt="Kartepe Ferah"><span class="t">Yayın Paneli</span><button class="help" id="helpBtn">Nasıl paylaşılır?</button><button class="acc" id="accBtn" hidden aria-label="Hesabım"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
   <div class="w months" role="tablist" id="months"></div>
   <div class="prog"><i id="progbar"></i></div>
 </header>
+<div class="w" id="bootMsg" hidden><div class="kapi"><p>Yükleniyor…</p></div></div>
 <main class="w">
   <div class="tip" id="tip" hidden></div>
   <section class="today" id="today"></section>
@@ -151,7 +164,7 @@ footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
   </div>
   <div id="list"></div>
 </main>
-<footer><span id="brandName">Kartepe Ferah Cafe &amp; Restaurant</span> · Hazırlayan: Yasin Çakır</footer>
+<footer><span id="brandName">Kartepe Ferah Cafe &amp; Restaurant</span> · Hazırlayan: Enpovi</footer>
 
 <div class="sheet" id="help" hidden><div class="in">
   <button class="x" id="helpX">Kapat</button>
@@ -173,10 +186,22 @@ footer{color:var(--mute);font-size:12.5px;text-align:center;padding:30px 0 40px}
   <li>Etiketi görselin alt-orta boş alanına yerleştirip paylaşın.</li></ol>
   <h3>Bilgisayardan</h3>
   <ol><li>Kaydet butonu dosyaları doğrudan İndirilenler klasörüne indirir.</li></ol>
-  <h3>“Paylaştım” işaretleri</h3><ol><li>İşaretler bu telefonda kalıcı olarak saklanır; ertesi gün ya da haftalar sonra açtığınızda aynen durur.</li><li>Her zaman aynı telefondan ve aynı tarayıcıdan açın. En kolayı paneli <b>Ana Ekrana Ekle</b>mek.</li><li>Gizli sekme veya tarayıcı verilerini silmek işaretleri sıfırlar.</li></ol>
+  <h3>“Paylaştım” işaretleri</h3><ol id="isaretYerel"><li>İşaretler bu telefonda kalıcı olarak saklanır; ertesi gün ya da haftalar sonra açtığınızda aynen durur.</li><li>Her zaman aynı telefondan ve aynı tarayıcıdan açın. En kolayı paneli <b>Ana Ekrana Ekle</b>mek.</li><li>Gizli sekme veya tarayıcı verilerini silmek işaretleri sıfırlar.</li></ol><ol id="isaretHesap" hidden><li>İşaretler hesabınıza kaydedilir; telefondan ya da bilgisayardan, hangi cihazdan girerseniz girin aynen görünür.</li><li>Ajansınız da hangi içeriğin paylaşıldığını anlık olarak görür.</li></ol>
+</div></div>
+<div class="sheet" id="acc" hidden><div class="in hesap">
+  <button class="x" id="accX">Kapat</button>
+  <h2>Hesabım</h2>
+  <p class="mail" id="accMail"></p>
+  <div class="row" id="accAdmin" hidden><a class="kbtn" id="accAdminLink" href="#">Yönetim paneline git</a></div>
+  <h3>Şifre değiştir</h3>
+  <form class="row" id="pwForm"><input id="pwNew" type="password" autocomplete="new-password" placeholder="Yeni şifre (en az 8 karakter)" minlength="8"><button class="kbtn" type="submit">Şifreyi kaydet</button></form>
+  <div class="row"><button class="kbtn pri" id="logoutBtn" type="button">Çıkış yap</button></div>
 </div></div>
 <div class="toast" id="toast" role="status"></div>
 
+<script src="../ortak/config.js" onerror="void 0"></script>
+<script src="../ortak/supabase.js" onerror="void 0"></script>
+<script src="../ortak/platform.js" onerror="void 0"></script>
 <script src="data.js"></script>
 <script>
 (function(){
@@ -194,7 +219,11 @@ let M='nov', F='all';
 const pad=n=>String(n).padStart(2,'0');
 const now=new Date(); const TODAY=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v?localStorage.setItem(k,v):localStorage.removeItem(k)}catch(e){}}};
-const isDone=id=>store.get('done:'+id)==='1';
+const AJ=window.Ajans;
+const SLUG=(()=>{const b=AJ?AJ.BASE:'/';const p=location.pathname;return (p.startsWith(b)?p.slice(b.length):p.replace(/^\//,'')).split('/')[0]})();
+let SRV=null, ME=null; // SRV: sunucudaki "Paylaştım" kayıtları (giriş yapıldıysa)
+const skey=(id,m)=>AJ.anahtar(PLAN[m||M],id);
+const isDone=id=>SRV?SRV.has(skey(id)):store.get('done:'+id)==='1';
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2200)}
 function copy(text,msg){
   const ok=()=>toast(msg||'Kopyalandı');
@@ -335,12 +364,21 @@ function bind(L){
   L.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>copy(find(b.dataset.copy).caption,'Açıklama kopyalandı. Instagram\'da yapıştırın.'));
   L.querySelectorAll('[data-copyst]').forEach(b=>b.onclick=()=>copy(find(b.dataset.copyst).sticker.text,'Etiket metni kopyalandı'));
   L.querySelectorAll('[data-more]').forEach(b=>b.onclick=()=>{const c=b.previousElementSibling;c.classList.toggle('open');b.textContent=c.classList.contains('open')?'Kısalt':'Açıklamanın tamamını göster'});
-  L.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>{const id=b.dataset.done;const v=!isDone(id);store.set('done:'+id,v?'1':'');
-    document.querySelectorAll(`[data-card="${id}"]`).forEach(c=>{c.classList.toggle('done',v);const x=c.querySelector('[data-done]');x.setAttribute('aria-pressed',v);x.querySelector('span').textContent=v?'Paylaşıldı':'Paylaştım'});
-    updateSummary();if(v)toast('Harika! Paylaşıldı olarak işaretlendi')});
+  L.querySelectorAll('[data-done]').forEach(b=>b.onclick=async()=>{const id=b.dataset.done;if(pending.has(id))return;const v=!isDone(id);
+    if(!SRV){store.set('done:'+id,v?'1':'');paint(id);if(v)toast('Harika! Paylaşıldı olarak işaretlendi');return}
+    const k=skey(id);const prev=SRV.get(k);pending.add(id);
+    v?SRV.set(k,{at:new Date().toISOString(),by:ME.email}):SRV.delete(k);paint(id);
+    try{await AJ.isaretle(SLUG,k,v);store.set('done:'+id,v?'1':'');if(v)toast('Harika! Paylaşıldı olarak işaretlendi')}
+    catch(e){prev?SRV.set(k,prev):SRV.delete(k);paint(id);toast('Kaydedilemedi. '+AJ.hata(e))}
+    finally{pending.delete(id)}});
 }
+const pending=new Set();
+function paint(id){const v=isDone(id);
+  document.querySelectorAll(`[data-card="${id}"]`).forEach(c=>{c.classList.toggle('done',v);const x=c.querySelector('[data-done]');x.setAttribute('aria-pressed',v);x.querySelector('span').textContent=v?'Paylaşıldı':'Paylaştım'});
+  updateSummary()}
 function render(){renderMonths();renderToday();renderList()}
-if(window.BRAND){$('#brandName').textContent=BRAND.name;document.title=BRAND.short+' Yayın Paneli';const t=document.querySelector('.hb .t');if(t)t.textContent=BRAND.short==='Ferah'?'Yayın Paneli':'Yayın Paneli · '+BRAND.tag}
+if(window.BRAND&&BRAND.theme){for(const[k,v]of Object.entries(BRAND.theme))document.documentElement.style.setProperty('--'+k,v)}
+if(window.BRAND){const li=document.querySelector('.hb img');if(li)li.alt=BRAND.name;$('#brandName').textContent=BRAND.name;document.title=BRAND.short+' Yayın Paneli';const t=document.querySelector('.hb .t');if(t)t.textContent=BRAND.short==='Ferah'?'Yayın Paneli':'Yayın Paneli · '+BRAND.tag}
 (function tip(){
   const ua=navigator.userAgent;const inApp=/Instagram|FBAN|FBAV|WhatsApp|Telegram|Line\/|wv\)|GSA\//i.test(ua);
   const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
@@ -357,7 +395,49 @@ $('#helpBtn').onclick=()=>{$('#help').hidden=false};$('#helpX').onclick=()=>{$('
 const curKey=now.getMonth()===10?'nov':now.getMonth()===11?'dec':now.getMonth()===0?'jan':null;
 const saved=store.get('m');
 M=(curKey&&PLAN[curKey])?curKey:(saved&&PLAN[saved])?saved:'nov';
-render();
+
+function kapi(baslik,metin,butonlar){
+  $('#bootMsg').hidden=false;document.querySelector('main').hidden=true;$('#filt').hidden=true;
+  $('#bootMsg').innerHTML=`<div class="kapi"><h2>${esc(baslik)}</h2><p>${esc(metin)}</p>${butonlar||''}</div>`;
+}
+function girise(){location.replace(AJ.adres('giris/?r='+encodeURIComponent(location.pathname)))}
+async function cikis(){await AJ.cikis();girise()}
+function hesapKur(){
+  $('#accBtn').hidden=false;$('#accMail').textContent=ME.email;
+  if(ME.admin){$('#accAdmin').hidden=false;$('#accAdminLink').href=AJ.adres('yonetim/')}
+  $('#accBtn').onclick=()=>{$('#acc').hidden=false};$('#accX').onclick=()=>{$('#acc').hidden=true};$('#acc').onclick=e=>{if(e.target.id==='acc')$('#acc').hidden=true};
+  $('#logoutBtn').onclick=cikis;
+  $('#pwForm').onsubmit=async ev=>{ev.preventDefault();const v=$('#pwNew').value;if(v.length<8){toast('Şifre en az 8 karakter olmalı');return}
+    try{await AJ.sifreDegistir(v);$('#pwNew').value='';toast('Şifreniz değiştirildi')}catch(e){toast(AJ.hata(e))}};
+  $('#isaretYerel').hidden=true;$('#isaretHesap').hidden=false;
+}
+function tumAnahtarlar(){const o=[];for(const m of Object.keys(PLAN)){for(const x of [...PLAN[m].items,...PLAN[m].stories])o.push([x.id,skey(x.id,m)])}return o}
+async function yenile(){
+  if(!SRV||pending.size)return;
+  try{const n=await AJ.paylasimlar(SLUG);const a=[...SRV.keys()].sort().join('|'),b=[...n.keys()].sort().join('|');SRV=n;if(a!==b){const y=scrollY;render();scrollTo(0,y)}}catch(e){}
+}
+async function boot(){
+  if(!(AJ&&AJ.girisli(SLUG))){render();return}
+  $('#bootMsg').hidden=false;document.querySelector('main').hidden=true;
+  let o;
+  try{o=await AJ.oturum(true)}catch(e){kapi('Bağlanılamadı',AJ.hata(e),'<button class="kbtn pri" onclick="location.reload()">Tekrar dene</button>');return}
+  if(!o){girise();return}
+  ME=o;
+  if(!o.admin&&!o.slugs.includes(SLUG)){
+    kapi('Bu panele erişiminiz yok',o.email+' hesabı bu panele bağlı değil.','<button class="kbtn pri" id="kapiCikis">Başka hesapla giriş yap</button>');
+    $('#kapiCikis').onclick=cikis;return}
+  try{SRV=await AJ.paylasimlar(SLUG)}catch(e){kapi('Bağlanılamadı',AJ.hata(e),'<button class="kbtn pri" onclick="location.reload()">Tekrar dene</button>');return}
+  if(!o.admin){ // bu telefonda önceden işaretlenenleri hesaba taşı
+    const yeni=tumAnahtarlar().filter(([id,k])=>store.get('done:'+id)==='1'&&!SRV.has(k)).map(([,k])=>k);
+    if(yeni.length){try{await AJ.topluIsaretle(SLUG,yeni);yeni.forEach(k=>SRV.set(k,{at:new Date().toISOString(),by:o.email}))}catch(e){}}
+  }
+  hesapKur();
+  $('#bootMsg').hidden=true;document.querySelector('main').hidden=false;
+  render();
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')yenile()});
+  AJ.onAuth(ev=>{if(ev==='SIGNED_OUT')girise()});
+}
+boot();
 
 })();
 </script>
