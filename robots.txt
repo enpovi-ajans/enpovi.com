@@ -7,6 +7,7 @@ Allow: /blog/
 Allow: /hizmetler/
 Allow: /llms.txt
 Allow: /sitemap.xml
+Allow: /34dc805d24eaf07a23400dbe645197a6.txt
 Disallow: /
 
 Sitemap: https://enpovi.com/sitemap.xml
