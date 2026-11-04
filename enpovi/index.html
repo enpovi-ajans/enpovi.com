@@ -187,7 +187,25 @@ header{background:color-mix(in srgb,var(--forest) 93%,transparent);backdrop-filt
 .kapi{border-radius:24px;padding:28px 20px}
 .kbtn{border-radius:999px;padding:8px 20px}
 footer .enp{display:inline-flex;align-items:center;gap:6px;color:inherit;text-decoration:none;font-weight:600}
-@media (prefers-reduced-motion:reduce){.sheet,.sheet .in{animation:none}}
+/* Paylaşılanları gizle */
+body:not(.goster) .card.done{display:none}
+body:not(.goster) .day:not(:has(.card:not(.done))){display:none}
+body:not(.goster) #todayList:not(:has(.card:not(.done))) .tdh{display:none}
+.card.kapan{animation:kapan .42s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
+@keyframes kapan{0%{opacity:1;transform:none}40%{opacity:.9;transform:scale(.98)}100%{opacity:0;transform:scale(.94) translateY(-8px)}}
+.gbar{display:flex;align-items:center;gap:10px;margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:8px 8px 8px 14px;box-shadow:0 12px 24px -22px rgba(10,43,34,.5)}
+.gbar .ik{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;background:color-mix(in srgb,var(--done) 16%,transparent);color:var(--done)}
+.gbar .ik svg{width:16px;height:16px}
+.gbar .y{flex:1;min-width:0;font-size:14px;line-height:1.25}
+.gbar .y b{display:block;font-size:14.5px}
+.gbar .y span{color:var(--mute);font-size:12.5px}
+.gbar button{flex:none;display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:9px 14px;font-weight:700;font-size:13.5px;background:var(--soft);border:1px solid var(--line);transition:background .15s,transform .12s;white-space:nowrap}
+.gbar button:active{transform:scale(.97)}
+.gbar button svg{width:16px;height:16px}
+body.goster .gbar button{background:var(--forest);border-color:var(--forest);color:#fff}
+.gbar.vurgu{animation:vurgu .6s ease-out}
+@keyframes vurgu{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--done) 45%,transparent)}100%{box-shadow:0 0 0 12px transparent}}
+@media (prefers-reduced-motion:reduce){.sheet,.sheet .in,.card.kapan,.gbar.vurgu{animation:none}}
 </style>
 </head>
 <body>
@@ -200,6 +218,7 @@ footer .enp{display:inline-flex;align-items:center;gap:6px;color:inherit;text-de
 <main class="w">
   <div class="tip" id="tip" hidden></div>
   <section class="today" id="today"></section>
+  <div class="gbar" id="gbar" hidden></div>
   <div id="todayList"></div>
   <details class="late" id="late" hidden><summary id="lateSum"></summary><div id="lateList"></div></details>
   <h2 class="sec" id="secTitle">Sonraki günler</h2>
@@ -347,7 +366,7 @@ function renderToday(){
     h+=`<h1>Bu ayın planı <em>tamamlandı.</em></h1><p>${d} / ${n} içerik paylaşıldı olarak işaretli.</p>`;
   }
   h+=`<div class="stat"><span>✓ ${d}/${n} paylaşıldı</span>${late.length?`<span style="background:#E0A33A;color:#1b1200">${late.length} geciken</span>`:''}${next?`<span>Sıradaki: ${esc(next.day.split(' ').slice(0,2).join(' '))} ${next.time}</span>`:''}</div>`;
-  $('#today').innerHTML=h;
+  $('#today').innerHTML=h;gbar();
   $('#todayList').innerHTML=listHTML;
   const L=$('#late');
   if(late.length){
@@ -357,12 +376,18 @@ function renderToday(){
   }else{L.hidden=true;$('#lateList').innerHTML=''}
   bind($('#todayList'));bind($('#lateList'));
 }
+let GOSTER=store.get('goster')==='1';document.body.classList.toggle('goster',GOSTER);
+function gbar(vurgu){const [d]=progress();const g=$('#gbar');if(!g)return;g.hidden=!d;if(!d)return;
+  const goz=GOSTER?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.1A9.7 9.7 0 0 1 12 5c5 0 9 5 10 7a14 14 0 0 1-3 3.7M6.6 6.6C4.4 8 2.8 10.2 2 12c1 2 5 7 10 7 1.6 0 3.1-.4 4.4-1.1"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  g.innerHTML=`<span class="ik">${IC.ck}</span><span class="y"><b>${d} içerik paylaşıldı</b><span>${GOSTER?'Paylaşılanlar listede görünüyor':'Paylaşılanlar listeden gizlendi'}</span></span><button type="button" id="gBtn" aria-pressed="${GOSTER}">${goz}${GOSTER?'Gizle':'Geri getir'}</button>`;
+  $('#gBtn').onclick=()=>{GOSTER=!GOSTER;store.set('goster',GOSTER?'1':'');document.body.classList.toggle('goster',GOSTER);gbar();if(GOSTER)toast('Paylaşılanlar geri getirildi')};
+  if(vurgu){g.classList.remove('vurgu');void g.offsetWidth;g.classList.add('vurgu')}}
 function updateSummary(){
   const D=data();const E=entries();const late=E.filter(e=>e.date<TODAY&&!isDone(e.id));const [d,n]=progress();
   const st=$('#today .stat'); if(st){const sp=st.querySelectorAll('span');sp[0].textContent=`✓ ${d}/${n} paylaşıldı`;}
   const t=E.filter(e=>e.date===TODAY);const h1=$('#today h1');
   if(t.length&&h1){const todo=t.filter(e=>!isDone(e.id)).length;h1.innerHTML=todo?`Bugün <em>${todo} paylaşım</em> var.`:'Bugünün işi <em>tamam.</em>'}
-  if(!late.length){$('#late').hidden=true}else{$('#lateSum').textContent=`Geciken ${late.length} içerik`}
+  gbar();if(!late.length){$('#late').hidden=true}else{$('#lateSum').textContent=`Geciken ${late.length} içerik`}
 }
 function cardHTML(e){
   const [kn,kc]=K[e.kind]; const done=isDone(e.id);
@@ -413,16 +438,18 @@ function bind(L){
   L.querySelectorAll('[data-copyst]').forEach(b=>b.onclick=()=>copy(find(b.dataset.copyst).sticker.text,'Etiket metni kopyalandı'));
   L.querySelectorAll('[data-more]').forEach(b=>b.onclick=()=>{const c=b.previousElementSibling;c.classList.toggle('open');b.textContent=c.classList.contains('open')?'Kısalt':'Açıklamanın tamamını göster'});
   L.querySelectorAll('[data-done]').forEach(b=>b.onclick=async()=>{const id=b.dataset.done;if(pending.has(id))return;const v=!isDone(id);
-    if(!SRV){store.set('done:'+id,v?'1':'');paint(id);if(v)toast('Harika! Paylaşıldı olarak işaretlendi');return}
+    if(!SRV){store.set('done:'+id,v?'1':'');paint(id);if(v){toast('Harika! Paylaşıldı olarak işaretlendi');gbar(true)}return}
     const k=skey(id);const prev=SRV.get(k);pending.add(id);
     v?SRV.set(k,{at:new Date().toISOString(),by:ME.email}):SRV.delete(k);paint(id);
-    try{await AJ.isaretle(SLUG,k,v);store.set('done:'+id,v?'1':'');if(v)toast('Harika! Paylaşıldı olarak işaretlendi')}
+    try{await AJ.isaretle(SLUG,k,v);store.set('done:'+id,v?'1':'');if(v){toast('Harika! Paylaşıldı olarak işaretlendi');gbar(true)}}
     catch(e){prev?SRV.set(k,prev):SRV.delete(k);paint(id);toast('Kaydedilemedi. '+AJ.hata(e))}
     finally{pending.delete(id)}});
 }
 const pending=new Set();
 function paint(id){const v=isDone(id);
-  document.querySelectorAll(`[data-card="${id}"]`).forEach(c=>{c.classList.toggle('done',v);const x=c.querySelector('[data-done]');x.setAttribute('aria-pressed',v);x.querySelector('span').textContent=v?'Paylaşıldı':'Paylaştım'});
+  const anim=v&&!GOSTER&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll(`[data-card="${id}"]`).forEach(c=>{
+    if(anim&&!c.classList.contains('done')&&c.offsetParent){c.classList.add('kapan');setTimeout(()=>{c.classList.remove('kapan');c.classList.toggle('done',isDone(id));updateSummary()},420)}else c.classList.toggle('done',v);const x=c.querySelector('[data-done]');x.setAttribute('aria-pressed',v);x.querySelector('span').textContent=v?'Paylaşıldı':'Paylaştım'});
   updateSummary()}
 function render(){renderMonths();renderToday();renderList()}
 if(window.BRAND&&BRAND.theme){for(const[k,v]of Object.entries(BRAND.theme))document.documentElement.style.setProperty('--'+k,v)}
