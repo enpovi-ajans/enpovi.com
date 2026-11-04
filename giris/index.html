@@ -64,7 +64,7 @@ form h1+p{color:var(--mute);margin:8px 0 0;font-size:14.5px}
     <h1>Giriş yap</h1>
     <p class="giris-alt">Size gönderilen kullanıcı adı ve şifreyle girin.</p>
     <label class="alan"><span>Kullanıcı adı veya e-posta</span><input id="email" type="text" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" required></label>
-    <label class="alan"><span>Şifre</span><div class="sifre-kutu"><input id="sifre" type="password" autocomplete="current-password" required><button type="button" data-goster="sifre">Göster</button></div></label>
+    <label class="alan"><span>Şifre</span><div class="sifre-kutu"><input id="sifre" type="password" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="current-password" required><button type="button" data-goster="sifre">Göster</button></div></label>
     <div id="girisMesaj" class="mesaj kotu" role="alert" hidden></div>
     <button class="btn ana tam" id="girisBtn" type="submit" style="margin-top:18px">Giriş yap</button>
     <div class="alt"><button type="button" class="link" id="unuttumBtn">Şifremi unuttum</button></div>
@@ -81,7 +81,7 @@ form h1+p{color:var(--mute);margin:8px 0 0;font-size:14.5px}
 
   <form id="yeniForm" hidden novalidate>
     <h1>Yeni şifre belirleyin</h1>
-    <label class="alan"><span>Yeni şifre (en az 8 karakter)</span><div class="sifre-kutu"><input id="yeni" type="password" autocomplete="new-password" minlength="8" required><button type="button" data-goster="yeni">Göster</button></div></label>
+    <label class="alan"><span>Yeni şifre (en az 8 karakter)</span><div class="sifre-kutu"><input id="yeni" type="password" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="new-password" minlength="8" required><button type="button" data-goster="yeni">Göster</button></div></label>
     <div id="yeniMesaj" class="mesaj kotu" role="alert" hidden></div>
     <button class="btn ana tam" id="yeniBtn" type="submit" style="margin-top:18px">Şifreyi kaydet</button>
   </form>

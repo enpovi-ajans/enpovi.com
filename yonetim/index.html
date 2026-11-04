@@ -151,6 +151,9 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
 .mb-hesap .alt3 .btn.kirmizi{color:var(--bad)}
 .mb-hesap .alt3 .btn.kirmizi.emin{background:var(--bad);border-color:var(--bad);color:#fff}
 .mb-hesap small{color:var(--mute);font-size:12.5px}
+.ss-sifre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:28px;font-weight:700;letter-spacing:.06em;text-align:center;background:var(--soft);border:1px dashed var(--done);border-radius:16px;padding:16px 10px;margin:14px 0 6px;user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
+.ss-kadi{text-align:center;font-size:15px;color:var(--mute)}.ss-kadi b{color:var(--ink)}
+.ss-btn{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.ss-btn .btn{min-height:48px;font-size:14.5px}
 .bos-not{color:var(--mute);font-size:14px;padding:4px 2px}
 
 /* detay */
@@ -214,7 +217,7 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
         <label class="alan"><span>Kullanıcı adı veya e-posta</span><input id="hEmail" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="örn. bimser" required></label>
       </div>
       <label class="alan"><span>Geçici şifre</span>
-        <div class="sifre-sat"><div class="sifre-kutu"><input id="hSifre" type="text" autocomplete="new-password" spellcheck="false" minlength="8" required><button type="button" id="hGoster">Gizle</button></div><button type="button" class="btn" id="hUret">Oluştur</button></div>
+        <div class="sifre-sat"><div class="sifre-kutu"><input id="hSifre" type="text" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" minlength="8" required><button type="button" id="hGoster">Gizle</button></div><button type="button" class="btn" id="hUret">Oluştur</button></div>
       </label>
       <div class="ipucu">Kullanıcı adı yeterli (en az 3 karakter; harf, rakam, nokta, tire). E-posta yazarsanız müşteri e-postasıyla girer. Şifre unutulursa aşağıdaki listeden "Şifre yenile" ile yenisini verirsiniz.<br>Bu kullanıcı adı ya da e-postayla zaten hesap varsa yeni hesap açılmaz, yalnızca seçilen panele bağlanır ve mevcut şifresi geçerli kalır.</div>
       <div id="hMesaj" class="mesaj" role="status" hidden></div>
@@ -234,7 +237,7 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
   <button class="x" id="hsX">Kapat</button>
   <h3>Hesabım</h3>
   <p class="k" id="hsMail" style="overflow-wrap:anywhere"></p>
-  <form id="pwForm" style="margin-top:6px"><label class="alan"><span>Yeni şifre (en az 8 karakter)</span><input id="pwNew" type="password" autocomplete="new-password" minlength="8"></label><button class="btn tam" type="submit" style="margin-top:10px">Şifreyi değiştir</button></form>
+  <form id="pwForm" style="margin-top:6px"><label class="alan"><span>Yeni şifre (en az 8 karakter)</span><input id="pwNew" type="password" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="new-password" minlength="8"></label><button class="btn tam" type="submit" style="margin-top:10px">Şifreyi değiştir</button></form>
   <button class="btn ana tam" id="cikisBtn" type="button" style="margin-top:10px">Çıkış yap</button>
 </div></div>
 <div class="toast" id="toast" role="status"></div>
@@ -429,7 +432,7 @@ function hesaplar(){
   $('#uyeListe').querySelectorAll('[data-sifre]').forEach(b=>b.onclick=async()=>{
     if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Yeni şifre verilsin mi?';setTimeout(()=>{if(b.isConnected){b.classList.remove('emin');b.textContent='Şifre yenile'}},4000);return}
     b.disabled=true;const yeni=sifreUret();
-    try{await A.uyeSifreAta(b.dataset.sifre,yeni);const m=musteri(b.dataset.slug);teslimGoster(teslimMetni(m,b.dataset.sifre,yeni,false,true));hMesaj(`${A.gorunen(b.dataset.sifre)} için yeni şifre oluşturuldu. Eski şifre artık geçmez.`,'iyi');$('#hForm').scrollIntoView({behavior:'smooth'})}
+    try{await A.uyeSifreAta(b.dataset.sifre,yeni);sifreSonuc(b.dataset.slug,b.dataset.sifre,yeni)}
     catch(e){toast(/uye_sifre_ata|function/i.test(String(e&&e.message))?'Supabase\'de şifre yenileme fonksiyonu kurulu değil.':A.hata(e))}
     finally{b.disabled=false;b.classList.remove('emin');b.textContent='Şifre yenile'}
   });
@@ -481,7 +484,7 @@ async function mbAc(slug){
     h.querySelector('[data-msifre]').onclick=async ev=>{const b=ev.currentTarget;
       if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Yeni şifre verilsin mi?';return}
       b.disabled=true;const yeni=sifreUret();
-      try{await A.uyeSifreAta(eski,yeni);mbKapat();teslimGoster(teslimMetni(musteri(slug),eski,yeni,false,true));hMesaj(`${A.gorunen(eski)} için yeni şifre oluşturuldu. Eski şifre artık geçmez.`,'iyi');$('#hForm').scrollIntoView({behavior:'smooth'})}
+      try{await A.uyeSifreAta(eski,yeni);sifreSonuc(slug,eski,yeni)}
       catch(e){b.disabled=false;b.classList.remove('emin');b.textContent='Şifre yenile';toast(A.hata(e))}};
     h.querySelector('[data-msil]').onclick=async ev=>{const b=ev.currentTarget;
       if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Emin misin?';return}
@@ -489,6 +492,17 @@ async function mbAc(slug){
       try{await A.uyeSil(eski,slug);UYE=UYE.filter(u=>!(u.email===eski&&u.slug===slug));hesaplar();mbAc(slug);toast('Hesabın panel erişimi kaldırıldı')}
       catch(e){b.disabled=false;toast(A.hata(e))}};
   });
+}
+function sifreSonuc(slug,email,yeni){
+  const m=musteri(slug);const metin=teslimMetni(m,email,yeni,false,true);
+  $('#mbIc').innerHTML=`<button class="x" id="mbX">Kapat</button><h3>Yeni şifre hazır</h3><p class="k">${esc(m?m.ad:slug)} · eski şifre artık geçmez</p>
+    <div class="ss-kadi">${A.kadiMi(email)?'Kullanıcı adı':'E-posta'}: <b>${esc(A.gorunen(email))}</b></div>
+    <div class="ss-sifre" id="ssSifre">${esc(yeni)}</div>
+    <p class="ipucu" style="text-align:center">Büyük-küçük harf önemli. Müşteriye mesajı kopyalayıp gönderin, şifreyi elle yazmak yerine kopyalayıp yapıştırsın.</p>
+    <div class="ss-btn"><button type="button" class="btn" id="ssKopya">Mesajı kopyala</button><a class="btn ana" id="ssWa" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(metin)}">WhatsApp ile gönder</a></div>
+    <button type="button" class="btn tam" id="ssSadece" style="margin-top:8px">Sadece şifreyi kopyala</button>`;
+  $('#mbSheet').hidden=false;$('#mbX').onclick=mbKapat;$('#mbSheet').onclick=e=>{if(e.target.id==='mbSheet')mbKapat()};
+  $('#ssKopya').onclick=()=>kopyala(metin,'Mesaj kopyalandı');$('#ssSadece').onclick=()=>kopyala(yeni,'Şifre kopyalandı');
 }
 function teslimMetni(m,email,sifre,vardi,yenilendi){
   const adres=location.origin+A.adres('giris/');const ad=m?m.ad:'';
