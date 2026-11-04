@@ -282,12 +282,13 @@ async function veriYukle(){
     try{
       const {PLAN,BRAND}=await A.plan(m.slug);
       const base=A.adres(m.slug+'/');
+      const ad=p=>/^https?:\/\//.test(p)?p:base+p; // medya R2'de (tam adres) veya sitede (göreli)
       const entries=[];
       for(const ay of Object.values(PLAN)){
         for(const x of [...(ay.items||[]),...(ay.stories||[])]){
           entries.push({slug:m.slug,key:A.anahtar(ay,x.id),id:x.id,kind:x.kind,video:!!x.video,date:x.date,time:x.time||'',title:x.title,
             caption:x.caption||'',text:x.text||'',sticker:x.sticker||null,series:x.series||'',
-            prev:(x.prev||[]).map(p=>base+p),files:(x.files||[]).map(f=>({src:base+f.src,name:f.name})),cover:x.cover?{src:base+x.cover.src,name:x.cover.name}:null});
+            prev:(x.prev||[]).map(ad),files:(x.files||[]).map(f=>({src:ad(f.src),name:f.name})),cover:x.cover?{src:ad(x.cover.src),name:x.cover.name}:null});
         }
       }
       entries.sort((a,b)=>a.date.localeCompare(b.date)||(a.kind==='story')-(b.kind==='story')||a.time.localeCompare(b.time));
