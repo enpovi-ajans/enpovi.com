@@ -243,11 +243,11 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
 </div></div>
 <div class="toast" id="toast" role="status"></div>
 
-<script src="../ortak/config.js"></script>
-<script src="../ortak/supabase.js"></script>
-<script src="../ortak/platform.js?v=4"></script>
+<script defer src="../ortak/config.js"></script>
+<script defer src="../ortak/supabase.js"></script>
+<script defer src="../ortak/platform.js?v=4"></script>
 <script>
-(function(){
+addEventListener("DOMContentLoaded",function(){
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const A=window.Ajans;
@@ -570,7 +570,7 @@ let cikiyor=false;
 $('#cikisBtn').onclick=async()=>{cikiyor=true;await A.cikis();location.replace(A.adres('giris/'))};
 $('#pwForm').onsubmit=async ev=>{ev.preventDefault();const v=$('#pwNew').value;if(v.length<8){toast('Şifre en az 8 karakter olmalı');return}try{await A.sifreDegistir(v);$('#pwNew').value='';toast('Şifren değiştirildi')}catch(e){toast(A.hata(e))}};
 basla();
-})();
+});
 </script>
 </body>
 </html>

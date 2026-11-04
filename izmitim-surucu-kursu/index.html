@@ -17,7 +17,7 @@
 :root{
   --bg:#EEF1EA; --card:#FFFFFF; --soft:#F4F7F1; --ink:#0B231C; --mute:#5B6B63; --line:#DCE3D9;
   --forest:#0A2B22; --green:#0E6B3A; --lime:#9BCB3C; --done:#2BA35F;
-  --c-post:#0E6B3A; --c-car:#C7861A; --c-reel:#D2532A; --c-story:#7A55C8;
+  --c-post:#0E6B3A; --c-car:#9A6410; --c-reel:#B8431D; --c-story:#7A55C8;
   --f-d:"Bricolage Grotesque",system-ui,sans-serif; --f-s:"Instrument Serif",Georgia,serif; --f-b:"Instrument Sans",-apple-system,system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){:root{
@@ -42,6 +42,9 @@ header{position:sticky;top:0;z-index:20;background:var(--forest);color:#fff;padd
 .hb .acc svg{width:18px;height:18px}
 .hb .help{flex:none;margin-left:auto;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 12px}
 .months{display:flex;gap:6px;padding-bottom:10px;overflow-x:auto;scrollbar-width:none}
+.months:empty{min-height:44px}
+main{min-height:100vh}
+body:not(.hazir) main,body:not(.hazir) footer{visibility:hidden}
 .months::-webkit-scrollbar{display:none}
 .months button{flex:none;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
 .months button[aria-selected=true]{background:var(--lime);color:#0A2B22}
@@ -415,7 +418,7 @@ function cardHTML(e){
 }
 function renderList(){
   const D=data(); let E=entries();
-  const upcoming=e=>e.date>TODAY||(TODAY<entries()[0].date&&e.date>entries()[0].date);
+  const ilk=entries()[0].date,upcoming=e=>TODAY<ilk?e.date>ilk:e.date>TODAY;
   if(F==='all')E=E.filter(upcoming); if(F==='feed')E=E.filter(e=>e.kind!=='story'&&upcoming(e)); if(F==='story')E=E.filter(e=>e.kind==='story'&&upcoming(e)); if(F==='todo')E=E.filter(e=>!isDone(e.id));
   const W=D.meta.weeks; let h='',lastDate='',lastWeek=0;
   const weekOf=date=>{const d=+date.slice(8);if(M==='nov')return d<=8?1:d<=15?2:d<=22?3:4;return d<=6?1:d<=13?2:d<=20?3:4};
@@ -453,7 +456,7 @@ function paint(id){const v=isDone(id);
   document.querySelectorAll(`[data-card="${id}"]`).forEach(c=>{
     if(anim&&!c.classList.contains('done')&&c.offsetParent){c.classList.add('kapan');setTimeout(()=>{c.classList.remove('kapan');c.classList.toggle('done',isDone(id));updateSummary()},420)}else c.classList.toggle('done',v);const x=c.querySelector('[data-done]');x.setAttribute('aria-pressed',v);x.querySelector('span').textContent=v?'Paylaşıldı':'Paylaştım'});
   updateSummary()}
-function render(){renderMonths();renderToday();renderList()}
+function render(){try{renderMonths();renderToday();renderList()}finally{document.body.classList.add('hazir')}}
 if(window.BRAND&&BRAND.theme){for(const[k,v]of Object.entries(BRAND.theme))document.documentElement.style.setProperty('--'+k,v)}
 if(window.BRAND){const li=document.querySelector('.hb img');if(li)li.alt=BRAND.name;$('#brandName').textContent=BRAND.name;document.title=BRAND.short+' Yayın Paneli';{const am=document.querySelector('meta[name=apple-mobile-web-app-title]');if(am)am.content=BRAND.short+' Panel'}const t=document.querySelector('.hb .t');if(t)t.textContent=BRAND.short==='Ferah'?'Yayın Paneli':'Yayın Paneli · '+BRAND.tag}
 (function tip(){

@@ -108,11 +108,11 @@ form h1+p{color:var(--mute);margin:8px 0 0;font-size:14.5px}
 </div></main>
 <div class="toast" id="toast" role="status"></div>
 
-<script src="../ortak/config.js"></script>
-<script src="../ortak/supabase.js"></script>
-<script src="../ortak/platform.js?v=4"></script>
+<script defer src="../ortak/config.js"></script>
+<script defer src="../ortak/supabase.js"></script>
+<script defer src="../ortak/platform.js?v=4"></script>
 <script>
-(function(){
+addEventListener("DOMContentLoaded",function(){
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const A=window.Ajans;
@@ -193,7 +193,7 @@ $('#yeniForm').onsubmit=async ev=>{
 };
 document.querySelectorAll('[data-cikis]').forEach(b=>b.onclick=async()=>{await A.cikis();goster('#girisForm')});
 basla();
-})();
+});
 </script>
 </body>
 </html>
