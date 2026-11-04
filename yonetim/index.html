@@ -131,6 +131,26 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
 .usat span{flex:1;min-width:0;overflow-wrap:anywhere;font-size:14.5px}
 .usat button{flex:none;font-size:13px;font-weight:700;color:var(--bad);padding:6px 8px;border-radius:8px}
 .usat button.emin{background:var(--bad);color:#fff}
+.ugrup{cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.ugrup:hover{border-color:color-mix(in srgb,var(--green) 40%,var(--line));box-shadow:0 12px 24px -20px rgba(10,43,34,.5)}
+.ugrup h4 .duz{margin-left:auto;font-family:var(--f-b);font-size:13px;font-weight:700;color:var(--green);white-space:nowrap}
+.ugrup .bilgi-ozet{font-size:13.5px;color:var(--mute);margin:-4px 0 8px;overflow-wrap:anywhere}
+.mb-bas{display:flex;align-items:center;gap:12px;margin:2px 0 6px}
+.mb-bas img{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--soft);flex:none;box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--halka,var(--line))}
+.mb-bas h3{margin:0!important}
+.mb-sec{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:20px 0 2px}
+.mb-alan textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:14px;background:var(--card);padding:12px 14px;font:inherit;font-size:16px;color:var(--ink);resize:vertical;transition:border-color .15s,box-shadow .15s}
+.mb-alan textarea:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 4px rgba(155,203,60,.28)}
+.mb-hesap{background:var(--soft);border-radius:16px;padding:12px;margin-top:10px}
+.mb-hesap .sat3{display:flex;gap:8px;margin-top:8px}
+.mb-hesap .sat3 input{flex:1;min-width:0;min-height:46px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px 12px;font:inherit;font-size:16px;color:var(--ink)}
+.mb-hesap .sat3 input:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 4px rgba(155,203,60,.28)}
+.mb-hesap .sat3 .btn{min-height:46px;padding:0 14px;font-size:14px}
+.mb-hesap .alt3{display:flex;gap:8px;margin-top:8px}
+.mb-hesap .alt3 .btn{flex:1;min-height:42px;font-size:14px}
+.mb-hesap .alt3 .btn.kirmizi{color:var(--bad)}
+.mb-hesap .alt3 .btn.kirmizi.emin{background:var(--bad);border-color:var(--bad);color:#fff}
+.mb-hesap small{color:var(--mute);font-size:12.5px}
 .bos-not{color:var(--mute);font-size:14px;padding:4px 2px}
 
 /* detay */
@@ -209,6 +229,7 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
 </main>
 
 <div class="sheet" id="detay" hidden><div class="in" id="detayIc"></div></div>
+<div class="sheet" id="mbSheet" hidden><div class="in" id="mbIc"></div></div>
 <div class="sheet" id="hesapSheet" hidden><div class="in">
   <button class="x" id="hsX">Kapat</button>
   <h3>Hesabım</h3>
@@ -220,7 +241,7 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
 
 <script src="../ortak/config.js"></script>
 <script src="../ortak/supabase.js"></script>
-<script src="../ortak/platform.js?v=2"></script>
+<script src="../ortak/platform.js?v=3"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s);
@@ -241,7 +262,7 @@ function kopyala(text,msg){
   if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(ok,fb)}else fb();
 }
 
-let ME=null, MUS=[], SHR=new Map(), UYE=[];
+let ME=null, MUS=[], SHR=new Map(), UYE=[], BILGI={};
 let TAB='ozet', AY=BU_AY, FILTRE='hepsi', SECILI=null;
 const bekleyen=new Set();
 
@@ -273,7 +294,7 @@ async function veriYukle(){
   MUS=sonuc;
 }
 async function paylasimYukle(){SHR=await A.paylasimlar(null)}
-async function uyeYukle(){UYE=await A.uyeler()}
+async function uyeYukle(){UYE=await A.uyeler();try{BILGI={};(await A.musteriBilgileri()).forEach(b=>BILGI[b.slug]=b)}catch(e){}}
 const pk=e=>e.slug+'/'+e.key;
 const girisAcik=s=>A.girisli(s)||UYE.some(u=>u.slug===s);
 const durum=e=>SHR.has(pk(e))?'ok':e.date<BUGUN?'gec':'bek';
@@ -403,7 +424,8 @@ function hesaplar(){
   const grup={};UYE.forEach(u=>(grup[u.slug]=grup[u.slug]||[]).push(u));
   const tum=[...MUS.map(m=>m.slug),...Object.keys(grup).filter(s=>!musteri(s))];
   $('#uyeListe').innerHTML=tum.map(s=>{const m=musteri(s);const L=grup[s]||[];
-    return `<div class="ugrup"><h4><i style="background:${m?m.renk:'#999'}"></i>${esc(m?m.ad:s)}${girisAcik(s)?'<em class="on">giriş açık</em>':'<em>giriş kapalı · hesap açınca açılır</em>'}</h4>${L.length?L.map(u=>`<div class="usat"><span>${esc(A.gorunen(u.email))}${A.kadiMi(u.email)?'':' <small style="opacity:.6">(e-posta)</small>'}</span><div style="display:flex;gap:2px;flex:none"><button data-sifre="${esc(u.email)}" data-slug="${esc(s)}" style="color:inherit">Şifre yenile</button><button data-sil="${esc(u.email)}" data-slug="${esc(s)}">Kaldır</button></div></div>`).join(''):'<div class="bos-not">Bu panele bağlı hesap yok.</div>'}</div>`}).join('');
+    return `<div class="ugrup" data-mb="${esc(s)}"><h4><i style="background:${m?m.renk:'#999'}"></i>${esc(m?m.ad:s)}${girisAcik(s)?'<em class="on">giriş açık</em>':'<em>giriş kapalı · hesap açınca açılır</em>'}<span class="duz">Düzenle ›</span></h4>${BILGI[s]&&(BILGI[s].yetkili||BILGI[s].telefon)?`<div class="bilgi-ozet">${esc([BILGI[s].yetkili,BILGI[s].telefon].filter(Boolean).join(' · '))}</div>`:''}${L.length?L.map(u=>`<div class="usat"><span>${esc(A.gorunen(u.email))}${A.kadiMi(u.email)?'':' <small style="opacity:.6">(e-posta)</small>'}</span><div style="display:flex;gap:2px;flex:none"><button data-sifre="${esc(u.email)}" data-slug="${esc(s)}" style="color:inherit">Şifre yenile</button><button data-sil="${esc(u.email)}" data-slug="${esc(s)}">Kaldır</button></div></div>`).join(''):'<div class="bos-not">Bu panele bağlı hesap yok.</div>'}</div>`}).join('');
+  $('#uyeListe').querySelectorAll('[data-mb]').forEach(c=>c.onclick=ev=>{if(ev.target.closest('button'))return;mbAc(c.dataset.mb)});
   $('#uyeListe').querySelectorAll('[data-sifre]').forEach(b=>b.onclick=async()=>{
     if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Yeni şifre verilsin mi?';setTimeout(()=>{if(b.isConnected){b.classList.remove('emin');b.textContent='Şifre yenile'}},4000);return}
     b.disabled=true;const yeni=sifreUret();
@@ -416,6 +438,56 @@ function hesaplar(){
     b.disabled=true;
     try{await A.uyeSil(b.dataset.sil,b.dataset.slug);UYE=UYE.filter(u=>!(u.email===b.dataset.sil&&u.slug===b.dataset.slug));hesaplar();toast(UYE.some(u=>u.slug===b.dataset.slug)?'Hesabın panel erişimi kaldırıldı':'Erişim kaldırıldı. Bu panele bağlı hesap kalmadığı için panel yeniden girişsiz açılır.')}
     catch(e){b.disabled=false;toast(A.hata(e))}
+  });
+}
+/* ---------- müşteri kartı (bilgiler + hesaplar) ---------- */
+const MB_ALAN=[['yetkili','Yetkili kişi','text','name'],['telefon','Telefon','tel','tel'],['eposta','E-posta','email','email'],['instagram','Instagram','text','off'],['adres','Adres','text','street-address']];
+let MB_SLUG=null;
+function mbKapat(){$('#mbSheet').hidden=true;MB_SLUG=null}
+async function mbAc(slug){
+  MB_SLUG=slug;const m=musteri(slug);const L=UYE.filter(u=>u.slug===slug);
+  $('#mbIc').innerHTML=`<button class="x" id="mbX">Kapat</button>
+    <div class="mb-bas"><img src="${esc(A.adres(slug+'/avatar.jpg'))}" style="--halka:${m?m.renk:'#999'}" alt="" onerror="this.style.visibility='hidden'"><div><h3>${esc(m?m.ad:slug)}</h3><div class="k">${girisAcik(slug)?'Giriş açık':'Giriş kapalı'} · ${L.length} hesap</div></div></div>
+    <div class="mb-sec">Müşteri bilgileri</div>
+    <form id="mbForm" novalidate><div class="iki">${MB_ALAN.map(([k,t,tip,ac])=>`<label class="alan"><span>${t}</span><input name="${k}" type="${tip}" autocomplete="${ac}" maxlength="${k==='adres'?400:160}" disabled></label>`).join('')}</div>
+    <label class="alan mb-alan"><span>Notlar</span><textarea name="notlar" maxlength="4000" placeholder="Kampanyalar, tercihleri, özel günleri…" disabled></textarea></label>
+    <div id="mbMesaj" class="mesaj" role="status" hidden></div>
+    <button class="btn ana tam" id="mbKaydet" type="submit" style="margin-top:14px" disabled>Bilgileri kaydet</button></form>
+    <div class="mb-sec">Giriş hesapları</div>
+    ${L.length?L.map(u=>`<div class="mb-hesap" data-e="${esc(u.email)}"><small>${A.kadiMi(u.email)?'Kullanıcı adı':'E-posta'}</small>
+      <div class="sat3"><input value="${esc(A.gorunen(u.email))}" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Kullanıcı adı"><button type="button" class="btn" data-kadi>Değiştir</button></div>
+      <div class="alt3"><button type="button" class="btn" data-msifre>Şifre yenile</button><button type="button" class="btn kirmizi" data-msil>Kaldır</button></div></div>`).join(''):'<div class="bos-not">Bu panele bağlı hesap yok.</div>'}
+    <button class="btn tam" id="mbYeni" type="button" style="margin-top:12px">+ Bu müşteriye hesap aç</button>`;
+  $('#mbSheet').hidden=false;
+  $('#mbX').onclick=mbKapat;$('#mbSheet').onclick=e=>{if(e.target.id==='mbSheet')mbKapat()};
+  $('#mbYeni').onclick=()=>{mbKapat();$('#hSlug').value=slug;$('#hEmail').focus();$('#hForm').scrollIntoView({behavior:'smooth'})};
+  const f=$('#mbForm');const msj=(t,tur)=>{const e=$('#mbMesaj');e.textContent=t;e.hidden=!t;e.className='mesaj '+(tur||'')};
+  try{const b=await A.musteriBilgi(slug)||{};if(MB_SLUG!==slug)return;BILGI[slug]=b;
+    [...MB_ALAN.map(x=>x[0]),'notlar'].forEach(k=>{f.elements[k].value=b[k]||'';f.elements[k].disabled=false});$('#mbKaydet').disabled=false;
+    if(b.guncellendi_at)msj('Son güncelleme: '+saat(b.guncellendi_at),'')}
+  catch(e){msj(/musteri_bilgileri|relation|schema cache/i.test(String(e&&e.message))?'Müşteri bilgileri için Supabase\'de kurulum gerekli (kurulum.sql bölüm 7).':A.hata(e),'kotu')}
+  f.onsubmit=async ev=>{ev.preventDefault();const b={};[...MB_ALAN.map(x=>x[0]),'notlar'].forEach(k=>{const v=f.elements[k].value.trim();b[k]=v||null});
+    const k=$('#mbKaydet');k.disabled=true;k.textContent='Kaydediliyor…';
+    try{await A.musteriBilgiKaydet(slug,b);BILGI[slug]=b;msj('Kaydedildi ✓','iyi');toast('Müşteri bilgileri kaydedildi');hesaplar()}
+    catch(e){msj(A.hata(e),'kotu')}finally{k.disabled=false;k.textContent='Bilgileri kaydet'}};
+  $('#mbIc').querySelectorAll('.mb-hesap').forEach(h=>{const eski=h.dataset.e;
+    h.querySelector('[data-kadi]').onclick=async ev=>{const b=ev.currentTarget;const g=h.querySelector('input').value.trim();
+      if(g.includes('@')){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(g)){toast('Geçerli bir e-posta yazın');return}}
+      else if(!A.kadiGecerli(A.kadiTemizle(g))){toast('Kullanıcı adı en az 3 karakter; harf, rakam, nokta, tire');return}
+      const yeni=A.girisEposta(g);if(yeni===eski){toast('Kullanıcı adı aynı');return}
+      b.disabled=true;b.textContent='…';
+      try{await A.uyeKadiDegistir(eski,yeni);UYE.forEach(u=>{if(u.email===eski)u.email=yeni});hesaplar();mbAc(slug);toast(`Yeni kullanıcı adı: ${A.gorunen(yeni)} · şifre aynı kaldı`)}
+      catch(e){b.disabled=false;b.textContent='Değiştir';toast(/uye_kadi_degistir|function/i.test(String(e&&e.message))?'Supabase\'de kullanıcı adı fonksiyonu kurulu değil (kurulum.sql bölüm 7).':A.hata(e))}};
+    h.querySelector('[data-msifre]').onclick=async ev=>{const b=ev.currentTarget;
+      if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Yeni şifre verilsin mi?';return}
+      b.disabled=true;const yeni=sifreUret();
+      try{await A.uyeSifreAta(eski,yeni);mbKapat();teslimGoster(teslimMetni(musteri(slug),eski,yeni,false,true));hMesaj(`${A.gorunen(eski)} için yeni şifre oluşturuldu. Eski şifre artık geçmez.`,'iyi');$('#hForm').scrollIntoView({behavior:'smooth'})}
+      catch(e){b.disabled=false;b.classList.remove('emin');b.textContent='Şifre yenile';toast(A.hata(e))}};
+    h.querySelector('[data-msil]').onclick=async ev=>{const b=ev.currentTarget;
+      if(!b.classList.contains('emin')){b.classList.add('emin');b.textContent='Emin misin?';return}
+      b.disabled=true;
+      try{await A.uyeSil(eski,slug);UYE=UYE.filter(u=>!(u.email===eski&&u.slug===slug));hesaplar();mbAc(slug);toast('Hesabın panel erişimi kaldırıldı')}
+      catch(e){b.disabled=false;toast(A.hata(e))}};
   });
 }
 function teslimMetni(m,email,sifre,vardi,yenilendi){

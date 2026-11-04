@@ -6,9 +6,9 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0A2B22">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ferah Panel">
+<meta name="apple-mobile-web-app-title" content="Ferah Catering Panel">
 <link rel="apple-touch-icon" href="avatar.jpg">
-<title>Ferah Yayın Paneli</title>
+<title>Ferah Catering Yayın Paneli</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Serif:ital@1&family=Instrument+Sans:wght@400;500;600;700&display=swap">
 <style>
@@ -192,7 +192,7 @@ footer .enp{display:inline-flex;align-items:center;gap:6px;color:inherit;text-de
 </head>
 <body>
 <header>
-  <div class="w hb"><img src="logo_w.png" alt="Kartepe Ferah"><span class="t">Yayın Paneli</span><button class="help" id="helpBtn">Nasıl paylaşılır?</button><button class="acc" id="accBtn" hidden aria-label="Hesabım"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
+  <div class="w hb"><img src="logo_w.png" alt="Kartepe Ferah Catering &amp; Organizasyon"><span class="t">Yayın Paneli</span><button class="help" id="helpBtn">Nasıl paylaşılır?</button><button class="acc" id="accBtn" hidden aria-label="Hesabım"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
   <div class="w months" role="tablist" id="months"></div>
   <div class="prog"><i id="progbar"></i></div>
 </header>
@@ -212,7 +212,7 @@ footer .enp{display:inline-flex;align-items:center;gap:6px;color:inherit;text-de
   </div>
   <div id="list"></div>
 </main>
-<footer><span id="brandName">Kartepe Ferah Cafe &amp; Restaurant</span> · Hazırlayan: Enpovi</footer>
+<footer><span id="brandName">Kartepe Ferah Catering &amp; Organizasyon</span> · Hazırlayan: Enpovi</footer>
 
 <div class="sheet" id="help" hidden><div class="in">
   <button class="x" id="helpX">Kapat</button>
@@ -426,7 +426,7 @@ function paint(id){const v=isDone(id);
   updateSummary()}
 function render(){renderMonths();renderToday();renderList()}
 if(window.BRAND&&BRAND.theme){for(const[k,v]of Object.entries(BRAND.theme))document.documentElement.style.setProperty('--'+k,v)}
-if(window.BRAND){const li=document.querySelector('.hb img');if(li)li.alt=BRAND.name;$('#brandName').textContent=BRAND.name;document.title=BRAND.short+' Yayın Paneli';const t=document.querySelector('.hb .t');if(t)t.textContent=BRAND.short==='Ferah'?'Yayın Paneli':'Yayın Paneli · '+BRAND.tag}
+if(window.BRAND){const li=document.querySelector('.hb img');if(li)li.alt=BRAND.name;$('#brandName').textContent=BRAND.name;document.title=BRAND.short+' Yayın Paneli';{const am=document.querySelector('meta[name=apple-mobile-web-app-title]');if(am)am.content=BRAND.short+' Panel'}const t=document.querySelector('.hb .t');if(t)t.textContent=BRAND.short==='Ferah'?'Yayın Paneli':'Yayın Paneli · '+BRAND.tag}
 (function tip(){
   const ua=navigator.userAgent;const inApp=/Instagram|FBAN|FBAV|WhatsApp|Telegram|Line\/|wv\)|GSA\//i.test(ua);
   const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;

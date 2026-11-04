@@ -114,6 +114,10 @@
     async uyeEkle(email, slug){ ok(await sb.from('uyeler').upsert({ email: kucuk(email), slug }, { onConflict: 'email,slug', ignoreDuplicates: true })); },
     /* Yönetici, müşteri hesabının şifresini yeniler (Supabase'de uye_sifre_ata fonksiyonu gerekir). */
     async uyeSifreAta(email, yeni){ ok(await sb.rpc('uye_sifre_ata', { e: kucuk(email), yeni })); },
+    async uyeKadiDegistir(eski, yeni){ ok(await sb.rpc('uye_kadi_degistir', { eski: kucuk(eski), yeni: kucuk(yeni) })); },
+    async musteriBilgileri(){ return ok(await sb.from('musteri_bilgileri').select('*')) || []; },
+    async musteriBilgi(slug){ const r = ok(await sb.from('musteri_bilgileri').select('*').eq('slug', slug)); return (r && r[0]) || null; },
+    async musteriBilgiKaydet(slug, b){ ok(await sb.from('musteri_bilgileri').upsert(Object.assign({}, b, { slug, guncellendi_at: new Date().toISOString() }), { onConflict: 'slug' })); },
     async uyeSil(email, slug){ ok(await sb.from('uyeler').delete().eq('email', kucuk(email)).eq('slug', slug)); },
     /* Müşteri için hesap açar (yöneticinin oturumunu bozmadan, ayrı bir istemciyle). */
     async hesapOlustur(email, sifre){
