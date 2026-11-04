@@ -4,6 +4,8 @@ Allow: /index.html
 Allow: /marka/
 Allow: /gizlilik/
 Allow: /blog/
+Allow: /llms.txt
+Allow: /sitemap.xml
 Disallow: /
 
 Sitemap: https://enpovi.com/sitemap.xml
