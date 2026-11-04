@@ -3,6 +3,7 @@ Allow: /$
 Allow: /index.html
 Allow: /marka/
 Allow: /gizlilik/
+Allow: /blog/
 Disallow: /
 
 Sitemap: https://enpovi.com/sitemap.xml
