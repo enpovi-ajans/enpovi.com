@@ -4,6 +4,7 @@ Allow: /index.html
 Allow: /marka/
 Allow: /gizlilik/
 Allow: /blog/
+Allow: /hizmetler/
 Allow: /llms.txt
 Allow: /sitemap.xml
 Disallow: /
