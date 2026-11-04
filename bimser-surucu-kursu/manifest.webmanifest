@@ -1,0 +1,20 @@
+{
+ "name": "Bimser Sürücü Kursu Yayın Paneli",
+ "short_name": "Bimser Panel",
+ "lang": "tr",
+ "dir": "ltr",
+ "start_url": "./",
+ "scope": "./",
+ "id": "./",
+ "display": "standalone",
+ "background_color": "#EEF1EA",
+ "theme_color": "#0A2B22",
+ "icons": [
+  {
+   "src": "avatar.jpg",
+   "type": "image/jpeg",
+   "purpose": "any",
+   "sizes": "800x800"
+  }
+ ]
+}

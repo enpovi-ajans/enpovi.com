@@ -38,9 +38,30 @@
   function ok(r){ if (r && r.error) throw r.error; return r ? r.data : r; }
 
   let _oturum; // önbellek (Promise)
-  async function oturumYukle(){
-    const { data } = await sb.auth.getSession();
+  const bekle = ms => new Promise(r => setTimeout(r, ms));
+  /* Bu cihazda kayıtlı bir oturum var mı (süresi dolmuş olsa bile)? */
+  function kayitliOturum(){ try { return !!localStorage.getItem('enpovi-oturum'); } catch (_) { return false; } }
+  /* Oturumu getirir. Telefon uykudan uyanınca ağ birkaç saniye gecikebilir; o sırada erişim anahtarı
+     yenilenemezse supabase oturumu "yok" gibi döndürür. Kayıtlı oturum varken bunu çıkış saymıyoruz:
+     birkaç kez deniyor, hâlâ olmuyorsa "bağlanılamadı" hatası veriyoruz (giriş ekranına atmadan). */
+  const GECERSIZ = /refresh.?token|invalid.?grant|not.?found|revoked|session.?missing/i;
+  function agHatasi(neden){ const e = new Error('Bağlantı kurulamadı. İnternetinizi kontrol edip tekrar deneyin.'); e.cause = neden; e.ag = true; return e; }
+  function sureli(p, ms){ return Promise.race([p, bekle(ms).then(() => { throw agHatasi('zaman aşımı'); })]); }
+  async function oturumAl(){
+    const { data, error } = await sureli(sb.auth.getSession(), 8000);
     const s = data && data.session;
+    if (s) return s;
+    if (!kayitliOturum()) return null;                       // gerçekten çıkış yapılmış
+    if (error && GECERSIZ.test(String(error.message || error.code || ''))) return null;
+    await bekle(800);
+    const r = await sureli(sb.auth.refreshSession(), 8000).catch(e => ({ error: e }));
+    if (r && r.data && r.data.session) return r.data.session;
+    if (r && r.error && !r.error.ag && GECERSIZ.test(String(r.error.message || r.error.code || ''))) return null;
+    if (!kayitliOturum()) return null;
+    throw agHatasi(r && r.error);
+  }
+  async function oturumYukle(){
+    const s = await oturumAl();
     if (!s) return null;
     const email = kucuk(s.user && s.user.email);
     const [y, u] = await Promise.all([
@@ -84,6 +105,8 @@
     async sifreDegistir(yeni){ ok(await sb.auth.updateUser({ password: yeni })); },
     async sifreSifirla(email){ ok(await sb.auth.resetPasswordForEmail(kucuk(email), { redirectTo: location.origin + BASE + 'giris/' })); },
     onAuth(fn){ if (sb) sb.auth.onAuthStateChange(fn); },
+    /* SIGNED_OUT olayı bazen ağ kesintisinde de gelir; gerçekten çıkış yapılmış mı diye bakar. */
+    async gercektenCikti(){ if (!hazir) return false; await bekle(800); try { return !(await Ajans.oturum(true)); } catch (_) { return false; } },
 
     /* "Paylaştım" kayıtları: Map(icerik_id → {at, by}) */
     async paylasimlar(slug){

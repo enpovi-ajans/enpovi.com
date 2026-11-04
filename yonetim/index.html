@@ -244,7 +244,7 @@ h2.sb{font-family:var(--f-d);font-size:26px;letter-spacing:-.025em;margin:26px 2
 
 <script src="../ortak/config.js"></script>
 <script src="../ortak/supabase.js"></script>
-<script src="../ortak/platform.js?v=3"></script>
+<script src="../ortak/platform.js?v=4"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s);
@@ -560,7 +560,7 @@ async function basla(){
   let t='ozet';try{t=sessionStorage.getItem('ysekme')||'ozet'}catch(e){}
   sekme(['ozet','takvim','hesap'].includes(t)?t:'ozet');
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')yenile()});
-  A.onAuth(ev=>{if(ev==='SIGNED_OUT'&&!cikiyor)location.replace(A.adres('giris/'))});
+  A.onAuth(async ev=>{if(ev==='SIGNED_OUT'&&!cikiyor&&await A.gercektenCikti())location.replace(A.adres('giris/'))});
 }
 $('#accBtn').onclick=()=>{$('#hesapSheet').hidden=false};
 $('#hsX').onclick=()=>{$('#hesapSheet').hidden=true};

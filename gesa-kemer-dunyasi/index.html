@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Gesa Panel">
 <link rel="apple-touch-icon" href="avatar.jpg">
+<link rel="manifest" href="manifest.webmanifest">
 <title>Gesa Yayın Paneli</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Instrument+Serif:ital@1&family=Instrument+Sans:wght@400;500;600;700&display=swap">
@@ -268,7 +269,7 @@ body.goster .gbar button{background:var(--forest);border-color:var(--forest);col
 
 <script src="../ortak/config.js" onerror="void 0"></script>
 <script src="../ortak/supabase.js" onerror="void 0"></script>
-<script src="../ortak/platform.js" onerror="void 0"></script>
+<script src="../ortak/platform.js?v=4" onerror="void 0"></script>
 <script src="data.js"></script>
 <script>
 (function(){
@@ -499,7 +500,7 @@ async function boot(){
   try{gerekli=await AJ.girisGerekli(SLUG)}catch(e){gerekli=false} // bağlantı yoksa panel eskisi gibi açılır
   if(!gerekli){$('#bootMsg').hidden=true;document.querySelector('main').hidden=false;render();return}
   let o;
-  try{o=await AJ.oturum(true)}catch(e){kapi('Bağlanılamadı',AJ.hata(e),'<button class="kbtn pri" onclick="location.reload()">Tekrar dene</button>');return}
+  try{o=await AJ.oturum(true)}catch(e){kapi('Bağlanılamadı',AJ.hata(e),'<button class="kbtn pri" onclick="location.reload()">Tekrar dene</button>');addEventListener('online',()=>location.reload(),{once:true});return}
   if(!o){girise();return}
   ME=o;
   if(!o.admin&&!o.slugs.includes(SLUG)){
@@ -514,7 +515,7 @@ async function boot(){
   $('#bootMsg').hidden=true;document.querySelector('main').hidden=false;
   render();
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')yenile()});
-  AJ.onAuth(ev=>{if(ev==='SIGNED_OUT'&&!cikiyor)girise()});
+  AJ.onAuth(async ev=>{if(ev==='SIGNED_OUT'&&!cikiyor&&await AJ.gercektenCikti())girise()});
 }
 boot();
 

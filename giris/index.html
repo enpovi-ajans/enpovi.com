@@ -109,7 +109,7 @@ form h1+p{color:var(--mute);margin:8px 0 0;font-size:14.5px}
 
 <script src="../ortak/config.js"></script>
 <script src="../ortak/supabase.js"></script>
-<script src="../ortak/platform.js?v=3"></script>
+<script src="../ortak/platform.js?v=4"></script>
 <script>
 (function(){
 const $=s=>document.querySelector(s);
@@ -153,7 +153,11 @@ async function basla(){
       const o=await A.oturum(true);if(o){goster('#yeniForm');return}
     }
     await yonlendir(await A.oturum(true));
-  }catch(e){goster('#girisForm');mesaj('#girisMesaj',A.hata(e),'mesaj kotu')}
+  }catch(e){
+    // Bağlantı sorunu: kayıtlı oturum varsa giriş formu yerine bekleme ekranı gösterip ağ gelince tekrar dene.
+    if(e&&e.ag){$('#yukleniyor').innerHTML='Bağlantı bekleniyor… <button type="button" class="btn ana" id="tekrarBtn" style="margin-top:14px">Tekrar dene</button>';goster('#yukleniyor');
+      $('#tekrarBtn').onclick=()=>{$('#yukleniyor').textContent='Yükleniyor…';basla()};addEventListener('online',()=>basla(),{once:true});return}
+    goster('#girisForm');mesaj('#girisMesaj',A.hata(e),'mesaj kotu')}
 }
 
 $('#girisForm').onsubmit=async ev=>{
