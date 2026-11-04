@@ -1,0 +1,34 @@
+# Sitemap değişince adresleri IndexNow ile Bing/Yandex'e bildirir.
+name: IndexNow
+on:
+  push:
+    branches: [main]
+    paths: [sitemap.xml]
+  workflow_dispatch:
+jobs:
+  bildir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pages yayınını bekle
+        run: |
+          KEY=$(ls | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
+          echo "KEY=$KEY" >> $GITHUB_ENV
+          for i in $(seq 1 30); do
+            [ "$(curl -s https://enpovi.com/$KEY.txt)" = "$KEY" ] && exit 0
+            sleep 20
+          done
+          echo "Anahtar dosyası yayında değil"; exit 1
+      - name: Adresleri gönder
+        run: |
+          python3 - <<'PY'
+          import json, os, re, urllib.request
+          urls = re.findall(r"<loc>([^<]+)</loc>", open("sitemap.xml", encoding="utf-8").read())
+          key = os.environ["KEY"]
+          body = json.dumps({"host": "enpovi.com", "key": key,
+                             "keyLocation": f"https://enpovi.com/{key}.txt", "urlList": urls}).encode()
+          req = urllib.request.Request("https://api.indexnow.org/indexnow", data=body,
+                                       headers={"Content-Type": "application/json; charset=utf-8"})
+          with urllib.request.urlopen(req) as r:
+              print(r.status, len(urls), "adres gönderildi")
+          PY
