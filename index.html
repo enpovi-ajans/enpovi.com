@@ -877,6 +877,7 @@ footer a:hover{color:var(--ink)}
           <button type="button" data-v="Kampanya duyuruları">Kampanya duyuruları</button>
           <button type="button" data-v="Profil düzenleme">Profil düzenleme</button>
           <button type="button" data-k="web" data-v="Web sitesi">Web sitesi</button>
+          <button type="button" data-v="Reklam yönetimi">Reklam yönetimi</button>
         </div>
       </section>
       <section class="sh-adim" data-adim="3">
@@ -921,7 +922,9 @@ document.querySelectorAll("[data-wa]").forEach(function(a){
       ad = document.getElementById("shAd"), yer = document.getElementById("shYer"), ig = document.getElementById("shIg"), adim = 1, sec = {sektor:"", durum:"", ihtiyac:[]}, son = null;
   var dog = document.getElementById("shDogrudan"); dog.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(MESAJ);
   function mesaj(){
-    var w = sec.ihtiyac.indexOf("Web sitesi") > -1, konu = !w ? "aylık içerik paketi" : sec.ihtiyac.length > 1 ? "aylık içerik paketi ve web sitesi" : "web sitesi";
+    var w = sec.ihtiyac.indexOf("Web sitesi") > -1, r = sec.ihtiyac.indexOf("Reklam yönetimi") > -1, ic = sec.ihtiyac.length - w - r > 0 || !sec.ihtiyac.length,
+        k = (ic ? ["aylık içerik paketi"] : []).concat(w ? ["web sitesi"] : [], r ? ["reklam yönetimi"] : []),
+        konu = k.length > 1 ? k.slice(0, -1).join(", ") + " ve " + k[k.length - 1] : k[0];
     var t = ["Merhaba, Enpovi'den " + konu + " için teklif almak istiyorum."];
     if (ad.value.trim()) t.push("İşletme: " + ad.value.trim() + (yer.value.trim() ? " (" + yer.value.trim() + ")" : ""));
     else if (yer.value.trim()) t.push("Konum: " + yer.value.trim());
