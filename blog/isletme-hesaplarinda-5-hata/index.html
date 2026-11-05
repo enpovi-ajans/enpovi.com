@@ -74,6 +74,7 @@ em{font-family:var(--f-s);font-style:italic;font-weight:400}
 .filtre{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
 .filtre button{border:0;font:inherit;font-weight:700;font-size:14px;padding:10px 16px;border-radius:999px;background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line);cursor:pointer}
 .filtre button.on{background:var(--forest);color:#fff;box-shadow:none}
+@media (max-width:600px){.filtre{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px;margin-left:-2px;margin-right:-2px;-webkit-overflow-scrolling:touch}.filtre::-webkit-scrollbar{display:none}.filtre button{flex:none}}
 .izgara{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .kart{display:flex;flex-direction:column;background:var(--card);border-radius:26px;overflow:hidden;text-decoration:none;box-shadow:0 0 0 1px var(--line);transition:transform .35s var(--ease),box-shadow .35s}
 .kart:hover{transform:translateY(-5px);box-shadow:0 0 0 1px var(--line),0 30px 60px -30px rgba(10,43,34,.4)}
