@@ -1,6 +1,6 @@
 # Enpovi
 
-> Enpovi, Kocaeli merkezli bir sosyal medya ajansıdır. İşletmelerin aylık Instagram içeriğini (gönderi, kaydırmalı, Reels, günlük hikâye, açıklama ve paylaşım saatleri) üretir ve telefon, tablet ya da bilgisayardan açılan şifreli Yayın Paneli ile teslim eder.
+> Enpovi, Kocaeli merkezli ve Türkiye geneline hizmet veren bir sosyal medya ajansıdır. İşletmelerin aylık Instagram içeriğini (gönderi, kaydırmalı, Reels, günlük hikâye, açıklama ve paylaşım saatleri) üretir ve telefon, tablet ya da bilgisayardan açılan şifreli Yayın Paneli ile teslim eder.
 
 Hizmet: aylık Instagram içerik paketi (12 gönderi, 4'ü kaydırmalı; 4–6 Reels; her gün bir hikâye; hazır açıklama, hashtag ve paylaşım saati).
 Sektörler: restoran ve kafe, catering ve organizasyon, sürücü kursu, mağaza ve üretici.
