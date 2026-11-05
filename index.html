@@ -874,6 +874,7 @@ footer a:hover{color:var(--ink)}
           <button type="button" data-v="Günlük hikâyeler">Günlük hikâyeler</button>
           <button type="button" data-v="Kampanya duyuruları">Kampanya duyuruları</button>
           <button type="button" data-v="Profil düzenleme">Profil düzenleme</button>
+          <button type="button" data-k="web" data-v="Web sitesi">Web sitesi</button>
         </div>
       </section>
       <section class="sh-adim" data-adim="3">
@@ -918,7 +919,8 @@ document.querySelectorAll("[data-wa]").forEach(function(a){
       ad = document.getElementById("shAd"), yer = document.getElementById("shYer"), ig = document.getElementById("shIg"), adim = 1, sec = {sektor:"", durum:"", ihtiyac:[]}, son = null;
   var dog = document.getElementById("shDogrudan"); dog.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(MESAJ);
   function mesaj(){
-    var t = ["Merhaba, Enpovi'den aylık içerik paketi için teklif almak istiyorum."];
+    var w = sec.ihtiyac.indexOf("Web sitesi") > -1, konu = !w ? "aylık içerik paketi" : sec.ihtiyac.length > 1 ? "aylık içerik paketi ve web sitesi" : "web sitesi";
+    var t = ["Merhaba, Enpovi'den " + konu + " için teklif almak istiyorum."];
     if (ad.value.trim()) t.push("İşletme: " + ad.value.trim() + (yer.value.trim() ? " (" + yer.value.trim() + ")" : ""));
     else if (yer.value.trim()) t.push("Konum: " + yer.value.trim());
     if (sec.sektor) t.push("Sektör: " + sec.sektor);
@@ -957,7 +959,8 @@ document.querySelectorAll("[data-wa]").forEach(function(a){
   addEventListener("keydown", function(e){ if (e.key === "Escape" && o.classList.contains("acik")) kapat() });
   document.querySelectorAll("[data-wa]").forEach(function(a){ if (!o.contains(a)) a.addEventListener("click", ac) });
   function hashAc(){ var m = /^#teklif(?:-([a-z]+))?$/.exec(location.hash); if (!m) return;
-    if (m[1]){ var b = o.querySelector('[data-ad="sektor"] [data-k="' + m[1] + '"]'); if (b && sec.sektor !== b.getAttribute("data-v")) b.click() }
+    if (m[1]){ var b = o.querySelector('[data-ad="sektor"] [data-k="' + m[1] + '"]'); if (b && sec.sektor !== b.getAttribute("data-v")) b.click();
+      var h = o.querySelector('[data-ad="ihtiyac"] [data-k="' + m[1] + '"]'); if (h && sec.ihtiyac.indexOf(h.getAttribute("data-v")) < 0) h.click() }
     ac(); history.replaceState(null, "", location.pathname + location.search) }
   addEventListener("hashchange", hashAc); setTimeout(hashAc, 0);
 })();
