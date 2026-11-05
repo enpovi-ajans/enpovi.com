@@ -31,6 +31,9 @@ p{color:rgba(255,255,255,.72);font-size:18px;max-width:44ch;margin:18px 0 0;line
 .b a:hover{background:rgba(255,255,255,.13)}.b a.ana:hover{background:var(--lime2)}
 @media (max-width:560px){.b a{flex:1 1 100%}}
 </style>
+<script>/* Eski paneller kaldırıldı (Kasım 2026): eski adresler yeni platforma (app.enpovi.com) gider. */
+(function(){var p=location.pathname.split("/")[1]||"",y={"ferah-sunum":"/ferah/sunum/","izmitim-sunum":"/izmitim-surucu-kursu/"};
+if(y[p]||/^(giris|yonetim|ferah|ferah-catering|gesa-kemer-dunyasi|izmitim-surucu-kursu|bimser-surucu-kursu|enpovi)$/.test(p))location.replace("https://app.enpovi.com"+(y[p]||"/"+p+"/")+location.search+location.hash);})();</script>
 <script src="/ortak/analiz.js" defer></script>
 </head>
 <body>
@@ -39,7 +42,7 @@ p{color:rgba(255,255,255,.72);font-size:18px;max-width:44ch;margin:18px 0 0;line
   <div class="no" aria-hidden="true">404</div>
   <h1>Bu sayfa <em>paylaşılmamış.</em></h1>
   <p>Aradığınız sayfa taşınmış ya da hiç olmamış olabilir. Yayın Paneli'nizi arıyorsanız giriş yapmanız yeterli.</p>
-  <div class="b"><a class="ana" href="/">Ana sayfa</a><a href="/giris/">Müşteri girişi</a><a href="/blog/">Blog</a></div>
+  <div class="b"><a class="ana" href="/">Ana sayfa</a><a href="https://app.enpovi.com/giris/">Müşteri girişi</a><a href="/blog/">Blog</a></div>
 </main>
 </body>
 </html>
