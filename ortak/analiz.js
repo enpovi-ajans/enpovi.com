@@ -29,7 +29,8 @@
     var a = e.target.closest && e.target.closest("a[href]");
     if (!a) return;
     var h = a.getAttribute("href") || "";
-    if (h.indexOf("wa.me/") > -1) olay("whatsapp_tikla", a);
+    if (h.indexOf("wa.me/?") > -1) olay("whatsapp_paylas", a);  // yazıyı paylaşma, iletişim sayılmaz
+    else if (h.indexOf("wa.me/") > -1) olay("whatsapp_tikla", a);
     else if (h.indexOf("tel:") === 0) olay("telefon_tikla", a);
     else if (h.indexOf("instagram.com/") > -1) olay("instagram_tikla", a);
   }, true);
