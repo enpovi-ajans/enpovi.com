@@ -1,4 +1,4 @@
-/* Enpovi · Google Analytics + küçük çerez notu. Sadece tanıtım sayfaları yükler (ana sayfa, blog, hizmetler, gizlilik, 404).
+/* Enpovi · Google Analytics + küçük çerez notu. Sadece tanıtım sayfaları yükler (ana sayfa, blog, hizmetler, yasal sayfalar, 404).
    İzin verilene kadar çerez yazılmaz (Consent Mode: analytics_storage denied). Reklam/kişiselleştirme her zaman kapalı.
    Paneller, giriş ve yönetim bu dosyayı yüklemez. */
 (function () {
@@ -49,7 +49,7 @@
     document.head.appendChild(st);
     var d = document.createElement("div");
     d.className = "cz"; d.setAttribute("role", "region"); d.setAttribute("aria-label", "Çerez tercihi");
-    d.innerHTML = '<span>Siteyi geliştirmek için ziyaret istatistiği tutuyoruz. <a href="/gizlilik/">Ayrıntı</a></span><button class="hy" type="button">Hayır</button><button class="ev" type="button">Tamam</button>';
+    d.innerHTML = '<span>Siteyi geliştirmek için ziyaret istatistiği tutuyoruz. <a href="/cerez/">Ayrıntı</a></span><button class="hy" type="button">Hayır</button><button class="ev" type="button">Tamam</button>';
     document.body.appendChild(d);
     var y = document.querySelector(".yapiskan");  // ana sayfadaki alt yapışkan butonların üstünde dur
     if (y && getComputedStyle(y).display !== "none") d.style.bottom = "calc(" + (y.offsetHeight + 24) + "px + env(safe-area-inset-bottom))";
