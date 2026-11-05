@@ -20,6 +20,7 @@ Sektörler: restoran ve kafe, catering ve organizasyon, sürücü kursu, mağaza
 - [Catering & organizasyon](https://enpovi.com/hizmetler/catering-instagram-yonetimi/): Catering ve organizasyon firmaları için aylık Instagram içeriği: etkinlik kareleri, menü seçenekleri, salon tanıtımı ve kurumsal teklif çağrıları. Yayın Paneli ile teslim.
 - [Sürücü kursu](https://enpovi.com/hizmetler/surucu-kursu-instagram/): Sürücü kursları için aylık Instagram içeriği: kayıt dönemi duyuruları, ehliyet sürecini anlatan kaydırmalılar, sınav öncesi hikâyeler ve hazır açıklamalar. Yayın Paneli ile teslim.
 - [Mağaza & üretici](https://enpovi.com/hizmetler/magaza-instagram-yonetimi/): Mağazalar ve yerel üreticiler için aylık Instagram içeriği: ürün tanıtımları, yeni gelenler, kampanya duyuruları ve satış odaklı hikâyeler. Yayın Paneli ile teslim.
+- [Web tasarım](https://enpovi.com/hizmetler/web-tasarim/): Enpovi, Kocaeli'deki işletmelere telefonda hızlı açılan, Google'a uygun ve kendiniz düzenleyebileceğiniz web siteleri kuruyor. Ürün ve fiyatları siz değiştirirsiniz, sipariş ve sorular WhatsApp'tan gelir.
 
 ## Blog yazıları
 
