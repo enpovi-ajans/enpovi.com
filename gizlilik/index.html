@@ -51,6 +51,7 @@ button.bt{font:700 15px/1 inherit;font-family:inherit;border:0;border-radius:999
     <li><b>"Paylaştım" kayıtları:</b> Hangi içeriği paylaşıldı olarak işaretlediğiniz, işaretleyen hesap ve işaretleme zamanı.</li>
     <li><b>Arşiv'e yüklediğiniz dosyalar:</b> İçerik için kendi isteğinizle Arşiv'e yüklediğiniz fotoğraf ve videolar. Uygulama telefonunuzdaki fotoğraflara kendiliğinden erişmez; yalnızca sizin seçtiğiniz dosyalar yüklenir.</li>
     <li><b>İşletme iletişim bilgileri:</b> Ajans olarak hizmet verebilmek için sizinle konuştuğumuz yetkili adı, telefon ve benzeri iletişim bilgileri. Bunları yalnızca Enpovi yöneticisi görür.</li>
+    <li><b>İçerik asistanına yazdıklarınız:</b> Asistan sekmesine yazdığınız konu ya da düzeltilecek metin. Öneri hazırlanırken bu metin, ajansın girdiği işletme bilgileriyle (ürün/hizmet, iletişim, kampanya) birlikte Anthropic'in Claude yapay zekâ hizmetine gönderilir. Asistana kişisel veri (ad, telefon, sağlık bilgisi vb.) yazmayın; yazdıklarınızı ayrıca saklamıyoruz, yalnızca günlük kullanım sayısını tutuyoruz.</li>
     <li><b>Güvenlik ve hata kayıtları:</b> Hangi hesabın hangi yönetim işlemini yaptığı (ör. içerik ekleme, hesap açma) ve panelde oluşan hata mesajları (sayfa, hata metni, tarayıcı türü). IP adresinizi bu kayıtlara yazmıyoruz.</li>
   </ul>
   <p>Konum, rehber, mikrofon, kamera, reklam kimliği gibi bilgileri toplamıyoruz. Yayın Paneli ve mobil uygulamada reklam, reklam takibi ya da üçüncü taraf analiz aracı yoktur.</p>
@@ -67,6 +68,7 @@ button.bt{font:700 15px/1 inherit;font-family:inherit;border:0;border-radius:999
 
   <h2>Nerede saklanıyor</h2>
   <p>Hesap ve "Paylaştım" kayıtları Supabase altyapısında, Avrupa Birliği'ndeki (İrlanda) sunucularda saklanır. İçerik dosyaları ve Arşiv, herkese kapalı Cloudflare R2 depolama alanında tutulur ve yalnızca giriş yapmış hesaba gösterilir. Bağlantılar şifrelidir (HTTPS). Her müşteri yalnızca kendi kayıtlarına ve dosyalarına erişebilir.</p>
+  <p>İçerik asistanı önerileri Anthropic, PBC'nin (ABD) Claude API hizmetiyle hazırlanır. Anthropic, API'ye gönderilen verileri kendi modellerini eğitmek için kullanmaz.</p>
   <p>Web sitesinin yazı tipleri sitemizle birlikte barındırılır; yazı tipi için başka bir hizmete bağlantı kurulmaz.</p>
   <p>Tanıtım sayfalarımızda (ana sayfa, blog, hizmet sayfaları) ziyaret sayısını ölçmek için Google Analytics kullanıyoruz. Analiz çerezleri yalnızca sayfanın altındaki küçük notta <strong>Tamam</strong> derseniz kullanılır; <strong>Hayır</strong> derseniz çerez yazılmaz. Reklam ve kişiselleştirme özellikleri her durumda kapalıdır. Tercihinizi <a href="/cerez/">çerez politikası</a> sayfasından istediğiniz zaman değiştirebilirsiniz. Müşteri girişi, Yayın Paneli ve mobil uygulamada Google Analytics yoktur.</p>
 
