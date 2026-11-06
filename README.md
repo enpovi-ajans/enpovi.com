@@ -9,9 +9,9 @@ ya da paneli konmaz; repo herkese açıktır. Eski panel adresleri `404.html` ü
 ## Hangi dosya nereden gelir
 | Dosya / klasör | Kaynak | Nasıl değiştirilir |
 |---|---|---|
-| `blog/`, `hizmetler/`, `isler/`, `sitemap.xml`, `blog/feed.xml` | ajans reposu `blog/enpovi/` (Markdown) | `python3 araclar/blog/blog.py blog/enpovi ../enpovi.com` (ajans reposundan). **Elle düzenleme**, bir sonraki üretimde silinir |
+| `blog/`, `hizmetler/`, `isler/`, `sitemap.xml`, `blog/feed.xml`, `llms.txt` | ajans reposu `blog/enpovi/` (Markdown) | `python3 araclar/blog/blog.py blog/enpovi ../enpovi.com` (ajans reposundan). **Elle düzenleme**, bir sonraki üretimde silinir |
 | `index.html` (ana sayfa) | bu repo | Elle; yorumlar bölümü (`<!-- yorumlar -->`) blog.py tarafından yalnızca izinli sözlerle doldurulur |
-| `gizlilik/`, `404.html`, `llms.txt`, `robots.txt` | bu repo | Elle |
+| `gizlilik/`, `404.html`, `robots.txt` | bu repo | Elle |
 | `ortak/analiz.js` | bu repo | Google Analytics + çerez notu (izin verilene kadar çerez yok) |
 | `ortak/font/` | bu repo | Kendi sunucumuzdaki web fontları (dış CDN yok) |
 | `marka/` | bu repo (logoların asılları ajans reposu `marka/logo/`) | Logo, favicon, paylaşım görselleri, ana sayfa vitrini (`marka/is/`); `marka/logo/` dış kullanım (e-posta imzası vb.) için de yayında, silme |
