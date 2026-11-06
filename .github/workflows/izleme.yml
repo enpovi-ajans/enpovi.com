@@ -1,7 +1,7 @@
 # Dış gözcü: Enpovi kesinti izlemesi (app.enpovi.com Worker'ı) 5 dakikada bir siteleri kontrol edip e-posta atar.
 # Worker'ın kendisi ya da Cloudflare durursa o e-posta gidemez; bu iş onu dışarıdan yakalar (GitHub Actions, herkese açık repo: ücretsiz).
 # ~15 dakikada bir: app.enpovi.com/api/izleme açılıyor mu, son ölçüm 20 dakikadan yeni mi, enpovi.com açılıyor mu?
-# Sorun 3 denemede (1'er dk arayla) sürerse bir issue açılır ve Yasin'e atanır (GitHub e-posta + mobil bildirim);
+# Sorun 3 denemede (1'er dk arayla) sürerse bir issue açılır, Enpovi hesabına (enpoviajans@gmail.com) ve Yasin'e atanır (GitHub e-postası + mobil bildirim);
 # düzelince issue kendiliğinden kapanır. Ayrıntı: platform reposu worker/izleme.ts.
 name: Kesinti izleme
 on:
@@ -50,7 +50,7 @@ jobs:
           if [ -n "$(echo "$SORUN" | tr -d '[:space:]')" ]; then
             if [ -z "$ACIK" ]; then
               printf "Dış gözcü sorun buldu (%s UTC):\n\n%s\n\nDüzelince bu kayıt kendiliğinden kapanır." "$(date -u '+%d.%m.%Y %H:%M')" "$SORUN" > govde.md
-              gh issue create --title "$BASLIK" --body-file govde.md --assignee kemerixdijital || gh issue create --title "$BASLIK" --body-file govde.md
+              gh issue create --title "$BASLIK" --body-file govde.md --assignee Enpovi,kemerixdijital || gh issue create --title "$BASLIK" --body-file govde.md --assignee Enpovi || gh issue create --title "$BASLIK" --body-file govde.md
             fi
             exit 1
           elif [ -n "$ACIK" ]; then
