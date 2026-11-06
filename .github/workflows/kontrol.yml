@@ -1,0 +1,16 @@
+# Her PR'da ve main'e her gönderimde site kontrolü (birkaç saniye): kırık iç bağlantı/görsel, sitemap'teki her adresin
+# sayfası, başlık, JSON-LD, repoya müşteri paneli/medyası konmaması. Betik: .github/kontrol/kontrol.py
+name: Kontrol
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  kontrol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Site kontrolü
+        run: python3 .github/kontrol/kontrol.py
