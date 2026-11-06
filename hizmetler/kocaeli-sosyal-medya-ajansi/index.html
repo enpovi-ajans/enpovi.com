@@ -114,6 +114,18 @@ em{font-family:var(--f-s);font-style:italic;font-weight:400}
 .ic ol{list-style:none;margin:0;padding:0;display:grid;gap:2px;border-left:2px solid var(--line)}
 .ic a{display:block;text-decoration:none;font-size:14px;font-weight:600;color:var(--mute);padding:6px 0 6px 14px;margin-left:-2px;border-left:2px solid transparent;line-height:1.35}
 .ic a:hover,.ic a.on{color:var(--ink);border-left-color:var(--green)}
+.ic-m{display:none;margin:0 0 2em;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+.ic-m summary{list-style:none;cursor:pointer;padding:16px 20px;font-weight:700;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.ic-m summary::-webkit-details-marker{display:none}
+.ic-m summary span{font-weight:600;font-size:13px;color:var(--mute)}
+.ic-m summary:after{content:"";width:9px;height:9px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(45deg);margin:-4px 4px 0 auto;transition:transform .2s}
+.ic-m[open] summary:after{transform:rotate(-135deg);margin-top:4px}
+.metin .ic-m ol{margin:0;padding:0 20px 18px 42px;display:grid;gap:10px;font-size:15px;line-height:1.4}
+.metin .ic-m li{margin:0;padding:0}
+.metin .ic-m li::marker{color:var(--mute);font-weight:700}
+.metin .ic-m a{color:var(--ink);text-decoration:none;font-weight:600;border:0;background:none}
+.ilerleme{position:fixed;left:0;right:0;top:0;height:3px;z-index:70;pointer-events:none}
+.ilerleme i{display:block;height:100%;width:100%;background:var(--lime);transform:scaleX(0);transform-origin:0 50%}
 .pay{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .pay span{width:100%;margin:0}
 .pay a,.pay button{width:42px;height:42px;border-radius:50%;border:0;background:var(--card);box-shadow:0 0 0 1px var(--line);color:var(--ink);display:grid;place-items:center;cursor:pointer}
@@ -259,6 +271,7 @@ footer a:hover{color:var(--ink)}
   .y-g{grid-template-columns:minmax(0,700px);gap:0}
   .yan{position:static;order:2;margin-top:24px}
   .yan .ic{display:none}
+  .ic-m{display:block}
 }
 @media (max-width:760px){
   .izgara{grid-template-columns:1fr}
@@ -376,6 +389,12 @@ document.querySelectorAll(".filtre:not(.ik-f) button").forEach(function(b){ b.on
   var k = b.getAttribute("data-k");
   document.querySelectorAll(".liste .kart").forEach(function(c){ c.hidden = !!k && c.getAttribute("data-k") !== k; if (!c.hidden) c.classList.add("gor") });
 } });
+/* Okuma çubuğu */
+var cubuk = document.querySelector(".ilerleme i"), yazi = document.querySelector(".metin");
+if (cubuk && yazi){ var cb = function(){ var r = yazi.getBoundingClientRect(), t = r.height - innerHeight * .6;
+  cubuk.style.transform = "scaleX(" + Math.max(0, Math.min(1, t > 0 ? -r.top / t : 1)) + ")" };
+  addEventListener("scroll", cb, {passive:true}); addEventListener("resize", cb); cb() }
+document.querySelectorAll(".ic-m a").forEach(function(a){ a.addEventListener("click", function(){ a.closest("details").open = false }) });
 /* İçindekiler: okunan başlığı işaretle */
 var basliklar = [].slice.call(document.querySelectorAll(".metin h2[id]")), linkler = [].slice.call(document.querySelectorAll(".ic a"));
 if (basliklar.length && linkler.length){ addEventListener("scroll", function(){
