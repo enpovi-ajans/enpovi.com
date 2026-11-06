@@ -128,6 +128,7 @@ em{font-family:var(--f-s);font-style:italic;font-weight:400}
 .metin li::marker{color:var(--green);font-weight:700}
 .metin a{color:var(--green);font-weight:600;text-underline-offset:3px}
 .metin strong{font-weight:700}
+.metin code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:rgba(10,43,34,.07);padding:2px 6px;border-radius:6px;white-space:nowrap}
 .metin em{font-size:1.08em}
 .metin blockquote{margin:1.6em 0;padding:0 0 0 22px;border-left:3px solid var(--lime);font-family:var(--f-s);font-style:italic;font-size:1.35em;line-height:1.35}
 .metin blockquote p{margin:0}
@@ -138,6 +139,12 @@ em{font-family:var(--f-s);font-style:italic;font-weight:400}
 .kutu p:last-child,.kutu ul:last-child{margin-bottom:0}
 .kutu:before{content:"İpucu";display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:6px}
 .kutu.not:before{content:"Not"}
+.ara-cta{margin:2.2em 0;padding:22px 24px;border-radius:22px;background:#E9F3D6;border:1px solid rgba(10,43,34,.12);display:grid;gap:14px}
+.ara-cta b{display:block;font-family:var(--f-d);font-size:20px;letter-spacing:-.02em;line-height:1.2;color:var(--forest)}
+.ara-cta p{margin:6px 0 0;font-size:15.5px;line-height:1.5;color:#3d4f47}
+.ac-d{display:flex;gap:12px 18px;align-items:center;flex-wrap:wrap}
+.metin .ac-l{font-weight:700;font-size:15px;color:var(--forest);display:inline-flex;gap:6px;align-items:center;text-decoration:none}
+.ac-l svg{width:16px;height:16px}
 .cta{margin:2.4em 0 0;padding:28px;border-radius:26px;background:var(--forest);color:#fff;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:relative;overflow:hidden;isolation:isolate}
 .cta:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(closest-side,rgba(155,203,60,.35),transparent);z-index:-1}
 .cta b{font-family:var(--f-d);font-size:23px;letter-spacing:-.02em;line-height:1.15}
@@ -307,7 +314,7 @@ footer a:hover{color:var(--ink)}
 <li><strong>23–30 Kasım, Ustanın Hikâyesi:</strong> ustanın tanıtımı, Öğretmenler Günü ve yılsonu yemekleri için erken rezervasyon</li>
 </ol>
 <p>Haftalık tema, hem gönderilerin hem hikâyelerin aynı konuyu farklı açılardan anlatmasını sağlar. Ayın son haftasında Aralık'taki yılsonu yemeklerini duyurmak da bilinçli bir tercihti: ekip ve aile yemekleri için yer ayırtmak isteyenlere erkenden haber vermek.</p>
-<h2 id="hangi-seriler-kullanildi">Hangi seriler kullanıldı?</h2>
+<aside class="ara-cta" aria-label="Enpovi"><div><b>Bunu her ay sizin için hazırlıyoruz.</b><p>Gönderi, Reels, hikâye ve açıklamalar; ayın tamamı telefonunuzdaki Yayın Paneli&#x27;nde hazır.</p></div><div class="ac-d"><a class="btn lime" data-wa href="#"><svg><use href="#i-wa"/></svg>WhatsApp'tan yazın</a><a class="ac-l" href="/#panel">Örnek paneli görün<svg><use href="#i-ok-sag"/></svg></a></div></aside><h2 id="hangi-seriler-kullanildi">Hangi seriler kullanıldı?</h2>
 <p>Haftalık temaların içinde tekrar eden seriler var. Her serinin bir görevi oldu:</p>
 <ul>
 <li><strong>Kış sofrası:</strong> mevsimi ve mekânın sıcaklığını anlatır.</li>
