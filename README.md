@@ -23,4 +23,6 @@ python3 -m http.server 8000      # → http://localhost:8000/
 ```
 Değişiklikten sonra iPhone 13 genişliğinde yatay taşma olmadığını kontrol et. Kod kuralları: ajans reposu `KOD-STANDARTLARI.md`, sistemin bütünü `MIMARI.md`.
 
+Otomatik kontrol: `python3 .github/kontrol/kontrol.py` (kırık bağlantı, sitemap, JSON-LD, panel/medya yasağı). GitHub Actions → Kontrol her PR'da çalıştırır; kırmızıysa birleştirme.
+
 Not: git geçmişi büyüktür (~870 MB, 4 Kasım 2026 öncesi panel görselleri). Yayını etkilemez; temizlemek geçmişi yeniden yazmak demek, ancak karar verilirse yapılır.
