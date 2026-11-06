@@ -1,5 +1,7 @@
 # Her PR'da ve main'e her gönderimde site kontrolü (birkaç saniye): kırık iç bağlantı/görsel, sitemap'teki her adresin
 # sayfası, başlık, JSON-LD, repoya müşteri paneli/medyası konmaması. Betik: .github/kontrol/kontrol.py
+# Ayrıca tarayıcı denetimi (.github/kontrol/tarayici.mjs): her sayfa telefon + bilgisayarda; erişilebilirlik (axe, WCAG AA),
+# SEO (başlık/açıklama uzunluğu, tek h1, başlık sırası, canonical, og:image), JS hatası, yatay taşma.
 name: Kontrol
 on:
   pull_request:
@@ -14,3 +16,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Site kontrolü
         run: python3 .github/kontrol/kontrol.py
+
+  tarayici:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Playwright + axe-core
+        run: npm install --no-save --no-package-lock playwright@1.63.0 axe-core@4.11.0 && npx playwright install --with-deps chromium
+      - name: Tarayıcı denetimi (erişilebilirlik + SEO, telefon ve bilgisayar)
+        run: node .github/kontrol/tarayici.mjs
