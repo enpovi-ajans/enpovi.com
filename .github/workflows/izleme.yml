@@ -1,0 +1,58 @@
+# Dış gözcü: Enpovi kesinti izlemesi (app.enpovi.com Worker'ı) 5 dakikada bir siteleri kontrol edip e-posta atar.
+# Worker'ın kendisi ya da Cloudflare durursa o e-posta gidemez; bu iş onu dışarıdan yakalar (GitHub Actions, herkese açık repo: ücretsiz).
+# ~15 dakikada bir: app.enpovi.com/api/izleme açılıyor mu, son ölçüm 20 dakikadan yeni mi, enpovi.com açılıyor mu?
+# Sorun 3 denemede (1'er dk arayla) sürerse bir issue açılır ve Yasin'e atanır (GitHub e-posta + mobil bildirim);
+# düzelince issue kendiliğinden kapanır. Ayrıntı: platform reposu worker/izleme.ts.
+name: Kesinti izleme
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+permissions:
+  issues: write
+concurrency: { group: izleme, cancel-in-progress: false }
+jobs:
+  kontrol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Kontrol et
+        id: k
+        run: |
+          kontrol() {
+            S=""
+            N=$(curl -s -m 20 -H 'cache-control: no-cache' https://app.enpovi.com/api/izleme) || N=""
+            Z=$(echo "$N" | jq -r '.zaman // empty' 2>/dev/null)
+            if [ -z "$Z" ]; then S="$S- app.enpovi.com yanıt vermiyor (panel ve müşteri siteleri etkilenmiş olabilir)\n";
+            else
+              YAS=$(( $(date +%s) - $(date -d "$Z" +%s) ))
+              [ "$YAS" -gt 1200 ] && S="$S- Kesinti izlemesi $((YAS / 60)) dakikadır ölçüm yapmıyor (Worker zamanlayıcısı durmuş olabilir)\n"
+            fi
+            K=$(curl -s -o /dev/null -m 20 -w '%{http_code}' https://enpovi.com/) || K=0
+            [ "$K" -ge 200 ] && [ "$K" -lt 400 ] || S="$S- enpovi.com açılmıyor (HTTP $K)\n"
+            printf "%b" "$S"
+          }
+          for i in 1 2 3; do
+            SORUN=$(kontrol)
+            [ -z "$SORUN" ] && break
+            [ "$i" -lt 3 ] && sleep 60
+          done
+          { echo 'sorun<<SON'; echo "$SORUN"; echo 'SON'; } >> "$GITHUB_OUTPUT"
+          echo "${SORUN:-Her şey çalışıyor}"
+      - name: Issue aç / kapat
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SORUN: ${{ steps.k.outputs.sorun }}
+        run: |
+          BASLIK='⚠ Kesinti (dış gözcü)'
+          ACIK=$(gh issue list --state open --search "in:title \"$BASLIK\"" --json number --jq '.[0].number // empty')
+          if [ -n "$(echo "$SORUN" | tr -d '[:space:]')" ]; then
+            if [ -z "$ACIK" ]; then
+              printf "Dış gözcü sorun buldu (%s UTC):\n\n%s\n\nDüzelince bu kayıt kendiliğinden kapanır." "$(date -u '+%d.%m.%Y %H:%M')" "$SORUN" > govde.md
+              gh issue create --title "$BASLIK" --body-file govde.md --assignee kemerixdijital || gh issue create --title "$BASLIK" --body-file govde.md
+            fi
+            exit 1
+          elif [ -n "$ACIK" ]; then
+            gh issue close "$ACIK" --comment "✓ Düzeldi ($(date -u '+%d.%m.%Y %H:%M') UTC): app.enpovi.com ve enpovi.com yeniden çalışıyor."
+          fi
