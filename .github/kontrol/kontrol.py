@@ -113,6 +113,12 @@ if len(set(locs)) != len(locs):
 rb = open(os.path.join(KOK, "robots.txt"), encoding="utf-8").read()
 if ALAN + "/sitemap.xml" not in rb:
     hatalar.append("robots.txt: Sitemap satırı yok")
+# sitemap'teki her sayfa robots.txt'de izinli olmalı (Disallow: / + Allow listesi)
+izin = [l.split(":", 1)[1].strip() for l in rb.splitlines() if l.lower().startswith("allow:")]
+for u in locs:
+    yol = urllib.parse.urlparse(u).path
+    if not any((yol == x[:-1]) if x.endswith("$") else yol.startswith(x) for x in izin):
+        hatalar.append("robots.txt: sitemap'teki %s engelli (Allow satırı ekleyin)" % yol)
 
 # müşteri paneli / medya repoya konmaz (CLAUDE.md: paneller yalnızca app.enpovi.com)
 for d, alt, dosyalar in os.walk(KOK):
