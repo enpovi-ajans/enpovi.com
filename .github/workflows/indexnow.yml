@@ -11,8 +11,8 @@ concurrency: { group: indexnow, cancel-in-progress: false }
 jobs:
   bildir:
     runs-on: ubuntu-latest
-    # bekleme döngüsü en çok 30 × 20 sn = 10 dk; varsayılan 360 dk yerine sınır
-    timeout-minutes: 15
+    # bekleme döngüsü en çok 30 × (20 sn + 10 sn curl) = 15 dk; varsayılan 360 dk yerine sınır
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with: { persist-credentials: false }
@@ -21,7 +21,7 @@ jobs:
           KEY=$(ls | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
           echo "KEY=$KEY" >> $GITHUB_ENV
           for i in $(seq 1 30); do
-            [ "$(curl -s https://enpovi.com/$KEY.txt)" = "$KEY" ] && exit 0
+            [ "$(curl -s --max-time 10 https://enpovi.com/$KEY.txt)" = "$KEY" ] && exit 0
             sleep 20
           done
           echo "Anahtar dosyası yayında değil"; exit 1
