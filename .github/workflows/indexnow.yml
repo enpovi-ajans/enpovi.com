@@ -5,11 +5,17 @@ on:
     branches: [main]
     paths: [sitemap.xml]
   workflow_dispatch:
+permissions:
+  contents: read
+concurrency: { group: indexnow, cancel-in-progress: false }
 jobs:
   bildir:
     runs-on: ubuntu-latest
+    # bekleme döngüsü en çok 30 × 20 sn = 10 dk; varsayılan 360 dk yerine sınır
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - name: Pages yayınını bekle
         run: |
           KEY=$(ls | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
