@@ -2,6 +2,8 @@
 
 Kullanıcı Türkçe konuşur; kısa ve net yanıt ver. Bu repo herkese açıktır: müşteri verisi, panel, gizli anahtar ya da iç not konmaz.
 
+**En üst belge:** `enpovi-ajans/ajans` reposundaki `ANAYASA.md` (Enpovi Anayasası v4.0, Yasin 12 Kasım 2026; kalıcı ve bağlayıcı, başındaki uyarlamalar kutusu önce gelir). Bu repoda en çok: Bölüm 3 (tasarım sistemi, 375 px), 13 (Core Web Vitals: LCP ≤ 2,5 sn, INP ≤ 200 ms, CLS ≤ 0,1), 17 (WCAG 2.2 AA), 21 (gerçek bilgi, sahte yorum/sayı/iddia yok) ve 7.2 (herkese açık repoya müşteri verisi, gizli anahtar, iç not konmaz). Enpovi fiyatı burada yazılmaz.
+
 **Her işe başlamadan** `enpovi-ajans/ajans` reposundaki `docs/PROTOKOL.md` (kalıcı çalışma protokolü; başındaki uyarlamalar kutusu önce gelir) ve ajans `CLAUDE.md` (kurallar, "Hatasız iş kuralı") okunur. Bu reponun yapısı: `README.md`.
 
 **Tasarım ve kod kuralları:** ajans `docs/TASARIM-KURALLARI.md` (Master Instruction, Yasin 9 Kasım 2026; başındaki uyarlamalar kutusu önce gelir) her tema, panel ekranı ve kod değişikliğinde geçerli.
