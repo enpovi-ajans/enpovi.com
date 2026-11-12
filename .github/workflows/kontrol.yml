@@ -8,12 +8,20 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+# En az yetki: iş yalnızca depoyu okur (varsayılan GITHUB_TOKEN izni depo ayarına bağlı kalmasın).
+permissions:
+  contents: read
+# Aynı PR dalında yeni push eskisini durdurur; main'e gönderim kesilmez.
+concurrency:
+  group: kontrol-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   kontrol:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - name: Site kontrolü
         run: python3 .github/kontrol/kontrol.py
 
@@ -22,6 +30,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with: { persist-credentials: false }
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - name: Playwright + axe-core
