@@ -4,6 +4,8 @@ Kullanıcı Türkçe konuşur; kısa ve net yanıt ver. Bu repo herkese açıkt�
 
 **Her işe başlamadan** `enpovi-ajans/ajans` reposundaki `docs/PROTOKOL.md` (kalıcı çalışma protokolü; başındaki uyarlamalar kutusu önce gelir) ve ajans `CLAUDE.md` (kurallar, "Hatasız iş kuralı") okunur. Bu reponun yapısı: `README.md`.
 
+**Tasarım ve kod kuralları:** ajans `docs/TASARIM-KURALLARI.md` (Master Instruction, Yasin 9 Kasım 2026; başındaki uyarlamalar kutusu önce gelir) her tema, panel ekranı ve kod değişikliğinde geçerli.
+
 ### Bağımsız inceleme kuralı (Yasin, 9 Kasım 2026: "denetçi mekanizması ile çok yoğun çalışmanı istiyorum")
 Her kod değişikliği birleşmeden önce, kodu yazan oturumdan **bağımsız** bir incelemeden geçer. Bu kural alt ajan kullanımına açık izindir.
 - **Nasıl:** `code-review` becerisi (`high`, hedef PR dalı) ya da kodu görmemiş yeni bir alt ajan (Agent; `fork` değil). İncelemeciye yalnızca diff (`git diff origin/main...HEAD`), değişen dosyaların ilgili bölümü ve "Hatasız iş kuralı"nın 6 sorusu verilir; yazanın kendi sonucu ve "doğru olduğunu düşünüyorum" yönlendirmesi verilmez.
