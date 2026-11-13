@@ -500,7 +500,7 @@ footer a:hover{color:var(--ink)}
 .istek .btn[disabled]{opacity:.7;cursor:wait}
 .ist-not{margin:0;font-size:14px;font-weight:600;color:#FFB4A2;min-height:0}
 .ist-not:empty{display:none}
-.ist-ts:empty{display:none}
+.ist-ts:not(.acik){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .tuzak{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
 .ist-tamam{margin-top:28px;background:rgba(155,203,60,.12);box-shadow:inset 0 0 0 1px rgba(155,203,60,.4);border-radius:26px;padding:24px;max-width:520px;text-align:left}
 .ist-tamam:focus{outline:0}
@@ -1144,17 +1144,22 @@ var TALEP_URL = "https://app.enpovi.com/api/talep";
   function waLink(){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(waMesaj()) }
   function bitti(){ wa.href = waLink(); f.hidden = true; tamam.hidden = false; tamam.focus(); if (window.gtag) gtag("event", "generate_lead", {form: "ornek_site"}) }
   [].forEach.call(f.querySelectorAll("input"), function(i){ i.addEventListener("input", function(){ i.removeAttribute("aria-invalid"); not.textContent = "" }) });
-  /* İnsan doğrulaması (Cloudflare Turnstile): sayfa hızını etkilemesin diye forma ilk dokunuşta yüklenir; görünmezdir, gerekirse kutu açılır.
-     Belirteç tek kullanımlıktır, hatada yenilenir. Yüklenemezse sunucu talebi kabul etmez ve form WhatsApp yolunu gösterir. */
-  var tsB = "", tsW = null, tsBek = [], tsYuklendi = false;
+  /* İnsan doğrulaması (Cloudflare Turnstile, Denetim 04 C04-04): sayfa hızını etkilemesin diye forma ilk dokunuşta yüklenir; görünmezdir,
+     gerekirse kutu açılır. Belirteç tek kullanımlıktır, sunucu hatasında yenilenir. Turnstile yüklenemezse talep gönderilmez, WhatsApp yolu gösterilir. */
+  var ts = document.getElementById("istTs"), tsB = "", tsW = null, tsBek = [], tsYuklendi = false, tsHata = false, tsEtk = false;
   function tsVer(t){ tsB = t; var q = tsBek; tsBek = []; q.forEach(function(r){ r(t) }) }
-  window.tsHazir = function(){ tsW = turnstile.render("#istTs", {sitekey: "0x4AAAAAAF_cf7H3tuik8REy", action: "talep", appearance: "interaction-only", language: "tr", callback: tsVer,
-    "expired-callback": function(){ tsB = "" }, "error-callback": function(){ tsB = ""; tsVer("") }}) };
+  window.tsHazir = function(){ try { tsW = turnstile.render("#istTs", {sitekey: "0x4AAAAAAF_cf7H3tuik8REy", action: "talep", appearance: "interaction-only", size: "flexible", language: "tr",
+    callback: function(t){ tsEtk = false; ts.classList.remove("acik"); tsVer(t) },
+    "expired-callback": function(){ tsB = "" },
+    "error-callback": function(){ tsB = ""; tsHata = true; tsVer("") },
+    "before-interactive-callback": function(){ tsEtk = true; ts.classList.add("acik"); tsVer("") } }) } catch (e) { tsHata = true; tsVer("") } };
   function tsYukle(){ if (tsYuklendi) return; tsYuklendi = true; var s = document.createElement("script");
-    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=tsHazir"; s.async = true; s.onerror = function(){ tsVer("") }; document.head.appendChild(s) }
-  function tsAl(){ tsYukle(); if (tsB) return Promise.resolve(tsB);
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=tsHazir"; s.async = true; s.onerror = function(){ tsHata = true; tsVer("") }; document.head.appendChild(s) }
+  function tsAl(){ tsYukle(); if (tsB || tsHata || tsEtk) return Promise.resolve(tsB);
     return new Promise(function(r){ tsBek.push(r); setTimeout(function(){ r(tsB) }, 15000) }) }
-  function tsYenile(){ tsB = ""; if (tsW !== null && window.turnstile) turnstile.reset(tsW) }
+  function tsYenile(){ tsB = ""; tsHata = false; if (tsW !== null && window.turnstile) turnstile.reset(tsW) }
+  function waNot(m){ not.innerHTML = ""; not.appendChild(document.createTextNode(m + " "));
+    var a = document.createElement("a"); a.href = waLink(); a.target = "_blank"; a.rel = "noopener"; a.textContent = "WhatsApp'tan gönderin"; a.style.color = "#fff"; not.appendChild(a) }
   ["focusin", "pointerdown"].forEach(function(o){ f.addEventListener(o, tsYukle, {once: true, passive: true}) });
   f.addEventListener("submit", function(e){
     e.preventDefault(); var d = f.elements, eksik = null;
@@ -1162,14 +1167,15 @@ var TALEP_URL = "https://app.enpovi.com/api/talep";
     if (eksik){ not.textContent = "Lütfen işletme adı, iş dalı ve telefon ya da Instagram bilgisini yazın."; eksik.focus(); return }
     if (!d.kvkk.checked){ not.textContent = "Devam etmek için aydınlatma metnini onaylayın."; d.kvkk.focus(); return }
     dugme.disabled = true; not.textContent = "";
-    tsAl().then(function(ts){ return fetch(TALEP_URL, {method: "POST", headers: {"content-type": "text/plain;charset=UTF-8"}, body: JSON.stringify({ad: d.ad.value, dal: d.dal.value, iletisim: d.iletisim.value, site: d.site.value, kvkk: true, sure: Date.now() - acildi, ts: ts})}) })
-      .then(function(r){ return r.json().catch(function(){ return {} }).then(function(j){ return {ok: r.ok, j: j} }) })
-      .then(function(x){ dugme.disabled = false;
-        if (x.ok) return bitti();
-        tsYenile();
-        not.innerHTML = ""; not.appendChild(document.createTextNode((x.j && x.j.hata ? x.j.hata : "Gönderilemedi.") + " "));
-        var a = document.createElement("a"); a.href = waLink(); a.target = "_blank"; a.rel = "noopener"; a.textContent = "WhatsApp'tan gönderin"; a.style.color = "#fff"; not.appendChild(a) })
-      .catch(function(){ dugme.disabled = false; window.open(waLink(), "_blank", "noopener"); bitti() });
+    tsAl().then(function(t){
+      if (!t){ dugme.disabled = false;
+        if (tsEtk) { not.textContent = "Lütfen yukarıdaki doğrulama kutusunu tamamlayıp yeniden gönderin."; return null }
+        waNot("Güvenlik doğrulaması yüklenemedi."); return null }
+      return fetch(TALEP_URL, {method: "POST", headers: {"content-type": "text/plain;charset=UTF-8"}, body: JSON.stringify({ad: d.ad.value, dal: d.dal.value, iletisim: d.iletisim.value, site: d.site.value, kvkk: true, sure: Date.now() - acildi, ts: t})})
+        .then(function(r){ return r.json().catch(function(){ return {} }).then(function(j){ dugme.disabled = false;
+          if (r.ok) return bitti();
+          tsYenile(); waNot(j && j.hata ? j.hata : "Gönderilemedi.") }) },
+        function(){ dugme.disabled = false; tsYenile(); window.open(waLink(), "_blank", "noopener"); waNot("Bağlantı kurulamadı, talebiniz gönderilmedi.") }) });
   });
   document.querySelectorAll("[data-istek]").forEach(function(a){ a.addEventListener("click", function(e){
     e.preventDefault(); menu(false); var h = f.hidden ? tamam : f;
