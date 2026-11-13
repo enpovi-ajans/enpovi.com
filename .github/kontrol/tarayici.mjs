@@ -73,6 +73,39 @@ for (const [gen, yuk] of [[390, 844], [1280, 900]]) {
   }
   await ctx.close();
 }
+/* Örnek site formu + insan doğrulaması (Denetim 04 C04-04): Turnstile forma ilk dokunuşta yüklenir, belirteç talebe eklenir;
+   Turnstile yüklenemezse belirteçsiz giden talebin hatası WhatsApp yoluyla gösterilir. Dış istekler taklit edilir. */
+for (const durum of ['tamam', 'engelli']) {
+  const ctx = await b.newContext({ viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
+  const giden = []; let tsIstendi = 0;
+  await ctx.route('**/*', r => {
+    const u = r.request().url();
+    if (u.startsWith(ADRES)) return r.continue();
+    if (u.startsWith('https://challenges.cloudflare.com/turnstile/')) { tsIstendi++; return durum === 'engelli' ? r.abort() : r.fulfill({ contentType: 'text/javascript',
+      body: "window.turnstile={render:function(s,o){window.__ts=o;setTimeout(function(){o.callback('taklit-belirtec')},200);return 'w1'},reset:function(){}};setTimeout(function(){window.tsHazir()},0)" }); }
+    if (u === 'https://app.enpovi.com/api/talep') { const g = JSON.parse(r.request().postData() || '{}'); giden.push(g);
+      return r.fulfill(g.ts ? { status: 200, contentType: 'application/json', body: '{"ok":true}', headers: { 'access-control-allow-origin': ADRES } }
+        : { status: 400, contentType: 'application/json', body: '{"hata":"Güvenlik doğrulaması tamamlanmadı. WhatsApp\'tan yazın."}', headers: { 'access-control-allow-origin': ADRES } }); }
+    return r.abort();
+  });
+  const p = await ctx.newPage(); const js = []; p.on('pageerror', e => js.push(e.message));
+  await p.goto(ADRES + '/', { waitUntil: 'load' });
+  const ad = `örnek site formu (${durum})`;
+  if (tsIstendi) hatalar.push(`${ad}: Turnstile sayfa açılışında yüklendi (forma dokunmadan yüklenmemeli)`);
+  await p.fill('#istek [name=ad]', 'Deneme Kuaför'); await p.fill('#istek [name=dal]', 'Kuaför'); await p.fill('#istek [name=iletisim]', '05321112233');
+  await p.check('#istek [name=kvkk]'); await p.waitForTimeout(2600);
+  await p.click('#istek button[type=submit]');
+  if (durum === 'tamam') {
+    await p.waitForSelector('#istTamam:not([hidden])', { timeout: 20000 }).catch(() => hatalar.push(`${ad}: başarı ekranı açılmadı`));
+    if (giden.length !== 1 || giden[0].ts !== 'taklit-belirtec') hatalar.push(`${ad}: belirteç talebe eklenmedi ${JSON.stringify(giden)}`);
+    const o = await p.evaluate(() => window.__ts); if (!o || o.action !== 'talep' || o.appearance !== 'interaction-only' || !/^0x4/.test(o.sitekey)) hatalar.push(`${ad}: widget ayarı ${JSON.stringify(o)}`);
+  } else {
+    await p.waitForSelector('#istNot a[href*="wa.me"]', { timeout: 20000 }).catch(() => hatalar.push(`${ad}: Turnstile yüklenemeyince WhatsApp yolu gösterilmedi`));
+    if (giden.length !== 1 || giden[0].ts) hatalar.push(`${ad}: ${JSON.stringify(giden)}`);
+  }
+  for (const x of js) hatalar.push(`${ad}: JS hatası ${x}`);
+  await ctx.close();
+}
 await b.close(); sunucu.close();
 if (hatalar.length) { console.error(hatalar.join('\n')); console.error(`\ntarayıcı denetimi: ${hatalar.length} sorun (${sayi} sayfa görünümü)`); process.exit(1); }
 console.log(`tarayıcı denetimi: ${sayi} sayfa görünümü (telefon + bilgisayar), erişilebilirlik/SEO sorunu yok`);
