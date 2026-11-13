@@ -1149,7 +1149,7 @@ var TALEP_URL = "https://app.enpovi.com/api/talep";
   var ts = document.getElementById("istTs"), tsB = "", tsW = null, tsBek = [], tsYuklendi = false, tsHata = false, tsEtk = false;
   function tsVer(t){ tsB = t; var q = tsBek; tsBek = []; q.forEach(function(r){ r(t) }) }
   window.tsHazir = function(){ try { tsW = turnstile.render("#istTs", {sitekey: "0x4AAAAAAF_cf7H3tuik8REy", action: "talep", appearance: "interaction-only", size: "flexible", language: "tr",
-    callback: function(t){ tsEtk = false; ts.classList.remove("acik"); tsVer(t) },
+    callback: function(t){ tsEtk = false; tsHata = false; ts.classList.remove("acik"); tsVer(t) },
     "expired-callback": function(){ tsB = "" },
     "error-callback": function(){ tsB = ""; tsHata = true; tsVer("") },
     "before-interactive-callback": function(){ tsEtk = true; ts.classList.add("acik"); tsVer("") } }) } catch (e) { tsHata = true; tsVer("") } };
@@ -1170,7 +1170,7 @@ var TALEP_URL = "https://app.enpovi.com/api/talep";
     tsAl().then(function(t){
       if (!t){ dugme.disabled = false;
         if (tsEtk) { not.textContent = "Lütfen yukarıdaki doğrulama kutusunu tamamlayıp yeniden gönderin."; return null }
-        waNot("Güvenlik doğrulaması yüklenemedi."); return null }
+        waNot(window.turnstile ? "Güvenlik doğrulaması yapılamadı, birkaç saniye sonra yeniden deneyin." : "Güvenlik doğrulaması yüklenemedi."); return null }
       return fetch(TALEP_URL, {method: "POST", headers: {"content-type": "text/plain;charset=UTF-8"}, body: JSON.stringify({ad: d.ad.value, dal: d.dal.value, iletisim: d.iletisim.value, site: d.site.value, kvkk: true, sure: Date.now() - acildi, ts: t})})
         .then(function(r){ return r.json().catch(function(){ return {} }).then(function(j){ dugme.disabled = false;
           if (r.ok) return bitti();
