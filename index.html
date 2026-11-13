@@ -500,6 +500,7 @@ footer a:hover{color:var(--ink)}
 .istek .btn[disabled]{opacity:.7;cursor:wait}
 .ist-not{margin:0;font-size:14px;font-weight:600;color:#FFB4A2;min-height:0}
 .ist-not:empty{display:none}
+.ist-ts:not(.acik){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .tuzak{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
 .ist-tamam{margin-top:28px;background:rgba(155,203,60,.12);box-shadow:inset 0 0 0 1px rgba(155,203,60,.4);border-radius:26px;padding:24px;max-width:520px;text-align:left}
 .ist-tamam:focus{outline:0}
@@ -671,6 +672,7 @@ footer a:hover{color:var(--ink)}
       <label class="ia"><span>Telefon ya da Instagram</span><input name="iletisim" maxlength="80" autocomplete="tel" placeholder="05xx xxx xx xx ya da @hesabiniz" required></label>
       <label class="tuzak" aria-hidden="true">Bu alanı boş bırakın<input name="site" tabindex="-1" autocomplete="off"></label>
       <label class="onay"><input type="checkbox" name="kvkk" required><span><a href="kvkk/" target="_blank">Aydınlatma metnini</a> okudum; örnek sitem için benimle iletişime geçilmesini istiyorum.</span></label>
+      <div class="ist-ts" id="istTs"></div>
       <button class="btn lime" type="submit">Örnek sitemi hazırlayın<svg class="ok-sag"><use href="#i-ok-sag"/></svg></button>
       <p class="ist-not" id="istNot" role="status" aria-live="polite"></p>
       <datalist id="dallar"><option value="Kuaför"></option><option value="Berber"></option><option value="Güzellik merkezi"></option><option value="Restoran"></option><option value="Kafe"></option><option value="Pastane"></option><option value="Fırın"></option><option value="Diş kliniği"></option><option value="Veteriner kliniği"></option><option value="Eczane"></option><option value="Halı yıkama"></option><option value="Oto yıkama"></option><option value="Oto servis"></option><option value="Oto galeri"></option><option value="Emlak ofisi"></option><option value="Mimarlık ofisi"></option><option value="İç mimar"></option><option value="İnşaat firması"></option><option value="Tadilat"></option><option value="Çiçekçi"></option><option value="Butik / giyim mağazası"></option><option value="Mobilya mağazası"></option><option value="Spor salonu"></option><option value="Pilates stüdyosu"></option><option value="Sürücü kursu"></option><option value="Dershane / kurs"></option><option value="Anaokulu"></option><option value="Otel / pansiyon"></option><option value="Bungalov"></option><option value="Düğün salonu"></option><option value="Catering"></option><option value="Fotoğrafçı"></option><option value="Avukat"></option><option value="Mali müşavir"></option><option value="Nakliyat"></option><option value="Temizlik şirketi"></option><option value="Elektrikçi"></option><option value="Tesisatçı"></option><option value="Klima servisi"></option><option value="Kasap"></option><option value="Market"></option></datalist>
@@ -1142,19 +1144,38 @@ var TALEP_URL = "https://app.enpovi.com/api/talep";
   function waLink(){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(waMesaj()) }
   function bitti(){ wa.href = waLink(); f.hidden = true; tamam.hidden = false; tamam.focus(); if (window.gtag) gtag("event", "generate_lead", {form: "ornek_site"}) }
   [].forEach.call(f.querySelectorAll("input"), function(i){ i.addEventListener("input", function(){ i.removeAttribute("aria-invalid"); not.textContent = "" }) });
+  /* İnsan doğrulaması (Cloudflare Turnstile, Denetim 04 C04-04): sayfa hızını etkilemesin diye forma ilk dokunuşta yüklenir; görünmezdir,
+     gerekirse kutu açılır. Belirteç tek kullanımlıktır, sunucu hatasında yenilenir. Turnstile yüklenemezse talep gönderilmez, WhatsApp yolu gösterilir. */
+  var ts = document.getElementById("istTs"), tsB = "", tsW = null, tsBek = [], tsYuklendi = false, tsHata = false, tsEtk = false;
+  function tsVer(t){ tsB = t; var q = tsBek; tsBek = []; q.forEach(function(r){ r(t) }) }
+  window.tsHazir = function(){ try { tsW = turnstile.render("#istTs", {sitekey: "0x4AAAAAAF_cf7H3tuik8REy", action: "talep", appearance: "interaction-only", size: "flexible", language: "tr",
+    callback: function(t){ tsEtk = false; tsHata = false; ts.classList.remove("acik"); tsVer(t) },
+    "expired-callback": function(){ tsB = "" },
+    "error-callback": function(){ tsB = ""; tsHata = true; tsVer("") },
+    "before-interactive-callback": function(){ tsEtk = true; ts.classList.add("acik"); tsVer("") } }) } catch (e) { tsHata = true; tsVer("") } };
+  function tsYukle(){ if (tsYuklendi) return; tsYuklendi = true; var s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=tsHazir"; s.async = true; s.onerror = function(){ tsHata = true; tsVer("") }; document.head.appendChild(s) }
+  function tsAl(){ tsYukle(); if (tsB || tsHata || tsEtk) return Promise.resolve(tsB);
+    return new Promise(function(r){ tsBek.push(r); setTimeout(function(){ r(tsB) }, 15000) }) }
+  function tsYenile(){ tsB = ""; tsHata = false; if (tsW !== null && window.turnstile) turnstile.reset(tsW) }
+  function waNot(m){ not.innerHTML = ""; not.appendChild(document.createTextNode(m + " "));
+    var a = document.createElement("a"); a.href = waLink(); a.target = "_blank"; a.rel = "noopener"; a.textContent = "WhatsApp'tan gönderin"; a.style.color = "#fff"; not.appendChild(a) }
+  ["focusin", "pointerdown"].forEach(function(o){ f.addEventListener(o, tsYukle, {once: true, passive: true}) });
   f.addEventListener("submit", function(e){
     e.preventDefault(); var d = f.elements, eksik = null;
     ["ad", "dal", "iletisim"].forEach(function(k){ if (d[k].value.trim().length < 2){ d[k].setAttribute("aria-invalid", "true"); eksik = eksik || d[k] } });
     if (eksik){ not.textContent = "Lütfen işletme adı, iş dalı ve telefon ya da Instagram bilgisini yazın."; eksik.focus(); return }
     if (!d.kvkk.checked){ not.textContent = "Devam etmek için aydınlatma metnini onaylayın."; d.kvkk.focus(); return }
     dugme.disabled = true; not.textContent = "";
-    fetch(TALEP_URL, {method: "POST", headers: {"content-type": "text/plain;charset=UTF-8"}, body: JSON.stringify({ad: d.ad.value, dal: d.dal.value, iletisim: d.iletisim.value, site: d.site.value, kvkk: true, sure: Date.now() - acildi})})
-      .then(function(r){ return r.json().catch(function(){ return {} }).then(function(j){ return {ok: r.ok, j: j} }) })
-      .then(function(x){ dugme.disabled = false;
-        if (x.ok) return bitti();
-        not.innerHTML = ""; not.appendChild(document.createTextNode((x.j && x.j.hata ? x.j.hata : "Gönderilemedi.") + " "));
-        var a = document.createElement("a"); a.href = waLink(); a.target = "_blank"; a.rel = "noopener"; a.textContent = "WhatsApp'tan gönderin"; a.style.color = "#fff"; not.appendChild(a) })
-      .catch(function(){ dugme.disabled = false; window.open(waLink(), "_blank", "noopener"); bitti() });
+    tsAl().then(function(t){
+      if (!t){ dugme.disabled = false;
+        if (tsEtk) { not.textContent = "Lütfen yukarıdaki doğrulama kutusunu tamamlayıp yeniden gönderin."; return null }
+        waNot(window.turnstile ? "Güvenlik doğrulaması yapılamadı, birkaç saniye sonra yeniden deneyin." : "Güvenlik doğrulaması yüklenemedi."); return null }
+      return fetch(TALEP_URL, {method: "POST", headers: {"content-type": "text/plain;charset=UTF-8"}, body: JSON.stringify({ad: d.ad.value, dal: d.dal.value, iletisim: d.iletisim.value, site: d.site.value, kvkk: true, sure: Date.now() - acildi, ts: t})})
+        .then(function(r){ return r.json().catch(function(){ return {} }).then(function(j){ dugme.disabled = false;
+          if (r.ok) return bitti();
+          tsYenile(); waNot(j && j.hata ? j.hata : "Gönderilemedi.") }) },
+        function(){ dugme.disabled = false; tsYenile(); window.open(waLink(), "_blank", "noopener"); waNot("Bağlantı kurulamadı, talebiniz gönderilmedi.") }) });
   });
   document.querySelectorAll("[data-istek]").forEach(function(a){ a.addEventListener("click", function(e){
     e.preventDefault(); menu(false); var h = f.hidden ? tamam : f;
