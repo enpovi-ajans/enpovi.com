@@ -130,6 +130,19 @@ for d, alt, dosyalar in os.walk(KOK):
         elif os.path.getsize(os.path.join(d, f)) > 3 * 1024 * 1024:
             hatalar.append("%s: 3 MB'tan büyük dosya (görseli küçültün)" % r)
 
+# İngilizce ana sayfa, Türkçe sayfadan ajans araclar/blog/ingilizce.py ile üretilir (elle düzenlenmez). İki sayfanın
+# örnek site formu aynı alanları ve aynı insan doğrulamasını (Turnstile) taşımalı; yoksa İngilizce form sunucuda reddedilir
+# (Kod organizasyonu denetimi ORG-F-002, 15 Kasım 2026). TR değişip EN yeniden üretilmezse burada yakalanır.
+def form_izi(yol):
+    m = open(os.path.join(KOK, yol), encoding="utf-8").read()
+    f = re.search(r'<form[^>]*id="istek".*?</form>', m, re.S)
+    return {"alanlar": sorted(re.findall(r'name="([a-z]+)"', f.group(0))) if f else None,
+            "turnstile": m.count("challenges.cloudflare.com/turnstile"), "belirtec": m.count("ts: t}"), "uc": m.count("/api/talep")}
+if os.path.exists(os.path.join(KOK, "en", "index.html")):
+    tr_iz, en_iz = form_izi("index.html"), form_izi(os.path.join("en", "index.html"))
+    if tr_iz != en_iz:
+        hatalar.append("en/index.html: örnek site formu Türkçe sayfayla aynı değil %s ≠ %s (ajans: python3 araclar/blog/blog.py blog/enpovi <bu repo>)" % (en_iz, tr_iz))
+
 for u in uyarilar:
     print("uyarı:", u)
 for h in hatalar:
