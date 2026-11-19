@@ -8,24 +8,25 @@
 <link rel="icon" type="image/svg+xml" href="/marka/favicon.svg">
 <link rel="apple-touch-icon" href="/marka/apple-touch-icon.png">
 <meta name="theme-color" content="#0A2B22">
+<link rel="preload" as="font" type="font/woff2" href="/ortak/font/inter-latin-f11d72.woff2" crossorigin>
 <link rel="stylesheet" href="/ortak/font/font.css">
 <style>
 :root{--forest:#0A2B22;--lime:#9BCB3C;--lime2:#C4E57A}
 *{box-sizing:border-box}
 html,body{height:100%;overflow-x:clip}
-body{margin:0;background:var(--forest);color:#fff;font-family:"Instrument Sans",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;overflow-x:hidden;position:relative;isolation:isolate}
+body{margin:0;background:var(--forest);color:#fff;font-family:"Inter",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;overflow-x:hidden;position:relative;isolation:isolate}
 body:before{content:"";position:fixed;right:-20%;top:-30%;width:760px;height:760px;border-radius:50%;background:radial-gradient(closest-side,rgba(155,203,60,.28),transparent);z-index:-1}
 body:after{content:"";position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 40% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 40% 40%,#000 20%,transparent 75%)}
-header{padding:calc(22px + env(safe-area-inset-top)) max(22px,env(safe-area-inset-left)) 0}
+header{padding:calc(24px + env(safe-area-inset-top)) max(24px,env(safe-area-inset-left)) 0}
 .marka{display:inline-flex;font-size:28px;color:#fff;--nokta:var(--lime);line-height:1}
 .marka .logo{display:block;height:1em;width:auto;overflow:visible}
-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px max(22px,env(safe-area-inset-left)) 60px;max-width:900px;margin:0 auto;width:100%}
-.no{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(110px,26vw,220px);line-height:.8;letter-spacing:-.07em;color:var(--lime)}
-h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:clamp(34px,6vw,58px);line-height:1;letter-spacing:-.045em;margin:28px 0 0}
-h1 em{font-family:"Instrument Serif",Georgia,serif;font-weight:400;color:var(--lime)}
-p{color:rgba(255,255,255,.72);font-size:18px;max-width:44ch;margin:18px 0 0;line-height:1.5}
-.b{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
-.b a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:15.5px;text-decoration:none;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:rgba(255,255,255,.07)}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:32px max(24px,env(safe-area-inset-left)) 64px;max-width:900px;margin:0 auto;width:100%}
+.no{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:clamp(110px,26vw,220px);line-height:.8;letter-spacing:-.07em;color:var(--lime)}
+h1{font-family:"Inter",system-ui,sans-serif;font-weight:700;font-size:clamp(34px,6vw,58px);line-height:1;letter-spacing:-.045em;margin:24px 0 0}
+h1 em{font-family:"Inter",-apple-system,system-ui,sans-serif;font-weight:400;color:var(--lime)}
+p{color:rgba(255,255,255,.72);font-size:18px;max-width:44ch;margin:16px 0 0;line-height:1.5}
+.b{display:flex;gap:8px;flex-wrap:wrap;margin-top:32px}
+.b a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 24px;border-radius:999px;font-weight:700;font-size:15.5px;text-decoration:none;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);background:rgba(255,255,255,.07)}
 .b a.ana{background:var(--lime);color:var(--forest);box-shadow:0 12px 32px -12px rgba(155,203,60,.8)}
 .b a:hover{background:rgba(255,255,255,.13)}.b a.ana:hover{background:var(--lime2)}
 @media (max-width:560px){.b a{flex:1 1 100%}}
