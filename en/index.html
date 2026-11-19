@@ -290,6 +290,8 @@ h2 em{color:var(--green)}
 .fk.iyi .fy span,.fk.iyi .fo{color:rgba(255,255,255,.72)}
 .fk .fo{margin:0 0 24px;font-size:15.5px;color:var(--mute)}
 .fiyat-not{margin:16px 0 0;font-size:14.5px;color:var(--mute)}
+.fk .fy .gizli{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cekmece{overflow-y:auto;overscroll-behavior:contain} /* 8 bağlantı: kısa telefonda alt düğmeler kaydırılarak erişilir */
 
 /* ---------- Sektörler ---------- */
 .sektor{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
@@ -765,15 +767,15 @@ footer a:hover{color:var(--ink)}
     <p>Prices include VAT, domain, SSL and hosting. You see your sample site first and try it for 7 days; if you don't like it, you don't pay.</p>
   </div>
   <div class="fark fiyat-g">
-    <div class="fk r"><h3>Starter</h3><p class="fy"><b>6,000 TL</b><span>/ year</span></p><p class="fo">A solid online presence</p><ul>
+    <div class="fk r"><h3>Starter</h3><p class="fy"><b>6,000 TL</b><span aria-hidden="true">/ year</span><span class="gizli"> per year</span></p><p class="fo">Basic online presence</p><ul>
       <li><svg><use href="#i-ok2"/></svg>Works on phones, tablets and computers</li>
       <li><svg><use href="#i-ok2"/></svg>About, services and contact</li>
       <li><svg><use href="#i-ok2"/></svg>WhatsApp button and Google Maps</li>
-      <li><svg><use href="#i-ok2"/></svg>Request form or ordering via WhatsApp</li>
+      <li><svg><use href="#i-ok2"/></svg>Request form or ordering via WhatsApp (depending on the sector)</li>
       <li><svg><use href="#i-ok2"/></svg>Basic SEO and sitemap</li>
       <li><svg><use href="#i-ok2"/></svg>My website panel, managed from your phone</li>
     </ul></div>
-    <div class="fk iyi r d1"><h3>Professional <small>Recommended</small></h3><p class="fy"><b>15,000 TL</b><span>/ year</span></p><p class="fo">Growth, visibility and sales</p><ul>
+    <div class="fk iyi r d1"><h3>Professional <small>Recommended</small></h3><p class="fy"><b>15,000 TL</b><span aria-hidden="true">/ year</span><span class="gizli"> per year</span></p><p class="fo">Growth, visibility and sales</p><ul>
       <li><svg><use href="#i-ok2"/></svg>Everything in Starter</li>
       <li><svg><use href="#i-ok2"/></svg>Product and service catalogue, QR menu, photo gallery</li>
       <li><svg><use href="#i-ok2"/></svg>Visitor statistics and custom design options</li>
