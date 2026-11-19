@@ -2,7 +2,7 @@
 
 Kullanıcı Türkçe konuşur; kısa ve net yanıt ver. Bu repo herkese açıktır: müşteri verisi, panel, gizli anahtar ya da iç not konmaz.
 
-**En üst belge:** `enpovi-ajans/ajans` reposundaki `ANAYASA.md` (Enpovi Anayasası v4.0, Yasin 12 Kasım 2026; kalıcı ve bağlayıcı, başındaki uyarlamalar kutusu önce gelir). Bu repoda en çok: Bölüm 3 (tasarım sistemi, 375 px), 13 (Core Web Vitals: LCP ≤ 2,5 sn, INP ≤ 200 ms, CLS ≤ 0,1), 17 (WCAG 2.2 AA), 21 (gerçek bilgi, sahte yorum/sayı/iddia yok) ve 7.2 (herkese açık repoya müşteri verisi, gizli anahtar, iç not konmaz). Enpovi fiyatı burada yazılmaz.
+**En üst belge:** `enpovi-ajans/ajans` reposundaki `ANAYASA.md` (Enpovi Anayasası v4.0, Yasin 12 Kasım 2026; kalıcı ve bağlayıcı, başındaki uyarlamalar kutusu önce gelir). Bu repoda en çok: Bölüm 3 (tasarım sistemi, 375 px), 13 (Core Web Vitals: LCP ≤ 2,5 sn, INP ≤ 200 ms, CLS ≤ 0,1), 17 (WCAG 2.2 AA), 21 (gerçek bilgi, sahte yorum/sayı/iddia yok) ve 7.2 (herkese açık repoya müşteri verisi, gizli anahtar, iç not konmaz). Enpovi fiyatı burada yazılmaz; istisna web sitesi paketleri (Yasin, 19 Kasım 2026: Başlangıç 6.000 TL, Profesyonel 15.000 TL, yıllık, KDV dahil; ana sayfa `#fiyat`, tek kaynak ajans `fiyat/fiyatlar.json`).
 
 **Altyapı:** ajans `ALTYAPI-REHBERI.md` (v2.0, Yasin 12 Kasım 2026; anayasanın altında). Bu site GitHub Pages'ta, DNS Cloudflare'de; panel ve müşteri siteleri burada değil (app.enpovi.com). Rehber metni bu herkese açık repoya kopyalanmaz.
 
