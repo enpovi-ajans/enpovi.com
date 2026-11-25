@@ -230,11 +230,16 @@ for (const y of ['/', '/en/']) {
     if (u.startsWith(ADRES) && !/\.(js|css|woff2|svg|webp)$/.test(new URL(u).pathname)) return r.fulfill({ status: 404, contentType: 'text/html', body: sayfa404 });
     return u.startsWith(ADRES) ? r.continue() : r.abort(); });
   const p = await ctx.newPage();
-  for (const [yol, beklenen] of [['/eski-panel/?a=1', 'https://app.enpovi.com/eski-panel/?a=1'], ['/ornek-sunum/', 'https://app.enpovi.com/ornek/sunum/'], ['/blog/olmayan-yazi/', null], ['/resim.png', null]]) {
+  for (const [yol, beklenen] of [['/eski-panel/?a=1#b', 'https://app.enpovi.com/eski-panel/?a=1'], ['/Eski-Panel', 'https://app.enpovi.com/eski-panel/'], ['/ornek-sunum/', 'https://app.enpovi.com/ornek/sunum/'],
+    ['/giris', 'https://app.enpovi.com/giris/'], ['/iletisim/', null], ['/Blog/', null], ['/blog-yazisi/', null], ['/blog/olmayan-yazi/', null], ['/resim.png', null]]) {
     gidilen = null; await p.goto(ADRES + yol).catch(() => {}); await p.waitForTimeout(300);
     if (gidilen !== beklenen) hatalar.push(`404 yönlendirme ${yol}: ${gidilen} (beklenen ${beklenen})`);
   }
-  if (/gesa|izmitim|bimser|ferah/i.test(sayfa404.toString())) hatalar.push('404.html müşteri adı içeriyor');
+  // müşteri adı listesi geri gelmesin: yönlendirme betiğinde ad eşlemesi ({"ad":…}) ya da ad seçeneği ((ad1|ad2…)) yalnızca genel kurallar
+  const betik = (sayfa404.toString().match(/<script>\/\* Eski paneller[\s\S]*?<\/script>/) || [''])[0];
+  const IZINLI = ['giris', 'yonetim', 'blog', 'hizmetler', 'isler', 'en', 'kvkk', 'cerez', 'gizlilik', 'kosullar', 'donusum', 'marka', 'ortak', 'veri'];
+  const secenek = (betik.match(/[(|][a-z][a-z0-9-]{2,}(?=[|)])/g) || []).map(x => x.slice(1)).filter(x => !IZINLI.includes(x));
+  if (!betik || /\{\s*"[a-z0-9-]+"\s*:/.test(betik) || secenek.length) hatalar.push('404.html yönlendirmesinde ad listesi var: ' + secenek.join(', '));
   sayi++; await ctx.close();
 }
 await b.close(); sunucu.close();
