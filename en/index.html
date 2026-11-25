@@ -1101,7 +1101,7 @@ footer li a{min-width:44px;justify-content:center}
   </div>
 </div>
 
-<div class="yapiskan" id="yapiskan">
+<div class="yapiskan" id="yapiskan" role="region" aria-label="Quick contact">
   <a class="btn lime" href="https://app.enpovi.com/basla/" data-dene>Try free</a>
   <a class="btn cam" data-wa href="#iletisim" aria-label="Message us on WhatsApp"><svg><use href="#i-wa"/></svg>WhatsApp</a>
 </div>
@@ -1202,7 +1202,10 @@ function serit(id, l){
   }).join("");
   document.getElementById(id).innerHTML = h + h.replace(/<div class="is">/g, '<div class="is" aria-hidden="true">');
 }
-serit("serit1", S1); serit("serit2", S2);
+/* Şerit, bölüme yaklaşınca kurulur: 22 görsel ilk yüklemeye binmez. */
+(function(){ var kur = function(){ serit("serit1", S1); serit("serit2", S2) }, b = document.getElementById("isler");
+  if (!("IntersectionObserver" in window)) return kur();
+  var g = new IntersectionObserver(function(es){ if (es[0].isIntersecting){ g.disconnect(); kur() } }, {rootMargin:"800px 0px"}); g.observe(b) })();
 
 
 /* Panel demosu */

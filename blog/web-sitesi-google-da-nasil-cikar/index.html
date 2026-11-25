@@ -177,7 +177,7 @@ footer nav{display:flex;gap:4px 8px;flex-wrap:wrap;justify-content:center}
 footer nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
 footer a{text-decoration:none;font-weight:600}
 footer a:hover{color:var(--ink)}
-.tost{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--forest);color:#fff;font-weight:700;font-size:14px;padding:8px 16px;border-radius:999px;opacity:0;transition:.3s;z-index:80;pointer-events:none}
+.tost{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--forest);color:#fff;font-weight:700;font-size:14px;padding:8px 16px;border-radius:999px;opacity:0;transition:.3s;z-index:80;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .tost.on{opacity:1;transform:translate(-50%,0)}
 
 .gir{animation:gir .9s var(--ease) both}.gir.d1{animation-delay:.08s}.gir.d2{animation-delay:.16s}
@@ -440,7 +440,7 @@ footer nav a{min-width:44px;justify-content:center}
   <nav aria-label="Alt menü"><a href="/">Ana sayfa</a><a href="/isler/">Örnek işler</a><a href="/hizmetler/">Hizmetler</a><a href="/blog/">Blog</a><a data-wa href="#">WhatsApp</a><a href="https://app.enpovi.com/giris/">Müşteri girişi</a><a href="/gizlilik/">Gizlilik</a><a href="/kvkk/">KVKK</a><a href="/cerez/">Çerezler</a><a href="/kosullar/">Koşullar</a><a href="/blog/feed.xml">RSS</a></nav>
   <span>© <span data-yil>2026</span> Enpovi</span>
 </div></footer>
-<div class="tost" id="tost">Bağlantı kopyalandı</div>
+<div class="tost" id="tost" role="status" aria-live="polite"></div>
 <script>
 var WA = "905372121441", MESAJ = "Merhaba, Enpovi blogunu okudum. Web sitemin Google’da bulunması hakkında bilgi almak istiyorum.";
 document.querySelectorAll("[data-yil]").forEach(function(s){ s.textContent = new Date().getFullYear() });
@@ -448,8 +448,10 @@ document.querySelectorAll("[data-wa]").forEach(function(a){ if (!WA){ a.hidden =
 document.querySelectorAll("[data-pwa]").forEach(function(a){ a.href = "https://wa.me/?text=" + encodeURIComponent(document.title + " " + location.href); a.target = "_blank"; a.rel = "noopener" });
 var tost = document.getElementById("tost");
 document.querySelectorAll("[data-kopya]").forEach(function(b){ b.onclick = function(){
-  var bitti = function(){ tost.classList.add("on"); setTimeout(function(){ tost.classList.remove("on") }, 1600) };
-  if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(bitti, bitti); else bitti();
+  /* bildirim ekran okuyucuya da okunur (role=status); kopyalanamadıysa "kopyalandı" denmez */
+  var yaz = function(m){ tost.textContent = m; tost.classList.add("on"); setTimeout(function(){ tost.classList.remove("on"); tost.textContent = "" }, 2400) };
+  var olmadi = function(){ yaz("Kopyalanamadı; adresi tarayıcının adres çubuğundan kopyalayın") };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(location.href).then(function(){ yaz("Bağlantı kopyalandı") }, olmadi); else olmadi();
 } });
 var io = "IntersectionObserver" in window ? new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("gor"); io.unobserve(e.target) } }) }, {rootMargin:"0px 0px -5% 0px"}) : null;
 document.querySelectorAll(".r").forEach(function(el){ io ? io.observe(el) : el.classList.add("gor") });
