@@ -4,7 +4,8 @@
    2) Etiketler Yönetim → enpovi.com → Etiketler'den gelir (GET /api/enpovi/etiket, yalnızca kimlik).
       Google Analytics: izin verilene kadar çerezsiz (Consent Mode, analytics_storage denied).
       Google Tag Manager, Google Ads ve Meta Pixel: yalnızca çerez notunda "Tamam" denince yüklenir; "Hayır" ya da cevapsızsa hiç yüklenmez.
-   Tercih (localStorage enpovi_cerez): "tam" = analiz + reklam ölçümü, "hayir" = hiçbiri, "evet" = eski cevap (yalnızca analiz; reklam etiketi varsa not yeniden sorulur). */
+   Tercih (localStorage enpovi_cerez): "tam" = analiz + reklam ölçümü (reklam etiketi varken "Tamam"), "evet" = yalnızca analiz (reklam etiketi yokken "Tamam";
+   sonradan etiket eklenirse not yeniden sorulur), "hayir" = hiçbiri. */
 (function () {
   var ANAHTAR = "enpovi_cerez", API = "https://app.enpovi.com/api/enpovi/", VARSAYILAN = { ga4: "G-Z7QNDGMGFT" };
   if (location.hostname !== "enpovi.com" && location.hostname !== "www.enpovi.com") return;
@@ -73,6 +74,7 @@
       var f = window.fbq = function () { f.callMethod ? f.callMethod.apply(f, arguments) : f.queue.push(arguments) };
       if (!window._fbq) window._fbq = f; f.push = f; f.loaded = true; f.version = "2.0"; f.queue = [];
       betik("https://connect.facebook.net/en_US/fbevents.js");
+      window.fbq("set", "autoConfig", false, et.meta); // otomatik olay ve düğme/sayfa bilgisi toplama kapalı: yalnızca PageView, Lead, Contact
       window.fbq("init", et.meta); window.fbq("track", "PageView");
     }
   }
@@ -138,10 +140,14 @@
       if (v === "tam") {
         gtag("consent", "update", { analytics_storage: "granted", ad_storage: "granted", ad_user_data: "granted" });
         gtag("event", "page_view"); reklamYukle();
+      } else if (v === "evet") { gtag("consent", "update", { analytics_storage: "granted" }); gtag("event", "page_view") }
+      else { // Hayır (eski "evet" cevabını da geri alır): izin kapanır, analiz ve reklam çerezleri silinir
+        gtag("consent", "update", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied" });
+        document.cookie.split(";").forEach(function (c) { var n = c.split("=")[0].trim(); if (/^(_ga|_gcl|_fbp$|_fbc$)/.test(n)) ["", "." + location.hostname.replace(/^www\./, ""), location.hostname].forEach(function (d) { document.cookie = n + "=; Max-Age=0; path=/" + (d ? "; domain=" + d : "") }) });
       }
       d.classList.remove("on"); setTimeout(function () { d.remove() }, 350);
     }
-    d.querySelector(".ev").onclick = function () { kapat("tam") };
+    d.querySelector(".ev").onclick = function () { kapat(reklam ? "tam" : "evet") }; // reklam etiketi yokken verilen izin yalnızca istatistik içindir; etiket eklenince yeniden sorulur
     d.querySelector(".hy").onclick = function () { kapat("hayir") };
   }
   function hazir(f) { if (document.readyState !== "loading") f(); else document.addEventListener("DOMContentLoaded", f) }

@@ -127,7 +127,8 @@ for (const durum of ['tamam', 'engelli', 'etkilesim']) {
 /* Ölçüm ve çerez izni (ortak/analiz.js; Yönetim → enpovi.com): sayfa https://enpovi.com olarak açılır, app.enpovi.com ve Google/Meta taklit edilir.
    Kural: Enpovi sayacı çerezsiz, izinden bağımsız; GTM, Google Ads ve Meta Pixel yalnızca "Tamam" sonrası; "Hayır"da hiç yüklenmez; kaynak deneme bağlantısına taşınır. */
 const ET = { ga4: 'G-TEST1234', gtm: 'GTM-TEST12', ads: 'AW-123456789', adsEtiket: { dene: 'deneEtiket', wa: 'waEtiket', tel: 'telEtiket' }, meta: '123456789012345' };
-for (const [durum, onceki] of [['ilk', null], ['hayir', 'hayir'], ['eski', 'evet']]) {
+for (const [durum, onceki] of [['ilk', null], ['hayir', 'hayir'], ['eski', 'evet'], ['reklamsiz', null], ['etiket-hata', null]]) {
+  const et = durum === 'reklamsiz' ? { ga4: ET.ga4 } : ET;
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
   const olaylar = [], dis = [];
   if (onceki) await ctx.addInitScript(v => { try { localStorage.setItem('enpovi_cerez', v) } catch (e) {} }, onceki);
@@ -135,7 +136,7 @@ for (const [durum, onceki] of [['ilk', null], ['hayir', 'hayir'], ['eski', 'evet
     const u = new URL(r.request().url());
     if (u.origin === 'https://enpovi.com') return r.fulfill({ response: await r.fetch({ url: ADRES + u.pathname + u.search }) });
     const cors = { 'access-control-allow-origin': 'https://enpovi.com' };
-    if (u.href === 'https://app.enpovi.com/api/enpovi/etiket') return r.fulfill({ status: 200, headers: { ...cors, 'content-type': 'application/json' }, body: JSON.stringify(ET) });
+    if (u.href === 'https://app.enpovi.com/api/enpovi/etiket') return durum === 'etiket-hata' ? r.fulfill({ status: 503, headers: cors, body: '{}' }) : r.fulfill({ status: 200, headers: { ...cors, 'content-type': 'application/json' }, body: JSON.stringify(et) });
     if (u.href === 'https://app.enpovi.com/api/enpovi/olay') { olaylar.push({ g: JSON.parse(r.request().postData() || '{}'), cerez: r.request().headers().cookie || '' }); return r.fulfill({ status: 204, headers: cors }); }
     if (/googletagmanager\.com|connect\.facebook\.net/.test(u.host)) { dis.push(u.host + u.pathname + u.search); return r.fulfill({ status: 200, headers: { 'content-type': 'text/javascript' }, body: '' }); }
     return r.abort();
@@ -148,14 +149,15 @@ for (const [durum, onceki] of [['ilk', null], ['hayir', 'hayir'], ['eski', 'evet
   const gor = olaylar.filter(o => o.g.t === 'gor');
   if (gor.length !== 1 || gor[0].g.k !== 'instagram' || gor[0].g.o !== 'cpc' || gor[0].g.c !== 'kasim-kuafor' || gor[0].g.z !== 'ali-kaya' || gor[0].g.s !== '/') hatalar.push(`${ad}: ziyaret olayı ${JSON.stringify(olaylar)}`);
   if (olaylar.some(o => o.cerez)) hatalar.push(`${ad}: sayaca çerez gitti`);
-  if (!dis.some(x => x.includes('gtag/js?id=G-TEST1234'))) hatalar.push(`${ad}: GA4 (izin modu) yüklenmedi ${JSON.stringify(dis)}`);
+  if (!dis.some(x => x.includes('gtag/js?id=' + (durum === 'etiket-hata' ? 'G-Z7QNDGMGFT' : 'G-TEST1234')))) hatalar.push(`${ad}: GA4 (izin modu) yüklenmedi ${JSON.stringify(dis)}`);
   if (reklam().length) hatalar.push(`${ad}: izin verilmeden reklam etiketi yüklendi ${JSON.stringify(reklam())}`);
   const dene = await p.getAttribute('a[data-dene]', 'href');
   const dq = new URL(dene).searchParams; // sayfadaki ham değer ya da sadeleşmiş hâli; app.enpovi.com/basla aynı biçimde sadeleştirir
   if (dq.get('utm_source') !== 'instagram' || !/^(ali-kaya|Ali Kaya)$/.test(dq.get('saha')) || !/^(kasim-kuafor|Kasım Kuaför)$/.test(dq.get('utm_campaign'))) hatalar.push(`${ad}: deneme bağlantısına kaynak taşınmadı ${dene}`);
   const notVar = await p.waitForSelector('.cz.on', { timeout: 4000 }).then(() => true, () => false);
   if (durum === 'hayir' ? notVar : !notVar) hatalar.push(`${ad}: çerez notu ${notVar ? 'çıktı' : 'çıkmadı'}`);
-  if (notVar && !/reklam ölçümü/.test(await p.textContent('.cz'))) hatalar.push(`${ad}: notta reklam ölçümü yazmıyor`);
+  if (notVar && /^(ilk|eski)$/.test(durum) && !/reklam ölçümü/.test(await p.textContent('.cz'))) hatalar.push(`${ad}: notta reklam ölçümü yazmıyor`);
+  if (notVar && !/^(ilk|eski)$/.test(durum) && /reklam/.test(await p.textContent('.cz'))) hatalar.push(`${ad}: reklam etiketi yokken notta reklam yazıyor`);
   if (notVar) {
     const k = await p.$$eval('.cz button', L => L.map(x => Math.round(x.getBoundingClientRect().height))); if (k.some(h => h < 44)) hatalar.push(`${ad}: çerez düğmesi < 44 px ${k}`);
   }
@@ -177,6 +179,18 @@ for (const [durum, onceki] of [['ilk', null], ['hayir', 'hayir'], ['eski', 'evet
     await p.goto('https://enpovi.com/kvkk/', { waitUntil: 'load' }); await p.waitForTimeout(300);
     if (olaylar.filter(o => o.g.t === 'gor').length !== 1) hatalar.push(`${ad}: aynı oturumda ziyaret iki kez sayıldı`);
     if (await p.$('.cz')) hatalar.push(`${ad}: "Tamam" sonrası not yeniden çıktı`);
+  }
+  if (durum === 'reklamsiz' || durum === 'etiket-hata') {
+    await p.click('.cz .ev'); await p.waitForTimeout(300);
+    if (await p.evaluate(() => localStorage.getItem('enpovi_cerez')) !== 'evet') hatalar.push(`${ad}: reklam etiketi yokken "Tamam" reklam iznine dönüştü`);
+    if (reklam().length) hatalar.push(`${ad}: reklam etiketi yüklendi ${reklam()}`);
+    const iz = await p.evaluate(() => (window.dataLayer || []).filter(x => x && x[0] === 'consent' && x[1] === 'update').map(x => x[2]));
+    if (iz.some(x => x.ad_storage === 'granted')) hatalar.push(`${ad}: reklam izni verildi ${JSON.stringify(iz)}`);
+  }
+  if (durum === 'eski') { // eski "evet" sonra "Hayır": analiz izni geri alınır
+    await p.click('.cz .hy'); await p.waitForTimeout(200);
+    const iz = await p.evaluate(() => (window.dataLayer || []).filter(x => x && x[0] === 'consent' && x[1] === 'update').map(x => x[2]));
+    if (!iz.some(x => x.analytics_storage === 'denied')) hatalar.push(`${ad}: "Hayır" analiz iznini geri almadı`);
   }
   if (durum === 'hayir' && reklam().length) hatalar.push(`${ad}: "Hayır"da reklam etiketi yüklendi`);
   for (const x of js) hatalar.push(`${ad}: JS hatası ${x}`);
