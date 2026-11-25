@@ -221,6 +221,22 @@ for (const y of ['/', '/en/']) {
   if (d[0] !== 44 || !d[1]) hatalar.push(`${y}: şerit bölüme gelince kurulmadı ${JSON.stringify(d)}`);
   sayi++; await ctx.close();
 }
+// 404 sayfası: tek parçalı eski panel adresleri app.enpovi.com'a genel kuralla gider (müşteri adı listesi yok); çok parçalı ve dosya yolu sayfada kalır
+{
+  const ctx = await b.newContext(); const sayfa404 = fs.readFileSync(path.join(KOK, '404.html'));
+  let gidilen = null;
+  await ctx.route('**/*', r => { const u = r.request().url();
+    if (u.startsWith('https://app.enpovi.com/')) { gidilen = u; return r.fulfill({ status: 200, body: 'ok' }); }
+    if (u.startsWith(ADRES) && !/\.(js|css|woff2|svg|webp)$/.test(new URL(u).pathname)) return r.fulfill({ status: 404, contentType: 'text/html', body: sayfa404 });
+    return u.startsWith(ADRES) ? r.continue() : r.abort(); });
+  const p = await ctx.newPage();
+  for (const [yol, beklenen] of [['/eski-panel/?a=1', 'https://app.enpovi.com/eski-panel/?a=1'], ['/ornek-sunum/', 'https://app.enpovi.com/ornek/sunum/'], ['/blog/olmayan-yazi/', null], ['/resim.png', null]]) {
+    gidilen = null; await p.goto(ADRES + yol).catch(() => {}); await p.waitForTimeout(300);
+    if (gidilen !== beklenen) hatalar.push(`404 yönlendirme ${yol}: ${gidilen} (beklenen ${beklenen})`);
+  }
+  if (/gesa|izmitim|bimser|ferah/i.test(sayfa404.toString())) hatalar.push('404.html müşteri adı içeriyor');
+  sayi++; await ctx.close();
+}
 await b.close(); sunucu.close();
 if (hatalar.length) { console.error(hatalar.join('\n')); console.error(`\ntarayıcı denetimi: ${hatalar.length} sorun (${sayi} sayfa görünümü)`); process.exit(1); }
 console.log(`tarayıcı denetimi: ${sayi} sayfa görünümü (telefon + bilgisayar), erişilebilirlik/SEO sorunu yok`);

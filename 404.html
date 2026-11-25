@@ -32,9 +32,10 @@ p{color:rgba(255,255,255,.72);font-size:18px;max-width:44ch;margin:16px 0 0;line
 @media (max-width:560px){.b a{flex:1 1 100%}}
 .marka{padding:8px 0;margin:-8px 0} /* dokunma hedefi ≥ 44 px */
 </style>
-<script>/* Eski paneller kaldırıldı (Kasım 2026): eski adresler yeni platforma (app.enpovi.com) gider. */
-(function(){var p=location.pathname.split("/")[1]||"",y={"ferah-sunum":"/ferah/sunum/","izmitim-sunum":"/izmitim-surucu-kursu/"};
-if(y[p]||/^(giris|yonetim|ferah|ferah-catering|gesa-kemer-dunyasi|izmitim-surucu-kursu|bimser-surucu-kursu|enpovi)$/.test(p))location.replace("https://app.enpovi.com"+(y[p]||"/"+p+"/")+location.search+location.hash);})();</script>
+<script>/* Eski paneller kaldırıldı (Kasım 2026): tek parçalı eski adresler (/<ad>/, /<ad>-sunum/) yeni platforma (app.enpovi.com) gider.
+   Müşteri adı burada listelenmez (herkese açık depo): genel kural; tanımadığı adresi app.enpovi.com kendisi karşılar. */
+(function(){var p=(location.pathname.split("/")[1]||"").toLowerCase();if(!/^[a-z0-9][a-z0-9-]{1,60}$/.test(p)||location.pathname.split("/").filter(Boolean).length>1)return;
+var s=p.match(/^(.+)-sunum$/);location.replace("https://app.enpovi.com/"+(s?s[1]+"/sunum/":p+"/")+location.search+location.hash);})();</script>
 <script src="/ortak/analiz.js" defer></script>
 </head>
 <body>
