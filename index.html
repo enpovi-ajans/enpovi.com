@@ -1207,7 +1207,7 @@ var TALEP_URL = "https://app.enpovi.com/api/talep";
   function waMesaj(){ var d = f.elements;
     return "Merhaba, " + d.ad.value.trim() + " için örnek web sitesi istiyorum.\nİş dalı: " + d.dal.value.trim() + (d.iletisim.value.trim() ? "\nİletişim: " + d.iletisim.value.trim() : "") }
   function waLink(){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(waMesaj()) }
-  function bitti(){ wa.href = waLink(); f.hidden = true; tamam.hidden = false; tamam.focus(); if (window.gtag) gtag("event", "generate_lead", {form: "ornek_site"}) }
+  function bitti(){ wa.href = waLink(); f.hidden = true; tamam.hidden = false; tamam.focus(); if (window.enpoviOlay) enpoviOlay("form", f, {form: "ornek_site"}) }
   [].forEach.call(f.querySelectorAll("input"), function(i){ i.addEventListener("input", function(){ i.removeAttribute("aria-invalid"); not.textContent = "" }) });
   /* İnsan doğrulaması (Cloudflare Turnstile, Denetim 04 C04-04): sayfa hızını etkilemesin diye forma ilk dokunuşta yüklenir; görünmezdir,
      gerekirse kutu açılır. Belirteç tek kullanımlıktır, sunucu hatasında yenilenir. Turnstile yüklenemezse talep gönderilmez, WhatsApp yolu gösterilir. */
