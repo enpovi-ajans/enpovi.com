@@ -12,7 +12,7 @@ ya da paneli konmaz; repo herkese açıktır. Eski panel adresleri `404.html` ü
 | `blog/`, `hizmetler/`, `isler/`, `sitemap.xml`, `blog/feed.xml`, `llms.txt` | ajans reposu `blog/enpovi/` (Markdown) | `python3 araclar/blog/blog.py blog/enpovi ../enpovi.com` (ajans reposundan). **Elle düzenleme**, bir sonraki üretimde silinir |
 | `index.html` (ana sayfa) | bu repo | Elle; yorumlar bölümü (`<!-- yorumlar -->`) blog.py tarafından yalnızca izinli sözlerle doldurulur |
 | `gizlilik/`, `404.html`, `robots.txt` | bu repo | Elle |
-| `ortak/analiz.js` | bu repo | Google Analytics + çerez notu (izin verilene kadar çerez yok) |
+| `ortak/analiz.js` | bu repo | Enpovi çerezsiz sayacı (ziyaret, WhatsApp, arama, form, deneme → app.enpovi.com/api/enpovi/olay) + etiketler (GA4, GTM, Google Ads, Meta Pixel; kimlikler app.enpovi.com Yönetim → enpovi.com → Etiketler) + çerez notu. GA4 izin modunda, reklam etiketleri yalnızca "Tamam" sonrası; test `.github/kontrol/tarayici.mjs` "ölçüm" |
 | `ortak/font/` | bu repo | Kendi sunucumuzdaki web fontları (dış CDN yok) |
 | `marka/` | bu repo (logoların asılları ajans reposu `marka/logo/`) | Logo, favicon, paylaşım görselleri, ana sayfa vitrini (`marka/is/`); `marka/logo/` dış kullanım (e-posta imzası vb.) için de yayında, silme |
 | `34dc…txt` | IndexNow anahtar dosyası | Silme: `.github/workflows/indexnow.yml` sitemap değişince adresleri Bing/Yandex'e bildirirken kullanır |
