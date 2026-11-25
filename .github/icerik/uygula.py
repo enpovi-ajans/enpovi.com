@@ -21,13 +21,21 @@ KOK = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SAYFA = {"tr": "index.html", "en": os.path.join("en", "index.html")}
 VERI = os.path.join("veri", "icerik.json")
 SINIR = {"satir": 40, "alt": 220, "soru": 140, "cevap": 700, "sss_en_az": 3, "sss_en_cok": 12}
-# Değişmez içerik kuralları (ajans CLAUDE.md): üstünlük iddiası ve fiyat yazılmaz (fiyat kartları ayrı, tek kaynaktan).
-YASAK = [(re.compile(r"\ben (iyi|ucuz|ucuzu|iyisi|uygun fiyatl[ıi])\b|\b(1|bir) numara\b|\brakipsiz\b", re.I), "üstünlük iddiası yazılmaz (\"en iyi\", \"en ucuz\" gibi)"),
-         (re.compile(r"\bthe (best|cheapest)\b|\bnumber one\b", re.I), "no superlative claims (\"the best\", \"the cheapest\")"),
-]
-# Fiyat: yalnızca web sitesi paketleri (Başlangıç 6.000, Profesyonel 15.000 TL/yıl; Yasin 19 Kasım 2026). Başka tutar yazılmaz.
+# Değişmez içerik kuralları (ajans CLAUDE.md): üstünlük iddiası yazılmaz; fiyat yalnızca web paketleri (Başlangıç 6.000, Profesyonel 15.000 TL/yıl;
+# Yasin 19 Kasım 2026). Kurallar app.enpovi.com worker/enpovi-veri.ts icerikDilDogrula ile birebir: aynı karakter sınıfları (yalnızca ASCII rakam,
+# açık boşluk listesi, Türkçe küçük harf), ortak örnekler ornekler.json (platformda test/sabit/enpovi-icerik-ornekler.json, aynı dosya).
+BOSLUK = "[\t\n\v\f\r \u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+"
+GORUNMEZ = "[\u00ad\u200b-\u200d\u2060\ufeff]"
+HARF = "a-zçğıöşü0-9"
+YASAK = re.compile(f"(?<![{HARF}])(en (?:[iı]y[iı]|[iı]y[iı]s[iı]|ucuz|ucuzu|uygun f[iı]yatl[iı])|(?:1|b[iı]r) numara|rak[iı]ps[iı]z|the (?:best|cheapest)|number one)(?![{HARF}])")
+TUTAR = re.compile(f"(?<![0-9.,])([0-9]{{1,3}}(?:[.,][0-9]{{3}})+)(?![0-9])|([0-9]+) ?(?:tl|₺|lira)(?![{HARF}])|₺ ?([0-9][0-9.,]*)")
 PAKET_TUTAR = {"6000", "15000"}
-TUTAR = re.compile(r"(?<![\d.,])(\d{1,3}(?:[.,]\d{3})+)(?![\d])|(\d+)\s*(?:TL|₺|lira)\b|₺\s*(\d[\d.,]*)", re.I)  # binlik ayraçlı sayı ya da para birimli tutar
+
+
+def kucuk(t):
+    """Türkçe küçük harf (İ → i, I → ı); iki doğrulayıcıda aynı."""
+    return t.replace("İ", "i").replace("I", "ı").lower()
+
 
 H1 = re.compile(r'(<h1 class="gir d1">)(.*?)(</h1>)', re.S)
 ALT = re.compile(r'(<p class="alt gir d2">)(.*?)(</p>)', re.S)
@@ -43,8 +51,10 @@ def _bir(desen, s, ad):
 
 
 def metin(v):
-    """Düz metin: boşluklar sadeleşir, kontrol karakteri atılır."""
-    return re.sub(r"\s+", " ", re.sub(r"[\x00-\x1f\x7f]", " ", str(v or ""))).strip()
+    """Düz metin: görünmez karakter silinir, kontrol karakteri (C0, C1) boşluk olur, boşluklar sadeleşir."""
+    t = re.sub(GORUNMEZ, "", str(v or ""))
+    t = re.sub("[\x00-\x1f\x7f-\x9f]", " ", t)
+    return re.sub(BOSLUK, " ", t).strip(" ")
 
 
 def h1_html(satirlar):
@@ -92,16 +102,20 @@ def dogrula(d, dil):
             elif len(metin(x["s"])) > SINIR["soru"] or len(metin(x["c"])) > SINIR["cevap"]:
                 h.append(f"{dil}: {i}. soru en fazla {SINIR['soru']}, cevap en fazla {SINIR['cevap']} karakter")
     if not h:
-        tum = " ".join([*b, d["alt"], *[x["s"] + " " + x["c"] for x in s]])
-        for desen, neden in YASAK:
-            if desen.search(tum):
-                h.append(f"{dil}: {neden}")
-        if re.search(r"[<>]", tum):
+        t = temizle(d)  # denetim yazılacak (sadeleşmiş) metin üzerinde
+        tum = " ".join([*t["baslik"], t["alt"], *[x["s"] + " " + x["c"] for x in t["sss"]]])
+        k = kucuk(tum)
+        if YASAK.search(k):
+            h.append(f"{dil}: üstünlük iddiası yazılmaz (\"en iyi\", \"en ucuz\", \"the best\" gibi)")
+        elif re.search(r"[<>]", tum):
             h.append(f"{dil}: < ve > işaretleri kullanılmaz (düz metin)")
-        for m in TUTAR.finditer(tum):
-            if re.sub(r"[.,]", "", m.group(1) or m.group(2) or m.group(3)) not in PAKET_TUTAR:
-                h.append(f"{dil}: fiyat ya da tutar yalnızca web paketleri için yazılır (6.000 / 15.000 TL): {m.group(0)}")
-                break
+        elif re.search(r"(?![0-9])\d", tum):
+            h.append(f"{dil}: rakamları normal klavye rakamıyla yazın (0–9)")
+        else:
+            for m in TUTAR.finditer(k):
+                if re.sub(r"[.,]", "", m.group(1) or m.group(2) or m.group(3)) not in PAKET_TUTAR:
+                    h.append(f"{dil}: tutar yalnızca web paketleri için yazılır (6.000 / 15.000 TL): {m.group(0)}")
+                    break
     return h
 
 

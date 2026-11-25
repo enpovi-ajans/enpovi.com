@@ -57,6 +57,12 @@ class Uygula(unittest.TestCase):
         self.assertFalse(h(alt="Yıllık 6.000 TL, 2026 yılında"))
         self.assertTrue(U.dogrula(None, "tr"))
 
+    def test_ortak_ornekler(self):
+        """Platformdaki doğrulayıcıyla aynı örnekler (platform test/sabit/enpovi-icerik-ornekler.json aynı dosya)."""
+        for o in json.load(open(os.path.join(os.path.dirname(__file__), "ornekler.json"), encoding="utf-8")):
+            x = copy.deepcopy(self.v["tr"]); x["alt"] = o["alt"]
+            self.assertEqual(U.dogrula(x, "tr") == [], o["gecer"], repr(o["alt"]) + " " + str(U.dogrula(x, "tr")))
+
     def test_main_gecersizde_dokunmaz_gecerlide_ikisini_yazar(self):
         d = tempfile.mkdtemp()
         try:
