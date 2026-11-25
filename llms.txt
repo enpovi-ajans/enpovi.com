@@ -19,7 +19,7 @@ Sektörler: restoran ve kafe, catering ve organizasyon, sürücü kursu, mağaza
 
 ## Hizmetler
 
-- [Web tasarım](https://enpovi.com/hizmetler/web-tasarim/): İşletmenizin sitesini önce görün, 7 gün telefonunuzda deneyin, beğenirseniz alın. Alan adı, sunucu, güvenlik ve destek tek yıllık ücrette; ürün ve fiyatları telefonunuzdan kendiniz değiştirirsiniz.
+- [Web tasarım](https://enpovi.com/hizmetler/web-tasarim/): İşletmenizin sitesini üç adımda kendiniz kurun, 7 gün ücretsiz deneyin, beğenirseniz devam edin. Alan adı, sunucu, güvenlik ve destek tek yıllık ücrette; ürün ve fiyatları telefonunuzdan kendiniz değiştirirsiniz.
 - [Kocaeli](https://enpovi.com/hizmetler/kocaeli-sosyal-medya-ajansi/): Enpovi, Kocaeli merkezli bir sosyal medya ajansı. Aylık gönderi, Reels, günlük hikâye ve açıklamaları hazırlayıp telefonunuzdan açılan Yayın Paneli ile teslim ediyoruz.
 - [Restoran & kafe](https://enpovi.com/hizmetler/restoran-instagram-yonetimi/): Restoran ve kafeler için aylık Instagram içeriği: menü gönderileri, ocak başı Reels'ler, günlük hikâyeler ve hazır açıklamalar. Kocaeli'deki işletmeler için Yayın Paneli ile teslim.
 - [Catering & organizasyon](https://enpovi.com/hizmetler/catering-instagram-yonetimi/): Catering ve organizasyon firmaları için aylık Instagram içeriği: etkinlik kareleri, menü seçenekleri, salon tanıtımı ve kurumsal teklif çağrıları. Yayın Paneli ile teslim.
