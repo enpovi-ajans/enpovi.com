@@ -208,6 +208,19 @@ for (const [durum, onceki] of [['ilk', null], ['hayir', 'hayir'], ['eski', 'evet
   sayi++;
   await ctx.close();
 }
+// ana sayfa ilk yüklemede kayan işler şeridinin görsellerini indirmez (sayfa ağırlığı, ANAYASA §13); bölüme gelince kurulur ve görseller açılır
+for (const y of ['/', '/en/']) {
+  const ctx = await b.newContext({ viewport: { width: 375, height: 812 }, isMobile: true });
+  await ctx.route('**/*', r => r.request().url().startsWith(ADRES) ? r.continue() : r.abort());
+  const p = await ctx.newPage();
+  await p.goto(ADRES + y, { waitUntil: 'load' }); await p.waitForTimeout(500);
+  const ilk = await p.evaluate(() => document.querySelectorAll('#serit1 img, #serit2 img').length);
+  if (ilk) hatalar.push(`${y}: ilk yüklemede şerit kuruldu (${ilk} görsel)`);
+  await p.locator('#isler').scrollIntoViewIfNeeded(); await p.waitForTimeout(800);
+  const d = await p.evaluate(() => { const l = [...document.querySelectorAll('#serit1 img, #serit2 img')]; return [l.length, l.slice(0, 6).every(i => i.complete && i.naturalWidth > 0)]; });
+  if (d[0] !== 44 || !d[1]) hatalar.push(`${y}: şerit bölüme gelince kurulmadı ${JSON.stringify(d)}`);
+  sayi++; await ctx.close();
+}
 await b.close(); sunucu.close();
 if (hatalar.length) { console.error(hatalar.join('\n')); console.error(`\ntarayıcı denetimi: ${hatalar.length} sorun (${sayi} sayfa görünümü)`); process.exit(1); }
 console.log(`tarayıcı denetimi: ${sayi} sayfa görünümü (telefon + bilgisayar), erişilebilirlik/SEO sorunu yok`);
