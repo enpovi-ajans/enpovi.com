@@ -1,16 +1,16 @@
 # Enpovi
 
-> Enpovi, Kocaeli merkezli ve Türkiye geneline hizmet veren bir sosyal medya ajansıdır. İşletmelerin aylık Instagram içeriğini (gönderi, kaydırmalı, Reels, günlük hikâye, açıklama ve paylaşım saatleri) üretir ve telefon, tablet ya da bilgisayardan açılan şifreli Yayın Paneli ile teslim eder.
+> Enpovi, Kocaeli merkezli, Türkiye geneline hizmet veren ajans. İşletmelere telefondan yönetilen web siteleri kurar, aylık Instagram içeriğini üretir. Örnek site önce gösterilir, 7 gün denenir.
 
-Hizmet: aylık Instagram içerik paketi (12 gönderi, 4'ü kaydırmalı; 4–6 Reels; her gün bir hikâye; hazır açıklama, hashtag ve paylaşım saati).
-Sektörler: restoran ve kafe, catering ve organizasyon, sürücü kursu, mağaza ve üretici.
+Web sitesi: işletme sitesini üç adımda kendiniz kurarsınız (https://app.enpovi.com/basla/), 7 gün ücretsiz denersiniz; kart bilgisi istenmez. Başlangıç paketi yıllık 6.000 TL, Profesyonel paketi yıllık 15.000 TL; fiyatlara KDV dahildir. Alan adı, sunucu, SSL güvenlik sertifikası, yedekleme ve destek aynı ücrette.
+Instagram içerik: aylık paket (12 gönderi, 4'ü kaydırmalı; 4–6 Reels; her gün bir hikâye; hazır açıklama, hashtag ve paylaşım saati), şifreli Yayın Paneli ile teslim.
 İletişim: WhatsApp 0537 212 14 41 · https://enpovi.com
 
 ## Sayfalar
 
-- [Ana sayfa](https://enpovi.com/): Hizmet, aylık paket, süreç, Yayın Paneli ve sık sorulan sorular
+- [Ana sayfa](https://enpovi.com/): Web sitesi (7 gün ücretsiz deneme, paketler ve fiyatlar), aylık Instagram içerik paketi, süreç, Yayın Paneli ve sık sorulan sorular
 - [Örnek işler](https://enpovi.com/isler/): Kartepe Ferah ve Enpovi için hazırlanmış gerçek gönderi, kaydırmalı ve Reels örnekleri
-- [Hizmetler](https://enpovi.com/hizmetler/): Sektörlere göre aylık Instagram içerik paketi: restoran, catering, sürücü kursu, mağaza; Kocaeli
+- [Hizmetler](https://enpovi.com/hizmetler/): Web tasarım ve sektörlere göre aylık Instagram içerik paketi: restoran, catering, sürücü kursu, mağaza; Kocaeli
 - [Blog](https://enpovi.com/blog/): İşletme hesapları için Instagram rehberleri ve örnek işler
 - [Gizlilik](https://enpovi.com/gizlilik/): Yayın Paneli gizlilik politikası
 - [KVKK aydınlatma metni](https://enpovi.com/kvkk/): Kişisel verilerin işlenmesi, aktarım ve KVKK kapsamındaki haklar
