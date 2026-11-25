@@ -47,8 +47,13 @@ const SEO = ({ ozel }) => {
   if (document.documentElement.scrollWidth > innerWidth + 1) s.push(`yatay taşma ${document.documentElement.scrollWidth - innerWidth}px`);
   // telefonda dokunma hedefi ≥ 44 px (ANAYASA §3): satır içi metin bağlantısı (cümle içinde) ve etiketin içindeki kutu (etiketin tamamı dokunulur) hariç
   for (const e of document.querySelectorAll('a[href], button, summary, select, input:not([type=hidden])')) {
-    if (!e.offsetParent || e.closest('label') || getComputedStyle(e).display === 'inline') continue;
-    const r = e.getBoundingClientRect(); if (r.width && r.height < 44) s.push(`dokunma hedefi ${Math.round(r.height)} px: «${(e.textContent.trim() || e.getAttribute('aria-label') || e.tagName).slice(0, 40)}»`);
+    const st = getComputedStyle(e);
+    if ((!e.offsetParent && st.position !== 'fixed') || st.visibility === 'hidden' || e.closest('label')) continue;
+    if (st.display === 'inline') { // cümle içindeki bağlantı muaf; yalnız başına duran (ebeveyninde başka yazı yok ya da yalnızca ayraç) sayılır
+      const c = e.parentElement.cloneNode(true); c.querySelectorAll('a,button').forEach(x => x.remove());
+      if (/\p{L}{3,}/u.test(c.textContent.replace(/©\s*\S+\s*\S+/g, ''))) continue;
+    }
+    const r = e.getBoundingClientRect(); if (r.width && (r.height < 43.5 || r.width < 43.5)) s.push(`dokunma hedefi ${Math.round(r.width)}×${Math.round(r.height)} px: «${(e.textContent.trim() || e.getAttribute('aria-label') || e.tagName).slice(0, 40)}»`);
   }
   return [...new Set(s)];
 };

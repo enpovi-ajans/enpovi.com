@@ -622,14 +622,19 @@ footer a:hover{color:var(--ink)}
 }
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.js .r{opacity:1;transform:none}html{scroll-behavior:auto}}
 [hidden]{display:none!important}
-/* ---------- Dokunma hedefi ≥ 44 px (ANAYASA §3; .github/kontrol/tarayici.mjs denetler): görünüm ve yerleşim aynı, dokunulan alan büyür ---------- */
+/* ---------- Dokunma hedefi ≥ 44 × 44 px (ANAYASA §3; .github/kontrol/tarayici.mjs denetler): örnek paneldeki anahtar ve düğmelerin görünümü aynı (saydam kenarlık, köşe yarıçapı dengelenir), dokunulan alan büyür ---------- */
 .marka{padding:9px 0;margin:-9px 0}
 footer li a{min-height:44px}
 .sh-x{width:44px;height:44px}
-.anahtar{height:44px;border:solid transparent;border-width:9px 0;margin:-9px 0}
-.anahtar,.anahtar[aria-checked=true]{background-clip:padding-box}
-.y-kay button{border:solid transparent;border-width:5px 0;background-clip:padding-box;margin:-5px 0}
-.d-kart button{border:solid transparent;border-width:6px 0;background-clip:padding-box;margin:-6px 0}
+.anahtar{height:44px;margin:-9px 0}
+.anahtar,.anahtar[aria-checked=true]{background:transparent}
+.anahtar:before{content:"";position:absolute;inset:9px 0;border-radius:999px;background:#C9D3C5;transition:background .2s}
+.anahtar[aria-checked=true]:before{background:#2BA35F}
+.anahtar i{top:12px}
+.y-kay button{border:solid transparent;border-width:5px 0;background-clip:padding-box;margin:-5px 0;border-radius:12px/17px}
+.d-kart button{border:solid transparent;border-width:6px 0;background-clip:padding-box;margin:-6px 0;border-radius:8px/14px}
+.anahtar:focus-visible{outline-offset:-6px}.y-kay button:focus-visible,.d-kart button:focus-visible{outline-offset:-2px}
+footer li a{min-width:44px;justify-content:center}
 </style>
 <script>document.documentElement.classList.add("js")</script>
 <script src="/ortak/analiz.js" defer></script>
