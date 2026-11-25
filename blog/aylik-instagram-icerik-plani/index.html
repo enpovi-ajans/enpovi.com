@@ -287,6 +287,19 @@ footer a:hover{color:var(--ink)}
   footer .w{flex-direction:column;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.js .r{opacity:1;transform:none}html{scroll-behavior:auto}}
+/* Dokunma hedefi ≥ 44 × 44 px (ANAYASA §3; enpovi.com .github/kontrol/tarayici.mjs denetler). Logo görünümü aynı (dolgu + eksi kenar boşluğu);
+   menü, geri, paylaş, filtre ve içindekiler satırları görünür biçimde 44 px'e büyür. */
+.marka{padding:9px 0;margin:-9px 0}
+.nav nav a{padding-top:11px;padding-bottom:11px;min-height:44px}
+.nav .btn{min-width:44px;justify-content:center}
+.geri{min-height:44px;padding-top:8px;padding-bottom:8px}
+.pay a,.pay button{width:44px;height:44px}
+.filtre button{min-height:44px}
+.metin .ac-l{min-height:44px}
+.metin p>a:only-child{display:inline-flex;align-items:center;min-height:44px}
+.metin .ic-m ol{gap:0}
+.metin .ic-m a{display:flex;align-items:center;min-height:44px}
+footer nav a{min-width:44px;justify-content:center}
 </style>
 <script>document.documentElement.classList.add("js")</script>
 <script src="/ortak/analiz.js" defer></script>
