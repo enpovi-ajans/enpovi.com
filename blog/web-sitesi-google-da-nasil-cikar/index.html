@@ -446,10 +446,13 @@ var WA = "905372121441", MESAJ = "Merhaba, Enpovi blogunu okudum. Web sitemin Go
 document.querySelectorAll("[data-yil]").forEach(function(s){ s.textContent = new Date().getFullYear() });
 document.querySelectorAll("[data-wa]").forEach(function(a){ if (!WA){ a.hidden = true; return } a.href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(MESAJ); a.target = "_blank"; a.rel = "noopener" });
 document.querySelectorAll("[data-pwa]").forEach(function(a){ a.href = "https://wa.me/?text=" + encodeURIComponent(document.title + " " + location.href); a.target = "_blank"; a.rel = "noopener" });
-var tost = document.getElementById("tost");
+var tost = document.getElementById("tost"), tostT, tostS;
 document.querySelectorAll("[data-kopya]").forEach(function(b){ b.onclick = function(){
   /* bildirim ekran okuyucuya da okunur (role=status); kopyalanamadıysa "kopyalandı" denmez */
-  var yaz = function(m){ tost.textContent = m; tost.classList.add("on"); setTimeout(function(){ tost.classList.remove("on"); tost.textContent = "" }, 2400) };
+  /* tek zamanlayıcı: art arda dokunuşta son mesaj tam süre görünür, yeniden okunur; metin solma bittikten sonra silinir */
+  var yaz = function(m){ clearTimeout(tostT); clearTimeout(tostS); tost.textContent = ""; tost.classList.add("on");
+    setTimeout(function(){ tost.textContent = m }, 50);
+    tostT = setTimeout(function(){ tost.classList.remove("on"); tostS = setTimeout(function(){ tost.textContent = "" }, 350) }, 2400) };
   var olmadi = function(){ yaz("Kopyalanamadı; adresi tarayıcının adres çubuğundan kopyalayın") };
   if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(location.href).then(function(){ yaz("Bağlantı kopyalandı") }, olmadi); else olmadi();
 } });
