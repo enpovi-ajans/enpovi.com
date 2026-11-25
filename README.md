@@ -10,7 +10,7 @@ ya da paneli konmaz; repo herkese açıktır. Eski panel adresleri `404.html` ü
 | Dosya / klasör | Kaynak | Nasıl değiştirilir |
 |---|---|---|
 | `blog/`, `hizmetler/`, `isler/`, `sitemap.xml`, `blog/feed.xml`, `llms.txt` | ajans reposu `blog/enpovi/` (Markdown) | `python3 araclar/blog/blog.py blog/enpovi ../enpovi.com` (ajans reposundan). **Elle düzenleme**, bir sonraki üretimde silinir |
-| `index.html` (ana sayfa) | bu repo | Elle; yorumlar bölümü (`<!-- yorumlar -->`) blog.py tarafından yalnızca izinli sözlerle doldurulur |
+| `index.html` (ana sayfa) | bu repo | Elle; yorumlar bölümü (`<!-- yorumlar -->`) blog.py tarafından yalnızca izinli sözlerle doldurulur. **Ana başlık, alt metin ve Merak edilenler** app.enpovi.com Yönetim → enpovi.com → İçerik'ten değişir: `.github/workflows/icerik.yml` 10 dakikada bir `.github/icerik/uygula.py` ile `index.html` + `en/index.html` + `veri/icerik.json`'a yazar (elle değiştirirseniz `python3 .github/icerik/uygula.py --cikar` ile veriyi güncelleyin; test `python3 -m unittest discover -s .github/icerik`) |
 | `gizlilik/`, `404.html`, `robots.txt` | bu repo | Elle |
 | `ortak/analiz.js` | bu repo | Enpovi çerezsiz sayacı (ziyaret, WhatsApp, arama, form, deneme → app.enpovi.com/api/enpovi/olay) + etiketler (GA4, GTM, Google Ads, Meta Pixel; kimlikler app.enpovi.com Yönetim → enpovi.com → Etiketler) + çerez notu. GA4 izin modunda, reklam etiketleri yalnızca "Tamam" sonrası; test `.github/kontrol/tarayici.mjs` "ölçüm" |
 | `ortak/font/` | bu repo | Kendi sunucumuzdaki web fontları (dış CDN yok) |

@@ -24,6 +24,8 @@ jobs:
         with: { persist-credentials: false }
       - name: Site kontrolü
         run: python3 .github/kontrol/kontrol.py
+      - name: İçerik düzenleme betiği (Yönetim → enpovi.com → İçerik)
+        run: python3 -m unittest discover -s .github/icerik
 
   tarayici:
     runs-on: ubuntu-latest

@@ -1,0 +1,32 @@
+# İçerik düzenleme (Yasin, 25 Kasım 2026): app.enpovi.com Yönetim → enpovi.com → İçerik'te kaydedilen metin ana sayfaya yazılır.
+# 10 dakikada bir (ve elle) yayındaki kaydı okur (GET /api/enpovi/icerik/yayin, herkese açık, yalnızca sitede görünecek metin);
+# sürüm veri/icerik.json'dakinden farklıysa .github/icerik/uygula.py uygular, site kontrolü geçerse main'e işler (GitHub Pages yayınlar).
+# Kayıt geçersizse ya da kontrol düşerse hiçbir şey işlenmez ve iş kırmızı olur. Gizli anahtar yok: yalnızca bu işin kendi GITHUB_TOKEN'ı.
+name: İçerik
+on:
+  schedule:
+    - cron: '3,13,23,33,43,53 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: icerik, cancel-in-progress: false }
+jobs:
+  uygula:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Yayındaki içeriği al
+        run: |
+          curl -sf -m 20 -H 'cache-control: no-cache' https://app.enpovi.com/api/enpovi/icerik/yayin -o /tmp/icerik.json || { echo "içerik okunamadı; dokunulmadı"; echo '{}' > /tmp/icerik.json; }
+      - name: Uygula ve kontrol et
+        run: |
+          python3 .github/icerik/uygula.py /tmp/icerik.json
+          if [ -n "$(git status --porcelain)" ]; then
+            python3 .github/kontrol/kontrol.py
+            git config user.name "Enpovi içerik"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html en/index.html veri/icerik.json
+            git commit -m "İçerik: Yönetim → enpovi.com'dan güncellendi (sürüm $(python3 -c 'import json;print(json.load(open("veri/icerik.json"))["surum"])'))"
+            git push
+          fi
