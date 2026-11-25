@@ -183,8 +183,9 @@ for (const [durum, onceki] of [['ilk', null], ['hayir', 'hayir'], ['eski', 'evet
     if (await p.evaluate(() => localStorage.getItem('enpovi_cerez')) !== 'tam') hatalar.push(`${ad}: tercih kaydedilmedi`);
     for (const x of ['gtm.js?id=GTM-TEST12', 'fbevents.js', 'gtag/js?id=G-TEST1234']) if (!dis.some(y => y.includes(x))) hatalar.push(`${ad}: "Tamam" sonrası ${x} yüklenmedi`);
     await p.evaluate(() => { document.getElementById('waT').click(); document.querySelector('a[data-dene]').click(); });
-    const d = await donusum(); if (d.join() !== 'AW-123456789/waEtiket,AW-123456789/deneEtiket') hatalar.push(`${ad}: Ads dönüşümü ${d}`);
-    const fb = await p.evaluate(() => (window.fbq?.queue || []).map(x => x[1]).join(',')); if (fb !== 'PageView,Contact,Lead' && !/Contact,Lead/.test(fb)) hatalar.push(`${ad}: Meta olayları ${fb}`);
+    // deneme düğmesi dönüşüm değildir: dönüşüm deneme kurulunca /donusum/'da gider (.github/kontrol/olay.mjs sınar)
+    const d = await donusum(); if (d.join() !== 'AW-123456789/waEtiket') hatalar.push(`${ad}: Ads dönüşümü ${d}`);
+    const fb = await p.evaluate(() => (window.fbq?.queue || []).map(x => x[1]).join(',')); if (!/(^|,)PageView,Contact$/.test(fb)) hatalar.push(`${ad}: Meta olayları ${fb}`);
     // ikinci sayfa: ziyaret yeniden sayılmaz, kaynak sürer
     await p.goto('https://enpovi.com/kvkk/', { waitUntil: 'load' }); await p.waitForTimeout(300);
     if (olaylar.filter(o => o.g.t === 'gor').length !== 1) hatalar.push(`${ad}: aynı oturumda ziyaret iki kez sayıldı`);

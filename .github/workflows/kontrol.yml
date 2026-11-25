@@ -26,6 +26,8 @@ jobs:
         run: python3 .github/kontrol/kontrol.py
       - name: İçerik düzenleme betiği (Yönetim → enpovi.com → İçerik)
         run: python3 -m unittest discover -s .github/icerik
+      - name: Tema vitrini betiği (Yönetim → enpovi.com → Vitrin)
+        run: python3 -m unittest discover -s .github/vitrin
 
   tarayici:
     runs-on: ubuntu-latest
@@ -39,3 +41,7 @@ jobs:
         run: npm install --no-save --no-package-lock playwright@1.63.0 axe-core@4.11.0 && npx playwright install --with-deps chromium
       - name: Tarayıcı denetimi (erişilebilirlik + SEO, telefon ve bilgisayar)
         run: node .github/kontrol/tarayici.mjs
+      - name: Ölçüm denetimi (kanal, olay, sayfa/düğme, deneme dönüşümü; ortak/analiz.js)
+        run: node .github/kontrol/olay.mjs
+      - name: Canlı tema vitrini (yeni yayınlanan tema anında, ekran görüntüsü yoksa canlı küçük görünüm; TR + EN)
+        run: node .github/vitrin/canli.mjs

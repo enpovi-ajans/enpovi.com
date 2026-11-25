@@ -72,7 +72,8 @@ for f in html_dosyalari():
     s = Sayfa()
     s.feed(open(f, encoding="utf-8").read())
     sayfalar[r] = s
-    sablon = r.startswith(("ortak/", "marka/")) or r == "404.html"
+    # donusum/: arama motoruna kapalı, yalnızca deneme dönüşümü için gizli çerçevede açılan sayfa (açıklama ve kanonik gerekmez)
+    sablon = r.startswith(("ortak/", "marka/")) or r in ("404.html", os.path.join("donusum", "index.html"))
     for tag, u in s.baglar:
         if u.startswith(("mailto:", "tel:", "data:", "javascript:", "#", "sms:", "whatsapp:")) or "{" in u or "${" in u:
             continue
