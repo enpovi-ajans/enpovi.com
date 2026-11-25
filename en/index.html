@@ -546,6 +546,8 @@ footer a:hover{color:var(--ink)}
 .vit:focus-visible{outline-offset:-4px}
 .vk{flex:0 0 228px;scroll-snap-align:start;text-decoration:none;color:inherit}
 .vk-tel{display:block;border-radius:24px;padding:8px;background:#0B1612;box-shadow:0 30px 50px -28px rgba(10,43,34,.55);transition:transform .4s var(--ease)}
+.vk-canli{display:block;position:relative;overflow:hidden;border-radius:24px;aspect-ratio:360/752;background:var(--soft)}
+.vk-canli iframe{position:absolute;top:0;left:0;width:360px;height:752px;border:0;transform-origin:0 0;pointer-events:none}
 .vk-tel img{border-radius:24px;width:100%;aspect-ratio:360/752;object-fit:cover;object-position:top;background:var(--soft)}
 .vk:hover .vk-tel{transform:translateY(-6px)}
 .vk b{display:block;font-family:var(--f-d);font-size:19px;letter-spacing:-.02em;margin-top:12px}
@@ -638,6 +640,7 @@ footer li a{min-width:44px;justify-content:center}
 </style>
 <script>document.documentElement.classList.add("js")</script>
 <script src="/ortak/analiz.js" defer></script>
+<script src="/ortak/vitrin.js" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -729,11 +732,11 @@ footer li a{min-width:44px;justify-content:center}
       <span class="ok-i"><svg><use href="#i-ok"/></svg></span>
       <h2>We have received your request.</h2>
       <p>We will contact you when your sample site is ready. If you are in a hurry, you can also message us on WhatsApp.</p>
-      <a class="btn cam" id="istWa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Message us on WhatsApp</a>
+      <a class="btn cam" id="istWa" data-yer="ist-wa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Message us on WhatsApp</a>
     </div>
   </div>
   <div class="sahne gir d2" aria-hidden="true">
-    <div class="yuzen y1"><span class="i" style="background:#EAF4D6;color:#0E6B3A"><svg><use href="#i-izg"/></svg></span><span>18 designs<small>13 colour palettes, you choose</small></span></div>
+    <div class="yuzen y1"><span class="i" style="background:#EAF4D6;color:#0E6B3A"><svg><use href="#i-izg"/></svg></span><span data-vitrin="rozet"><!-- vitrin:rozet -->41 designs<small>17 colour palettes, you choose</small><!-- /vitrin:rozet --></span></div>
     <div class="yuzen y2"><span class="i" style="background:#2BA35F;color:#fff"><svg><use href="#i-ok"/></svg></span><span>Saved<small>Shows on the site right away</small></span></div>
     <div class="tel"><div class="ada"></div><div class="ekran site" id="kapakTel">
       <img class="on" src="/marka/web/kuafor-11.webp" width="360" height="752" alt="" fetchpriority="high">
@@ -748,18 +751,22 @@ footer li a{min-width:44px;justify-content:center}
   <div class="w"><div class="bas r">
     <div class="ust-yazi">Designs</div>
     <h2 id="tasarim-b">Choose the design <em>that suits your business.</em></h2>
-    <p>18 page designs and 13 colour palettes, all made to read comfortably on a phone. Tap to open a live example.</p>
+    <p data-vitrin="metin"><!-- vitrin:metin -->41 page designs and 17 colour palettes, all made to read comfortably on a phone. Tap to open a live example.<!-- /vitrin:metin --></p>
   </div></div>
-  <div class="vit" id="vit" tabindex="0" role="region" aria-label="Design examples (scrolls sideways)">
-    <a class="vk" href="https://app.enpovi.com/tema/kadin-kuaforu/11/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/kuafor-11.webp" width="360" height="752" alt="Prestige design for a hair salon, on a phone"></span><b>Prestige</b><span>Hair salon</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/restoran/14/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/restoran-14.webp" width="360" height="752" alt="Workshop design for a restaurant, on a phone"></span><b>Workshop</b><span>Restaurant</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/dis-klinigi/12/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/dis-12.webp" width="360" height="752" alt="Corporate design for a dental clinic, on a phone"></span><b>Corporate</b><span>Dental clinic</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/kafe/16/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/kafe-16.webp" width="360" height="752" alt="Newspaper design for a café, on a phone"></span><b>Newspaper</b><span>Café</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/hali-yikama/18/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/hali-18.webp" width="360" height="752" alt="Neighbourhood design for a carpet cleaner, on a phone"></span><b>Neighbourhood</b><span>Carpet cleaning</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/oto-yikama/15/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/oto-15.webp" width="360" height="752" alt="Split design for a car wash, on a phone"></span><b>Split</b><span>Car wash</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/mimarlik-ofisi/17/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/mimar-17.webp" width="360" height="752" alt="Gallery design for an architecture studio, on a phone"></span><b>Gallery</b><span>Architecture studio</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/cicekci/13/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/cicek-13.webp" width="360" height="752" alt="Shop design for a florist, on a phone"></span><b>Shop</b><span>Florist</span></a>
-    <a class="vk" href="https://app.enpovi.com/tema/emlak-ofisi/8/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/emlak-8.webp" width="360" height="752" alt="Architect design for a real estate office, on a phone"></span><b>Architect</b><span>Real estate office</span></a>
+  <div class="vit" id="vit" data-surum="4a7c1a6b" tabindex="0" role="region" aria-label="Design examples (scrolls sideways)"><!-- vitrin:kartlar -->
+    <a class="vk" href="https://app.enpovi.com/tema/cicekci/62/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/cicekci-62.webp" width="360" height="752" alt="Kamelya: Florist website design, on a phone"></span><b>Kamelya</b><span>Florist</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/restoran/31/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/restoran-31.webp" width="360" height="752" alt="Kor: Restaurant &amp; café website design, on a phone"></span><b>Kor</b><span>Restaurant &amp; café</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/guzellik-merkezi/51/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/guzellik-merkezi-51.webp" width="360" height="752" alt="Kroma Shift: Beauty &amp; care website design, on a phone"></span><b>Kroma Shift</b><span>Beauty &amp; care</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/erkek-kuaforu-berber/55/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/erkek-kuaforu-berber-55.webp" width="360" height="752" alt="Usta: Barber website design, on a phone"></span><b>Usta</b><span>Barber</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/cocuk-kuaforu/66/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/cocuk-kuaforu-66.webp" width="360" height="752" alt="Kamp: Children&#x27;s hair salon website design, on a phone"></span><b>Kamp</b><span>Children&#x27;s hair salon</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/bungalov-tesisi/17/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/bungalov-tesisi-17.webp" width="360" height="752" alt="Galeri: Bungalow &amp; stays website design, on a phone"></span><b>Galeri</b><span>Bungalow &amp; stays</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/makine-imalati/32/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/makine-imalati-32.webp" width="360" height="752" alt="Çelik: Industry &amp; manufacturing website design, on a phone"></span><b>Çelik</b><span>Industry &amp; manufacturing</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/ev-temizligi/52/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/ev-temizligi-52.webp" width="360" height="752" alt="Pakline: Cleaning website design, on a phone"></span><b>Pakline</b><span>Cleaning</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/kombi-servisi/14/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/kombi-servisi-14.webp" width="360" height="752" alt="Atölye: Technical service website design, on a phone"></span><b>Atölye</b><span>Technical service</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/mali-musavir/33/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/mali-musavir-33.webp" width="360" height="752" alt="Berrak: Professional services website design, on a phone"></span><b>Berrak</b><span>Professional services</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/cicekci/47/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/cicekci-47.webp" width="360" height="752" alt="Fleurie: Florist website design, on a phone"></span><b>Fleurie</b><span>Florist</span></a>
+    <a class="vk" href="https://app.enpovi.com/tema/restoran/16/" target="_blank" rel="noopener"><span class="vk-tel"><img loading="lazy" decoding="async" src="/marka/web/v/restoran-16.webp" width="360" height="752" alt="Gazete: Restaurant &amp; café website design, on a phone"></span><b>Gazete</b><span>Restaurant &amp; café</span></a>
+    <!-- /vitrin:kartlar -->
   </div>
   <div class="w vit-alt">
     <div class="vit-ok"><button type="button" id="vitSol" aria-label="Previous designs"><svg><use href="#i-ok-sol"/></svg></button><button type="button" id="vitSag" aria-label="Next designs"><svg><use href="#i-ok-sag"/></svg></button></div>
@@ -1089,7 +1096,7 @@ footer li a{min-width:44px;justify-content:center}
         <button type="button" class="btn koyu" id="shIleri" disabled>Next<svg class="ok-sag"><use href="#i-ok-sag"/></svg></button>
         <button type="submit" class="btn lime" id="shGonder" hidden><svg><use href="#i-wa"/></svg>Send on WhatsApp</button>
       </div>
-      <a class="sh-dogrudan" id="shDogrudan" href="#" target="_blank" rel="noopener">Skip the questions and write directly</a>
+      <a class="sh-dogrudan" id="shDogrudan" data-yer="sh-dogrudan" href="#" target="_blank" rel="noopener">Skip the questions and write directly</a>
     </form>
   </div>
 </div>
@@ -1249,11 +1256,11 @@ var TALEP_URL = "https://app.enpovi.com/api/talep";
       if (!t){ dugme.disabled = false;
         if (tsEtk) { not.textContent = "Please complete the verification box above and send again."; return null }
         waNot(window.turnstile ? "Security check failed, please try again in a few seconds." : "Security check could not load."); return null }
-      return fetch(TALEP_URL, {method: "POST", headers: {"content-type": "text/plain;charset=UTF-8"}, body: JSON.stringify({ad: d.ad.value, dal: d.dal.value, iletisim: d.iletisim.value, site: d.site.value, kvkk: true, sure: Date.now() - acildi, ts: t})})
+      return fetch(TALEP_URL, {method: "POST", headers: {"content-type": "text/plain;charset=UTF-8"}, body: JSON.stringify({ad: d.ad.value, dal: d.dal.value, iletisim: d.iletisim.value, site: d.site.value, kvkk: true, sure: Date.now() - acildi, ts: t, kanal: window.enpoviKanal ? enpoviKanal() : null})})
         .then(function(r){ return r.json().catch(function(){ return {} }).then(function(j){ dugme.disabled = false;
           if (r.ok) return bitti();
           tsYenile(); waNot("Could not send.") }) },
-        function(){ dugme.disabled = false; tsYenile(); window.open(waLink(), "_blank", "noopener"); waNot("Could not connect, your request was not sent.") }) });
+        function(){ dugme.disabled = false; tsYenile(); window.enpoviYer = "form-yedek"; window.open(waLink(), "_blank", "noopener"); waNot("Could not connect, your request was not sent.") }) });
   });
   document.querySelectorAll("[data-istek]").forEach(function(a){ a.addEventListener("click", function(e){
     e.preventDefault(); menu(false); var ac = document.getElementById("istAc"); if (ac) ac.open = true; var h = f.hidden ? tamam : f;

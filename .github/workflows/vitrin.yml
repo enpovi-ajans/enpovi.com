@@ -1,0 +1,59 @@
+# Ana sayfa tema vitrini (Yasin, 25 Kasım 2026: "Projemizde yayınlanan temalar otomatik olarak enpovi.com'da gözükecek ya da kaldırılacak").
+# 10 dakikada bir (ve elle) app.enpovi.com herkese açık GET /api/enpovi/vitrin/yayin'ı okur (yayındaki temalar; Yönetim → enpovi.com → Vitrin'de
+# sabitlenen önde, gizlenen yok). Sürüm veri/vitrin.json'dakinden farklıysa yeni kartların ekran görüntüsünü çeker (.github/vitrin/ekran.mjs),
+# kartları ve tasarım/renk sayısını Türkçe + İngilizce yazar (.github/vitrin/uygula.py), site kontrolü geçerse main'e işler (GitHub Pages yayınlar).
+# Ziyaretçi yeni temayı beklemez: ortak/vitrin.js sayfa açılınca aynı adresi okur ve kartları hemen yeniler; bu iş arama motoru, JS'siz ziyaretçi
+# ve ekran görüntüsü içindir. Platform açılamıyorsa (ağ, 5xx) dokunulmaz, iş yeşil; 4xx ya da geçersiz yanıt, açılamayan tema, düşen kontrol:
+# hiçbir şey işlenmez, iş kırmızı. Siteye yazan öteki işle (icerik.yml) aynı sırada çalışır, gönderim .github/site-yaz.sh ile. Paket fiyatı platformda değişmişse kartlar yine işlenir,
+# her koşuda iş kırmızı olur (sitedeki fiyat Yasin'in kararıyla elle değişir). Gizli anahtar yok: yalnızca bu işin kendi GITHUB_TOKEN'ı.
+name: Vitrin
+on:
+  schedule:
+    - cron: '8-58/10 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency: { group: site-yaz, cancel-in-progress: false }
+jobs:
+  uygula:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Yayındaki vitrini al
+        id: al
+        run: |
+          set +e; durum=$(curl -s -m 20 -H 'cache-control: no-cache' -w '%{http_code}' https://app.enpovi.com/api/enpovi/vitrin/yayin -o /tmp/vitrin.json); set -e
+          case "$durum" in
+            200) ;;
+            4??) echo "::error::vitrin adresi $durum döndü (yol ya da izin bozuk)"; rm -f /tmp/vitrin.json; exit 1 ;;
+            *) echo "platform açılamadı ($durum); dokunulmadı"; rm -f /tmp/vitrin.json; exit 0 ;;
+          esac
+          yeni=$(python3 -c 'import json;print(json.load(open("/tmp/vitrin.json")).get("surum",""))' 2>/dev/null || true)
+          eski=$(python3 -c 'import json;print(json.load(open("veri/vitrin.json")).get("surum",""))' 2>/dev/null || true)
+          if [ -n "$yeni" ] && [ "$yeni" != "$eski" ]; then echo "degisti=1" >> "$GITHUB_OUTPUT"; else echo "değişiklik yok ($eski)"; fi
+      - name: Eksik ekran görüntüleri
+        if: steps.al.outputs.degisti == '1'
+        id: eksik
+        run: |
+          python3 .github/vitrin/uygula.py eksik /tmp/vitrin.json > /tmp/eksik.txt
+          cat /tmp/eksik.txt
+          if [ -s /tmp/eksik.txt ]; then echo "var=1" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.eksik.outputs.var == '1'
+        with: { node-version: 22 }
+      - name: Ekran görüntüsü çek
+        if: steps.eksik.outputs.var == '1'
+        run: |
+          npm install --no-save --no-package-lock playwright@1.63.0 && npx playwright install --with-deps chromium
+          node .github/vitrin/ekran.mjs /tmp/eksik.txt
+      - name: Uygula, kontrol et, işle
+        if: steps.al.outputs.degisti == '1'
+        env: { GITHUB_TOKEN: '${{ github.token }}' }
+        run: |
+          rm -rf node_modules
+          .github/site-yaz.sh "Vitrin: yayındaki temalardan güncellendi (sürüm $(python3 -c 'import json;print(json.load(open("/tmp/vitrin.json"))["surum"])'))" \
+            'python3 .github/vitrin/uygula.py /tmp/vitrin.json && python3 -m unittest discover -s .github/vitrin -q' index.html en/index.html veri/vitrin.json marka/web/v
+      - name: Fiyat platformdakiyle aynı mı (her koşuda)
+        run: '[ ! -s /tmp/vitrin.json ] || python3 .github/vitrin/uygula.py fiyat /tmp/vitrin.json'
