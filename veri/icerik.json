@@ -9,7 +9,7 @@
   "sss": [
    {
     "s": "Ücretsiz deneme nasıl çalışıyor, kart bilgisi gerekiyor mu?",
-    "c": "Kart bilgisi gerekmez. İşinizi ve paketinizi seçip işletmenizin adını ve telefonunuzu yazarsınız; siteniz hemen kurulur ve 7 gün boyunca ücretsiz denersiniz. İsterseniz sitenizi biz de hazırlarız. Beğenirseniz yıllık paketle devam edersiniz; beğenmezseniz hiçbir ödeme yapmazsınız ve deneme sitesi süre bitince kapanır."
+    "c": "Kart bilgisi gerekmez. İşinizi ve paketinizi seçip işletmenizin adını, telefonunuzu ve e-postanızı yazıp bir şifre belirlersiniz; siteniz hemen kurulur ve 7 gün boyunca ücretsiz denersiniz. İsterseniz sitenizi biz de hazırlarız. Beğenirseniz yıllık paketle devam edersiniz; beğenmezseniz hiçbir ödeme yapmazsınız ve deneme sitesi süre bitince kapanır."
    },
    {
     "s": "Her yıl ne ödüyorum?",
@@ -54,7 +54,7 @@
   "sss": [
    {
     "s": "How does the free trial work, do I need a card?",
-    "c": "No card needed. You choose your business and package and enter your business name and phone number; your site is set up right away and you try it free for 7 days. If you prefer, we prepare the site for you. If you like it, you continue with a yearly package; if not, you pay nothing and the trial site closes when the period ends."
+    "c": "No card needed. You choose your business and package and enter your business name, phone number and email and choose a password; your site is set up right away and you try it free for 7 days. If you prefer, we prepare the site for you. If you like it, you continue with a yearly package; if not, you pay nothing and the trial site closes when the period ends."
    },
    {
     "s": "What do I pay each year?",
