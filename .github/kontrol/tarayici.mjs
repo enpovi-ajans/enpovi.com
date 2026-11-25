@@ -93,6 +93,15 @@ for (const durum of ['tamam', 'engelli', 'etkilesim']) {
   await p.goto(ADRES + '/', { waitUntil: 'load' });
   const ad = `örnek site formu (${durum})`;
   if (tsIstendi) hatalar.push(`${ad}: Turnstile sayfa açılışında yüklendi (forma dokunmadan yüklenmemeli)`);
+  // 7 gün ücretsiz deneme bağlantıları app.enpovi.com/basla/'ya gider; reklam izi (utm_*) bağlantıya taşınır
+  if (durum === 'tamam') {
+    await p.goto(ADRES + '/?utm_source=instagram&utm_medium=cpc&utm_campaign=kasim', { waitUntil: 'load' });
+    const dene = await p.$$eval('a[data-dene]', L => L.map(a => a.href));
+    if (dene.length < 5 || dene.some(h => !h.startsWith('https://app.enpovi.com/basla/'))) hatalar.push('deneme bağlantıları: ' + dene.join(' '));
+    if (!dene.every(h => /utm_source=instagram/.test(h) && /utm_campaign=kasim/.test(h))) hatalar.push('deneme bağlantısı reklam izini taşımıyor: ' + dene[0]);
+  }
+  // örnek site formu "Ya da sitenizi biz hazırlayalım" altında kapalı durur: ziyaretçi gibi açılır
+  await p.click('#istAc > summary');
   await p.fill('#istek [name=ad]', 'Deneme Kuaför'); await p.fill('#istek [name=dal]', 'Kuaför'); await p.fill('#istek [name=iletisim]', '05321112233');
   await p.check('#istek [name=kvkk]'); await p.waitForTimeout(2600);
   await p.click('#istek button[type=submit]');
