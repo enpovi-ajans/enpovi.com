@@ -1,0 +1,93 @@
+{
+ "surum": "",
+ "tr": {
+  "baslik": [
+   "Sitenizi",
+   "*bugün* kurun."
+  ],
+  "alt": "Sitenizi üç adımda kendiniz kurun, 7 gün ücretsiz deneyin. Alan adı, sunucu, güvenlik ve destek tek yıllık ücrette.",
+  "sss": [
+   {
+    "s": "Ücretsiz deneme nasıl çalışıyor, kart bilgisi gerekiyor mu?",
+    "c": "Kart bilgisi gerekmez. İşinizi ve paketinizi seçip işletmenizin adını ve telefonunuzu yazarsınız; siteniz hemen kurulur ve 7 gün boyunca ücretsiz denersiniz. İsterseniz sitenizi biz de hazırlarız. Beğenirseniz yıllık paketle devam edersiniz; beğenmezseniz hiçbir ödeme yapmazsınız ve deneme sitesi süre bitince kapanır."
+   },
+   {
+    "s": "Her yıl ne ödüyorum?",
+    "c": "Tek bir yıllık ücret. Alan adı, sunucu, SSL güvenlik sertifikası, yedekleme ve destek bu ücrete dahildir; yıl içinde ayrıca bir fatura çıkmaz. Başlangıç paketi yıllık 6.000 TL, Profesyonel paketi yıllık 15.000 TL; fiyatlara KDV dahildir."
+   },
+   {
+    "s": "Değişiklikleri kim yapıyor?",
+    "c": "Ürün, fiyat, fotoğraf, metin ve iletişim bilgilerini size özel panelden telefonunuzla kendiniz değiştirirsiniz; kaydettiğiniz anda sitede görünür. İsterseniz WhatsApp'tan yazın, biz yapalım."
+   },
+   {
+    "s": "Hazır site kurucularla kendim yapsam olmaz mı?",
+    "c": "Olur; ancak tasarımı seçmek, metinleri yazmak, fotoğrafları hazırlamak, alan adı, sunucu ve güvenlik ayarlarını takip etmek size kalır. Biz sitenizi kendi bilgilerinizle hazır teslim ediyoruz; siz yalnızca değiştirmek istediğinizi değiştiriyorsunuz."
+   },
+   {
+    "s": "Kendi alan adım var, kullanabilir miyim?",
+    "c": "Evet. Başka bir firmadan aldığınız alan adını da sitenize bağlarız; yapmanız gereken bir ayar varsa adım adım gösteririz."
+   },
+   {
+    "s": "Fotoğraflarım yoksa ne olacak?",
+    "c": "Instagram'ınızdaki ve elinizdeki fotoğraflardan yola çıkarız. Eksik kalan yerlere işinize uygun telifsiz fotoğraf koyar, bunu size söyleriz; kendi fotoğraflarınızı ekledikçe değiştirirsiniz."
+   },
+   {
+    "s": "Bir gün ayrılmak istersem ne olur?",
+    "c": "Yıllık dönem bitiminde yenilemeyebilirsiniz. Ayrılırken sitenizin metinleri ve fotoğrafları size dosya olarak verilir, alan adınızı göstereceğiniz yere yönlendiririz."
+   },
+   {
+    "s": "Instagram içerik paketinde paylaşımı kim yapıyor?",
+    "c": "İçerikleri biz hazırlıyoruz, siz Yayın Paneli'nden kendi hesabınızda paylaşıyorsunuz. Her içeriğin saati, açıklaması ve hashtag'leri hazır olduğu için birkaç saniye sürer."
+   },
+   {
+    "s": "Kocaeli dışında da çalışıyor musunuz?",
+    "c": "Evet. Merkezimiz Kocaeli ve önceliğimiz Kocaeli'deki işletmeler, ancak Türkiye'nin her yerinden işletmelerle çalışıyoruz. Bilgi ve fotoğraflarınızı bize iletiyorsunuz, siteniz ve içerikleriniz panelinize geliyor; yüz yüze görüşme gerekmiyor."
+   }
+  ]
+ },
+ "en": {
+  "baslik": [
+   "Launch your",
+   "*website* today."
+  ],
+  "alt": "Set up your site yourself in three steps and try it free for 7 days. Domain, hosting, security and support in one yearly fee.",
+  "sss": [
+   {
+    "s": "How does the free trial work, do I need a card?",
+    "c": "No card needed. You choose your business and package and enter your business name and phone number; your site is set up right away and you try it free for 7 days. If you prefer, we prepare the site for you. If you like it, you continue with a yearly package; if not, you pay nothing and the trial site closes when the period ends."
+   },
+   {
+    "s": "What do I pay each year?",
+    "c": "A single yearly fee. Domain, hosting, SSL certificate, backups and support are included; there are no extra bills during the year. The Starter package is 6,000 TL a year and the Professional package 15,000 TL a year, VAT included."
+   },
+   {
+    "s": "Who makes the changes?",
+    "c": "You change products, prices, photos, text and contact details yourself from your own panel on your phone; they appear on the site as soon as you save. Or message us on WhatsApp and we will do it."
+   },
+   {
+    "s": "Can't I build it myself with a site builder?",
+    "c": "You can; but choosing the design, writing the text, preparing the photos and keeping track of the domain, hosting and security settings are then up to you. We deliver your site ready, with your own details; you only change what you want to change."
+   },
+   {
+    "s": "I already have a domain. Can I use it?",
+    "c": "Yes. We connect a domain bought from another company too; if you need to change a setting, we show you step by step."
+   },
+   {
+    "s": "What if I don't have photos?",
+    "c": "We start from the photos on your Instagram and the ones you have. Where something is missing we use suitable royalty-free photos and tell you so; you replace them as you add your own."
+   },
+   {
+    "s": "What happens if I want to leave?",
+    "c": "You can choose not to renew at the end of the yearly term. When you leave, your site's text and photos are given to you as files, and we point your domain wherever you tell us."
+   },
+   {
+    "s": "Who posts the content in the Instagram package?",
+    "c": "We prepare the content and you post it on your own account from the Publishing Panel. Every item's time, caption and hashtags are ready, so it takes a few seconds."
+   },
+   {
+    "s": "Do you work with businesses outside Türkiye?",
+    "c": "Yes. Our base is in Kocaeli, Türkiye, and we work remotely: you send us your details and photos, and your site and content arrive in your panel, so no face-to-face meeting is needed. The panel is available in English."
+   }
+  ]
+ }
+}
