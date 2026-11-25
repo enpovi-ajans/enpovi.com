@@ -28,7 +28,7 @@ BOSLUK = "[\t\n\v\f\r \u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3
 GORUNMEZ = "[\u00ad\u200b-\u200d\u2060\ufeff]"
 HARF = "a-zçğıöşü0-9"
 YASAK = re.compile(f"(?<![{HARF}])(en (?:[iı]y[iı]|[iı]y[iı]s[iı]|ucuz|ucuzu|uygun f[iı]yatl[iı])|(?:1|b[iı]r) numara|rak[iı]ps[iı]z|the (?:best|cheapest)|number one)(?![{HARF}])")
-TUTAR = re.compile(f"(?<![0-9.,])([0-9]{{1,3}}(?:[.,][0-9]{{3}})+)(?![0-9])|([0-9]+) ?(?:tl|₺|lira)(?![{HARF}])|₺ ?([0-9][0-9.,]*)")
+TUTAR = re.compile(f"(?<![0-9.,])([0-9]{{1,3}}(?:[.,][0-9]{{3}})+)(?![0-9])|([0-9]+) ?(?:tl|try|₺|l[iı]ra)(?![{HARF}])|₺ ?([0-9][0-9.,]*)")
 PAKET_TUTAR = {"6000", "15000"}
 
 
@@ -107,6 +107,8 @@ def dogrula(d, dil):
         k = kucuk(tum)
         if YASAK.search(k):
             h.append(f"{dil}: üstünlük iddiası yazılmaz (\"en iyi\", \"en ucuz\", \"the best\" gibi)")
+        elif re.search("[\ud800-\udfff]", tum):
+            h.append(f"{dil}: geçersiz karakter var (metni yeniden yazın)")
         elif re.search(r"[<>]", tum):
             h.append(f"{dil}: < ve > işaretleri kullanılmaz (düz metin)")
         elif re.search(r"(?![0-9])\d", tum):
@@ -183,9 +185,14 @@ def main(argv):
     yaz = {}
     for dil, yol in SAYFA.items():
         yaz[yol] = uygula(open(_yol(yol), encoding="utf-8").read(), yeni[dil])
-    for yol, s in yaz.items():  # hepsi hazırlandıktan sonra yazılır (yarım yazım yok)
-        open(_yol(yol), "w", encoding="utf-8").write(s)
-    open(_yol(VERI), "w", encoding="utf-8").write(json.dumps(yeni, ensure_ascii=False, indent=1) + "\n")
+    veri = json.dumps(yeni, ensure_ascii=False, indent=1) + "\n"
+    bayt = {yol: s.encode("utf-8") for yol, s in yaz.items()}  # kodlama hatası yazmadan önce çıkar
+    bayt[VERI] = veri.encode("utf-8")
+    for yol, b in bayt.items():  # her dosya önce geçici dosyaya, sonra yerine (yarım yazım yok)
+        gecici = _yol(yol) + ".yeni"
+        with open(gecici, "wb") as f:
+            f.write(b)
+        os.replace(gecici, _yol(yol))
     print("uygula.py: sürüm", g["surum"], "uygulandı")
     return 0
 

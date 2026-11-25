@@ -1,6 +1,6 @@
 [
  {
-  "alt": "Yıllık 6.000 TL, 2026 yılında kurun.",
+  "alt": "Y\u0131ll\u0131k 6.000 TL, 2026 y\u0131l\u0131nda kurun.",
   "gecer": true
  },
  {
@@ -8,11 +8,11 @@
   "gecer": true
  },
  {
-  "alt": "Sitenizi üç adımda kurun.",
+  "alt": "Sitenizi \u00fc\u00e7 ad\u0131mda kurun.",
   "gecer": true
  },
  {
-  "alt": "EN İYİ SİTE",
+  "alt": "EN \u0130Y\u0130 S\u0130TE",
   "gecer": false
  },
  {
@@ -24,7 +24,7 @@
   "gecer": false
  },
  {
-  "alt": "Bİr numara ajans",
+  "alt": "B\u0130r numara ajans",
   "gecer": false
  },
  {
@@ -44,35 +44,35 @@
   "gecer": false
  },
  {
-  "alt": "999TL",
+  "alt": "999\u0085TL",
   "gecer": false
  },
  {
-  "alt": "９９９ TL",
+  "alt": "\uff19\uff19\uff19 TL",
   "gecer": false
  },
  {
-  "alt": "₺500 indirim",
+  "alt": "\u20ba500 indirim",
   "gecer": false
  },
  {
-  "alt": "1.500 işletme",
+  "alt": "1.500 i\u015fletme",
   "gecer": false
  },
  {
-  "alt": "eniyi site",
+  "alt": "en\u0085iyi site",
   "gecer": false
  },
  {
-  "alt": "en​ iyi site",
+  "alt": "en\u200b iyi site",
   "gecer": false
  },
  {
-  "alt": "<b>kalın</b>",
+  "alt": "<b>kal\u0131n</b>",
   "gecer": false
  },
  {
-  "alt": "Seniniyi seçim",
+  "alt": "Seniniyi se\u00e7im",
   "gecer": true
  },
  {
@@ -80,19 +80,31 @@
   "gecer": true
  },
  {
-  "alt": "Aynı gün kurulum",
+  "alt": "Ayn\u0131 g\u00fcn kurulum",
   "gecer": true
  },
  {
-  "alt": "7 gün ücretsiz",
+  "alt": "7 g\u00fcn \u00fccretsiz",
   "gecer": true
  },
  {
-  "alt": "﻿﻿",
+  "alt": "\ufeff\ufeff",
   "gecer": false
  },
  {
   "alt": "   ",
+  "gecer": false
+ },
+ {
+  "alt": "Sadece 999 LIRA",
+  "gecer": false
+ },
+ {
+  "alt": "999 TRY",
+  "gecer": false
+ },
+ {
+  "alt": "x \ud800 y",
   "gecer": false
  }
 ]
