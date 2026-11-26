@@ -83,6 +83,12 @@ class Vitrin(unittest.TestCase):
             for k in v["temalar"]:
                 k["paketler"] = ["baslangic", "profesyonel"]; k.pop("paket", None)
         self.assertFalse(bozuk(yeni))
+        # iş dalları (G01): isteğe bağlı, varsa sıkı
+        self.assertFalse(bozuk(lambda v: v.pop("dallar", None)))
+        self.assertTrue(bozuk(lambda v: v.update(dallar=[])))
+        self.assertTrue(bozuk(lambda v: v.update(dallar=["../x"])))
+        self.assertTrue(bozuk(lambda v: v.update(dallar=["cicekci", "cicekci"])))
+        self.assertTrue(bozuk(lambda v: v.update(dallar="cicekci")))
         self.assertTrue(bozuk(lambda v: v["sayi"].update(tema="41")))
         self.assertTrue(bozuk(lambda v: v["fiyat"].pop("baslangic")))
         self.assertEqual(U.dogrula([]), ["vitrin bir nesne değil"])
