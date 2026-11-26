@@ -184,9 +184,9 @@
   function notOlustur() {
     var reklam = reklamVar();
     var st = document.createElement("style");
-    st.textContent = ".cz{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:65;max-width:360px;display:flex;align-items:center;gap:8px;padding:8px 8px 8px 12px;border-radius:16px;background:rgba(8,34,27,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:rgba(255,255,255,.86);font:500 12.5px/1.4 'Inter',system-ui,sans-serif;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 16px 32px -14px rgba(0,0,0,.6);opacity:0;transform:translateY(12px);transition:opacity .3s,transform .3s}" +
-      ".cz.on{opacity:1;transform:none}.cz a{color:#C4E57A}.cz button{flex:none;min-height:44px;border:0;border-radius:999px;font:700 12.5px/1 'Inter',system-ui,sans-serif;padding:8px 12px;cursor:pointer}" +
-      ".cz .ev{background:#9BCB3C;color:#0A2B22}.cz .hy{background:transparent;color:rgba(255,255,255,.7);padding:8px}@media(max-width:420px){.cz{right:12px;max-width:none}}@media(prefers-reduced-motion:reduce){.cz{transition:none}}";
+    st.textContent = ".cz{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:65;max-width:360px;display:flex;align-items:center;gap:8px;padding:8px 8px 8px 12px;border-radius:16px;background:rgba(10,10,10,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:rgba(255,255,255,.86);font:500 12.5px/1.4 'Inter',system-ui,sans-serif;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 16px 32px -14px rgba(0,0,0,.6);opacity:0;transform:translateY(12px);transition:opacity .3s,transform .3s}" +
+      ".cz.on{opacity:1;transform:none}.cz a{color:#FF3346}.cz button{flex:none;min-height:44px;border:0;border-radius:999px;font:700 12.5px/1 'Inter',system-ui,sans-serif;padding:8px 12px;cursor:pointer}" +
+      ".cz .ev{background:#E3001B;color:#fff}.cz .hy{background:transparent;color:rgba(255,255,255,.7);padding:8px}@media(max-width:420px){.cz{right:12px;max-width:none}}@media(prefers-reduced-motion:reduce){.cz{transition:none}}";
     document.head.appendChild(st);
     var d = document.createElement("div");
     d.className = "cz"; d.setAttribute("role", "region"); d.setAttribute("aria-label", "Çerez tercihi");
