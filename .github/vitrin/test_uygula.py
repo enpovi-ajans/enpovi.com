@@ -74,6 +74,15 @@ class Vitrin(unittest.TestCase):
         self.assertTrue(bozuk(lambda v: v["temalar"][0].update(dal="../x")))
         self.assertTrue(bozuk(lambda v: v["temalar"][0].update(no=True)))
         self.assertTrue(bozuk(lambda v: v["temalar"][0].update(paket="kurumsal")))
+        self.assertTrue(bozuk(lambda v: v["temalar"][0].update(paketler=["kurumsal"])))
+        self.assertTrue(bozuk(lambda v: v["temalar"][0].update(paketler=[])))
+        self.assertTrue(bozuk(lambda v: v["temalar"][0].update(paketler="baslangic")))
+        self.assertTrue(bozuk(lambda v: v["temalar"][0].update(paketler=["baslangic", "baslangic"])))
+        # ortak tema (26 Kasım 2026): yeni biçim paketler[]; eski tek paket alanı da geçerli
+        def yeni(v):
+            for k in v["temalar"]:
+                k["paketler"] = ["baslangic", "profesyonel"]; k.pop("paket", None)
+        self.assertFalse(bozuk(yeni))
         self.assertTrue(bozuk(lambda v: v["sayi"].update(tema="41")))
         self.assertTrue(bozuk(lambda v: v["fiyat"].pop("baslangic")))
         self.assertEqual(U.dogrula([]), ["vitrin bir nesne değil"])

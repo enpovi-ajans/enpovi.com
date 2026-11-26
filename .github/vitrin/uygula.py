@@ -64,7 +64,9 @@ def dogrula(v):
         for a in ("ad", "dalAd", "sektorEn"):
             if not (isinstance(k.get(a), str) and YAZI.match(k[a]) and k[a].strip() == k[a]):
                 h.append("kart %d: %s geçersiz" % (i, a))
-        if k.get("paket") not in SITE_FIYAT:
+        # ortak tema (Yasin, 26 Kasım 2026): kart tasarımın uygun olduğu paketleri taşır; eski tek "paket" alanı da geçerli
+        pk = k.get("paketler", [k.get("paket")])
+        if not (isinstance(pk, list) and pk and all(isinstance(x, str) and x in SITE_FIYAT for x in pk) and len(set(pk)) == len(pk)):
             h.append("kart %d: paket geçersiz" % i)
     return h
 
