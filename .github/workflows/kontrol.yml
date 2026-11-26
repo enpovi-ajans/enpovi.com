@@ -45,3 +45,5 @@ jobs:
         run: node .github/kontrol/olay.mjs
       - name: Canlı tema vitrini (yeni yayınlanan tema anında, ekran görüntüsü yoksa canlı küçük görünüm; TR + EN)
         run: node .github/vitrin/canli.mjs
+      - name: İş çipleri (platform listesinde olmayan işin "7 gün dene" çipi gizlenir, bozuk listede dokunulmaz; TR + EN)
+        run: node .github/vitrin/cip.mjs

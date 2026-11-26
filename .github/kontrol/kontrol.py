@@ -145,16 +145,14 @@ if os.path.exists(os.path.join(KOK, "en", "index.html")):
         hatalar.append("en/index.html: örnek site formu Türkçe sayfayla aynı değil %s ≠ %s (ajans: python3 araclar/blog/blog.py blog/enpovi <bu repo>)" % (en_iz, tr_iz))
 
 # "7 gün dene" iş çipleri (G01, Yasin 26 Kasım 2026): app.enpovi.com/basla/?dal=X yalnızca satışta tasarımı olan iş dalına gider
-# (veri/vitrin.json "dallar", platform /api/enpovi/vitrin/yayin); tasarımı olmayan iş "Sitenizi biz hazırlayalım"a yönlenir.
+# (veri/vitrin.json "dallar", platform /api/enpovi/vitrin/yayin); tasarımı olmayan iş "Sitenizi biz hazırlayalım"a yönlenir. Liste yok ya da bozuksa hata.
+sys.path.insert(0, os.path.join(KOK, ".github", "vitrin"))
+import uygula as _vitrin  # noqa: E402
 _vit = os.path.join(KOK, "veri", "vitrin.json")
 _dallar = json.load(open(_vit, encoding="utf-8")).get("dallar") if os.path.exists(_vit) else None
 for f in html_dosyalari():
-    r = os.path.relpath(f, KOK)
-    for d in sorted(set(re.findall(r"app\.enpovi\.com/basla/\?dal=([a-z0-9-]+)", open(f, encoding="utf-8").read()))):
-        if _dallar is None:
-            uyarilar.append("%s: iş dalı listesi yok (veri/vitrin.json dallar), ?dal=%s denetlenemedi" % (r, d))
-        elif d not in _dallar:
-            hatalar.append("%s: ?dal=%s satışta tasarımı olan bir iş dalı değil (çipi kaldırın ya da \"biz hazırlayalım\"a yönlendirin)" % (r, d))
+    for h in _vitrin.dal_hatalari(open(f, encoding="utf-8").read(), _dallar):
+        hatalar.append("%s: %s" % (os.path.relpath(f, KOK), h))
 
 for u in uyarilar:
     print("uyarı:", u)
