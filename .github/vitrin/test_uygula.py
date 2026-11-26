@@ -87,6 +87,14 @@ class Vitrin(unittest.TestCase):
         def yeni_bozuk(v):
             yeni(v); v["temalar"][0]["paket"] = "kurumsal"
         self.assertTrue(bozuk(yeni_bozuk))
+        for kotu in (None, ["baslangic"], {}):  # liste/nesne çökmez, hata olarak yazılır
+            def f(v, kotu=kotu):
+                yeni(v); v["temalar"][0]["paket"] = kotu
+            self.assertTrue(bozuk(f), repr(kotu))
+        def eski(v):  # yalnız eski tek paket alanı hâlâ geçer
+            for k in v["temalar"]:
+                k.pop("paketler", None); k["paket"] = "baslangic"
+        self.assertFalse(bozuk(eski))
         # iş dalları (G01): isteğe bağlı, varsa sıkı
         self.assertFalse(bozuk(lambda v: v.pop("dallar", None)))
         self.assertTrue(bozuk(lambda v: v.update(dallar=[])))

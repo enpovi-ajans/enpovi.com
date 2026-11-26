@@ -68,7 +68,7 @@ def dogrula(v):
         # iki alan birlikte gelirse ikisi de denetlenir: geçerli "paketler" bozuk bir "paket" alanını örtmez
         pk = k.get("paketler", [k.get("paket")])
         if not (isinstance(pk, list) and pk and all(isinstance(x, str) and x in SITE_FIYAT for x in pk) and len(set(pk)) == len(pk)) \
-                or ("paket" in k and k["paket"] not in SITE_FIYAT):
+                or ("paket" in k and not (isinstance(k["paket"], str) and k["paket"] in SITE_FIYAT)):
             h.append("kart %d: paket geçersiz" % i)
     # satışta seçilebilen iş dalları (G01, Yasin 26 Kasım 2026): sayfadaki "7 gün dene" çipleri bunlardan olmalı (kontrol.py); eski vitrinde yok
     d = v.get("dallar")
