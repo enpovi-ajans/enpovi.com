@@ -93,6 +93,29 @@ class Vitrin(unittest.TestCase):
         self.assertTrue(bozuk(lambda v: v["fiyat"].pop("baslangic")))
         self.assertEqual(U.dogrula([]), ["vitrin bir nesne değil"])
 
+    def test_is_dali_baglantilari(self):
+        # G01: sayfadaki her "7 gün dene" iş dalı yayındaki listede; bilinmeyen dal, liste yok ya da bozuk liste hata
+        for dil in ("tr", "en"):
+            self.assertEqual(U.dal_hatalari(sayfa(dil), self.v.get("dallar")), [], dil)
+            self.assertTrue(U.DAL_BAG.findall(sayfa(dil)), dil + ": sayfada iş çipi var")
+        b = '<a href="https://app.enpovi.com/basla/?dal=restoran">'
+        self.assertTrue(U.dal_hatalari(b, self.v["dallar"]))
+        self.assertTrue(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?paket=baslangic&amp;dal=restoran">', self.v["dallar"]))
+        self.assertTrue(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?paket=x&dal=restoran">', self.v["dallar"]))
+        self.assertEqual(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?dal=cicekci">', ["cicekci"]), [])
+        for bozuk in (None, [], "cicekci,restoran", ["../x"]):
+            self.assertTrue(U.dal_hatalari(b, bozuk), repr(bozuk))
+
+    def test_dallar_kaybolursa_dokunulmaz(self):
+        import tempfile
+        v = copy.deepcopy(self.v); v.pop("dallar", None)
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump(v, f)
+        try:
+            self.assertEqual(U.main(["uygula.py", f.name]), 1)
+        finally:
+            os.unlink(f.name)
+
     def test_isaret_yoksa_durur(self):
         with self.assertRaises(SystemExit):
             U.uygula(sayfa("tr").replace("<!-- vitrin:kartlar -->", ""), self.v, "tr")
