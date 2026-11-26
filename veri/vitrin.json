@@ -1,7 +1,7 @@
 {
- "surum": "36755f50",
+ "surum": "6bc218d3",
  "sayi": {
-  "tema": 17,
+  "tema": 19,
   "dal": 534,
   "palet": 17
  },
@@ -20,8 +20,11 @@
    "tema": "botanik",
    "no": 70,
    "ad": "Botanik",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/cicekci/70/"
   },
   {
@@ -34,8 +37,11 @@
    "tema": "kroma-shift",
    "no": 51,
    "ad": "Kroma Shift",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/guzellik-merkezi/51/"
   },
   {
@@ -48,23 +54,29 @@
    "tema": "kontur",
    "no": 69,
    "ad": "Kontür",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/erkek-kuaforu-berber/69/"
   },
   {
-   "anahtar": "temizlik/pakline",
+   "anahtar": "temizlik/cozgu",
    "sektor": "temizlik",
    "sektorAd": "Temizlik",
    "sektorEn": "Cleaning",
    "dal": "ev-temizligi",
    "dalAd": "Ev temizliği",
-   "tema": "pakline",
-   "no": 52,
-   "ad": "Pakline",
-   "paket": "baslangic",
-   "paketAd": "Başlangıç",
-   "yol": "/tema/ev-temizligi/52/"
+   "tema": "cozgu",
+   "no": 73,
+   "ad": "Çözgü",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
+   "yol": "/tema/ev-temizligi/73/"
   },
   {
    "anahtar": "servis/devre",
@@ -76,8 +88,11 @@
    "tema": "devre",
    "no": 71,
    "ad": "Devre",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/kombi-servisi/71/"
   },
   {
@@ -90,8 +105,11 @@
    "tema": "fleure",
    "no": 68,
    "ad": "Fleuré",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/cicekci/68/"
   },
   {
@@ -104,8 +122,11 @@
    "tema": "maison-vera",
    "no": 50,
    "ad": "Maison Véra",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/guzellik-merkezi/50/"
   },
   {
@@ -118,9 +139,29 @@
    "tema": "noir-club",
    "no": 54,
    "ad": "Noir Club",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/erkek-kuaforu-berber/54/"
+  },
+  {
+   "anahtar": "temizlik/duru",
+   "sektor": "temizlik",
+   "sektorAd": "Temizlik",
+   "sektorEn": "Cleaning",
+   "dal": "ev-temizligi",
+   "dalAd": "Ev temizliği",
+   "tema": "duru",
+   "no": 72,
+   "ad": "Duru",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
+   "yol": "/tema/ev-temizligi/72/"
   },
   {
    "anahtar": "cicekci/fleurie",
@@ -132,8 +173,11 @@
    "tema": "fleurie",
    "no": 47,
    "ad": "Fleurie",
-   "paket": "baslangic",
-   "paketAd": "Başlangıç",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/cicekci/47/"
   },
   {
@@ -146,8 +190,11 @@
    "tema": "mirae-atelier",
    "no": 49,
    "ad": "Miraé Atelier",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/guzellik-merkezi/49/"
   },
   {
@@ -160,23 +207,12 @@
    "tema": "noir",
    "no": 53,
    "ad": "Noir",
-   "paket": "baslangic",
-   "paketAd": "Başlangıç",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/erkek-kuaforu-berber/53/"
-  },
-  {
-   "anahtar": "cicekci/lalora",
-   "sektor": "cicekci",
-   "sektorAd": "Çiçekçi",
-   "sektorEn": "Florist",
-   "dal": "cicekci",
-   "dalAd": "Çiçekçi",
-   "tema": "lalora",
-   "no": 46,
-   "ad": "Lalora",
-   "paket": "profesyonel",
-   "paketAd": "Profesyonel",
-   "yol": "/tema/cicekci/46/"
   }
  ],
  "dallar": [
