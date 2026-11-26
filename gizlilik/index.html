@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0A2B22">
+<meta name="theme-color" content="#0A0A0A">
 <title>Gizlilik Politikası · Enpovi</title>
 <meta name="description" content="Enpovi web sitesi, Yayın Paneli ve mobil uygulamada hangi verilerin neden toplandığı, nerede saklandığı ve nasıl silinebileceği.">
 <link rel="canonical" href="https://enpovi.com/gizlilik/">
@@ -13,8 +13,8 @@
 <link rel="preload" as="font" type="font/woff2" href="/ortak/font/inter-latin-f11d72.woff2" crossorigin>
 <link rel="stylesheet" href="/ortak/font/font.css">
 <style>
-:root{--bg:#F2F4EE;--card:#fff;--ink:#0B231C;--mute:#526159;--line:#DCE3D9;--forest:#0A2B22;--green:#0E6B3A;--lime:#9BCB3C;color-scheme:light}
-@media (prefers-color-scheme:dark){:root{--bg:#08130F;--card:#0F1E19;--ink:#E9F0EA;--mute:#9DB0A6;--line:#22362E;--green:#5FBF7F;color-scheme:dark}}
+:root{--bg:#FAFAFA;--card:#fff;--ink:#0A0A0A;--mute:#5E5E5E;--line:#E5E5E5;--forest:#0A0A0A;--green:#C8001A;--lime:#E3001B;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0A0A0A;--card:#141414;--ink:#F5F5F5;--mute:#A3A3A3;--line:#262626;--green:#FF4D5A;color-scheme:dark}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Inter",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 header{background:var(--forest);color:#fff;padding:calc(24px + env(safe-area-inset-top)) 0 32px}
 .w{max-width:760px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
@@ -30,7 +30,7 @@ footer{color:var(--mute);font-size:13.5px;border-top:1px solid var(--line);paddi
 .tb{overflow-x:auto;margin:8px 0;border:1px solid var(--line);border-radius:12px;background:var(--card)}
 table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}th{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
 .ys{display:flex;flex-wrap:wrap;gap:0 16px;margin-top:8px}.ys a{font-size:13.5px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center}footer a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px}header .ys a[aria-current]{color:#fff;text-decoration:underline}
-button.bt{font:700 15px/1 inherit;font-family:inherit;border:0;border-radius:999px;padding:12px 16px;background:var(--green);color:#fff;cursor:pointer;min-height:44px}
+button.bt{font:700 15px/1 inherit;font-family:inherit;border:0;border-radius:999px;padding:12px 16px;background:#E3001B;color:#fff;cursor:pointer;min-height:44px}
 </style>
 <script src="/ortak/analiz.js" defer></script>
 </head>
@@ -38,7 +38,7 @@ button.bt{font:700 15px/1 inherit;font-family:inherit;border:0;border-radius:999
 <header><div class="w">
   <a href="/">← enpovi.com</a>
   <h1>Gizlilik Politikası</h1>
-  <p>enpovi.com, Yayın Paneli ve mobil uygulama · Son güncelleme: 25 Kasım 2026</p>
+  <p>enpovi.com, Yayın Paneli ve mobil uygulama · Son güncelleme: 26 Kasım 2026</p>
   <nav class="ys" aria-label="Yasal sayfalar"><a href="/gizlilik/" aria-current="page">Gizlilik</a><a href="/kvkk/">KVKK aydınlatma</a><a href="/cerez/">Çerezler</a><a href="/kosullar/">Kullanım koşulları</a></nav>
 </div></header>
 <main class="w">
@@ -67,13 +67,13 @@ button.bt{font:700 15px/1 inherit;font-family:inherit;border:0;border-radius:999
   <p>Bilgilerinizi satmıyor, kiralamıyor ve pazarlama amacıyla başkalarıyla paylaşmıyoruz.</p>
 
   <h2>Nerede saklanıyor</h2>
-  <p>Hesap ve "Paylaştım" kayıtları Supabase altyapısında, Avrupa Birliği'ndeki (İrlanda) sunucularda saklanır. İçerik dosyaları ve Arşiv, herkese kapalı Cloudflare R2 depolama alanında tutulur ve yalnızca giriş yapmış hesaba gösterilir. Bağlantılar şifrelidir (HTTPS). Her müşteri yalnızca kendi kayıtlarına ve dosyalarına erişebilir.</p>
+  <p>Hesap ve "Paylaştım" kayıtları Supabase altyapısında, Avrupa Birliği'ndeki (İrlanda) sunucularda saklanır. İçerik dosyaları ve Arşiv, herkese kapalı Cloudflare R2 depolama alanında tutulur ve yalnızca giriş yapmış hesaba gösterilir. Bu dosyaların ve kayıtların Cloudflare dışındaki güvenlik yedeği Amazon Web Services'in Avrupa Birliği'ndeki (İsveç, Stockholm) sunucularında tutulur; yedek yalnızca geri yükleme için kullanılır. Bağlantılar şifrelidir (HTTPS). Her müşteri yalnızca kendi kayıtlarına ve dosyalarına erişebilir.</p>
   <p>İçerik asistanı açıldığında önerileri Anthropic, PBC'nin (ABD) Claude API hizmetiyle hazırlanır; asistan şu an kapalıdır. Anthropic, API'ye gönderilen verileri kendi modellerini eğitmek için kullanmaz.</p>
   <p>Web sitesinin yazı tipleri sitemizle birlikte barındırılır; yazı tipi için başka bir hizmete bağlantı kurulmaz.</p>
   <p>Tanıtım sayfalarımızda (ana sayfa, blog, hizmet sayfaları) ziyaret sayısını ölçmek için Google Analytics, reklamlarımızın sonucunu ölçmek için Google Ads ve Meta Pixel (Instagram, Facebook) kullanıyoruz. Bu çerezler yalnızca sayfanın altındaki küçük notta <strong>Tamam</strong> derseniz kullanılır; <strong>Hayır</strong> derseniz çerez yazılmaz ve reklam etiketleri hiç yüklenmez. Kişiselleştirilmiş Google reklamı kapalıdır. Kendi çerezsiz sayacımız ise yalnızca günlük toplamları (ziyaret, açılan sayfa, WhatsApp, arama, form, tasarım kartı ve deneme tıklaması, düğmenin sayfadaki yeri, gelinen kampanya) tutar; IP adresi ya da kimlik tutmaz. Onay verirseniz geldiğiniz reklam kampanyasının adı tarayıcınızda 30 gün hatırlanır; böylece sonradan başlattığınız ücretsiz deneme o kampanyaya yazılır. Tercihinizi <a href="/cerez/">çerez politikası</a> sayfasından istediğiniz zaman değiştirebilirsiniz. Müşteri girişi, Yayın Paneli ve mobil uygulamada Google Analytics yoktur.</p>
 
   <h2>Ne kadar süre saklıyoruz</h2>
-  <p>Bilgileriniz, Enpovi ile çalıştığınız sürece saklanır. Hesabınızı sildiğinizde giriş bilgileriniz hemen silinir, "Paylaştım" kayıtlarından adınız kaldırılır ve bütün cihazlarda oturumunuz kapanır. İşletmeniz için hazırlanan içerikler ve Arşiv dosyaları işletmeyle çalışmamız sürdükçe saklanır; işletme olarak tüm kayıtların silinmesini isterseniz bize yazın. Gece alınan güvenlik yedekleri 30 gün sonra kendiliğinden silinir.</p>
+  <p>Bilgileriniz, Enpovi ile çalıştığınız sürece saklanır. Hesabınızı sildiğinizde giriş bilgileriniz hemen silinir, "Paylaştım" kayıtlarından adınız kaldırılır, onay ve dosya kayıtlarındaki e-posta adresiniz sizi tanıtmayan tek yönlü bir özetle değiştirilir ve bütün cihazlarda oturumunuz kapanır. İşletmeniz için hazırlanan içerikler ve Arşiv dosyaları işletmeyle çalışmamız sürdükçe saklanır; işletme olarak tüm kayıtların silinmesini isterseniz bize yazın. Güvenlik yedeklerindeki eski kopyalar (Cloudflare ve Amazon Web Services) katmanlı olduğu için olağan işleyişte silinen kaydın son kopyası en geç 62 gün içinde bu yedeklerden kendiliğinden silinir. Haftada bir gece yedeğinin bir kopyası Enpovi'nin e-posta hesabına (Google) gönderilir.</p>
 
   <h2 id="hesap-silme">Haklarınız ve hesap silme</h2>
   <p><b>Hesabınızı kendiniz silebilirsiniz:</b> mobil uygulamada <b>Hesabım → Hesabımı sil</b>, Yayın Paneli'nde (app.enpovi.com) sağ üstteki hesap simgesi → <b>Hesabımı sil</b>. Silme hemen gerçekleşir.</p>
