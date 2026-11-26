@@ -304,6 +304,14 @@ h2 em{color:var(--green)}
 .sk p{margin:0;opacity:.82;font-size:14.5px}
 .sk .ik{position:absolute;top:22px;left:22px;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;place-items:center}
 .sk .ik svg{width:22px;height:22px}
+.sk-site{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sks-s{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.sks-s h3{margin:0;font-size:18px;line-height:1.3}
+.sks-s p{margin:0 0 8px;color:var(--mute);font-size:15px}
+.sks-cip{display:flex;flex-wrap:wrap;gap:8px}
+.sks-cip a{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border-radius:999px;background:var(--soft);color:var(--ink);font-size:14.5px;font-weight:600;text-decoration:none;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .15s,background .15s}
+.sks-cip a:hover{box-shadow:inset 0 0 0 1px var(--green)}
+@media (max-width:760px){.sk-site{grid-template-columns:1fr}.sks-s{padding:16px}}
 .web-s{margin-top:16px;display:flex;align-items:center;gap:16px;padding:24px 24px;border-radius:24px;background:var(--forest);color:#fff;text-decoration:none;transition:transform .4s var(--ease)}
 .web-s:hover{transform:translateY(-3px)}
 .web-s .ik{flex:none;width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.1);display:grid;place-items:center;color:var(--lime)}
@@ -713,7 +721,7 @@ footer li a{min-width:44px;justify-content:center}
     <div class="dene gir d3">
       <a class="btn lime dene-ana" href="https://app.enpovi.com/basla/" data-dene>7 gün ücretsiz deneyin<svg class="ok-sag"><use href="#i-ok-sag"/></svg></a>
       <p class="dene-not"><span><svg><use href="#i-ok"/></svg>Kart bilgisi istenmez</span><span><svg><use href="#i-ok"/></svg>Taahhüt yok</span><span><svg><use href="#i-ok"/></svg>Telefondan yönetim</span></p>
-      <div class="dene-is" aria-label="İşinizi seçerek başlayın"><a href="https://app.enpovi.com/basla/?dal=kadin-kuaforu" data-dene>Kuaför</a><a href="https://app.enpovi.com/basla/?dal=erkek-kuaforu-berber" data-dene>Berber</a><a href="https://app.enpovi.com/basla/?dal=restoran" data-dene>Restoran</a><a href="https://app.enpovi.com/basla/?dal=cicekci" data-dene>Çiçekçi</a><a href="https://app.enpovi.com/basla/?dal=guzellik-merkezi" data-dene>Güzellik merkezi</a><a href="https://app.enpovi.com/basla/?dal=ev-temizligi" data-dene>Temizlik</a><a href="https://app.enpovi.com/basla/" data-dene>Diğer işler</a></div>
+      <div class="dene-is" aria-label="İşinizi seçerek başlayın"><a href="https://app.enpovi.com/basla/?dal=kadin-kuaforu" data-dene>Kuaför</a><a href="https://app.enpovi.com/basla/?dal=erkek-kuaforu-berber" data-dene>Berber</a><a href="https://app.enpovi.com/basla/?dal=kombi-servisi" data-dene>Kombi servisi</a><a href="https://app.enpovi.com/basla/?dal=cicekci" data-dene>Çiçekçi</a><a href="https://app.enpovi.com/basla/?dal=guzellik-merkezi" data-dene>Güzellik merkezi</a><a href="https://app.enpovi.com/basla/?dal=ev-temizligi" data-dene>Temizlik</a><a href="https://app.enpovi.com/basla/" data-dene>Diğer işler</a></div>
     </div>
     <details class="ist-ac gir d3" id="istAc"><summary>Ya da sitenizi biz hazırlayalım</summary>
     <form class="istek gir d3" id="istek" novalidate aria-labelledby="ornek-site">
@@ -991,6 +999,11 @@ footer li a{min-width:44px;justify-content:center}
     <a class="sk r d1" href="hizmetler/catering-instagram-yonetimi/"><img loading="lazy" src="marka/is/p-catering.webp" srcset="marka/is/k/p-catering.webp 320w, marka/is/p-catering.webp 560w" sizes="(max-width:600px) 50vw, 300px" alt=""><span class="ik"><svg><use href="#i-dav"/></svg></span><h3>Catering &amp; organizasyon</h3><p>Etkinlik, düğün ve kurumsal</p></a>
     <a class="sk duz s3 r d2" href="hizmetler/surucu-kursu-instagram/"><span class="ik"><svg><use href="#i-ara"/></svg></span><h3>Sürücü kursu</h3><p>Kayıt dönemi ve eğitim içerikleri</p></a>
     <a class="sk duz s4 r d3" href="hizmetler/magaza-instagram-yonetimi/"><span class="ik"><svg><use href="#i-mag"/></svg></span><h3>Mağaza &amp; üretici</h3><p>Ürün tanıtımı ve kampanyalar</p></a>
+  </div>
+  <!-- iş dalları: tasarımı hazır olan iş "7 gün dene", olmayan "biz hazırlayalım" (Yasin, 26 Kasım 2026, G01; dallar veri/vitrin.json, kontrol.py denetler) -->
+  <div class="sk-site r">
+    <div class="sks-s"><h3>Tasarımı hazır işler</h3><p>Sitenizi kendiniz kurun, 7 gün ücretsiz deneyin.</p><div class="sks-cip" aria-label="Tasarımı hazır işler"><a href="https://app.enpovi.com/basla/?dal=kadin-kuaforu" data-dene>Kuaför</a><a href="https://app.enpovi.com/basla/?dal=erkek-kuaforu-berber" data-dene>Berber</a><a href="https://app.enpovi.com/basla/?dal=guzellik-merkezi" data-dene>Güzellik merkezi</a><a href="https://app.enpovi.com/basla/?dal=cicekci" data-dene>Çiçekçi</a><a href="https://app.enpovi.com/basla/?dal=ev-temizligi" data-dene>Ev temizliği</a><a href="https://app.enpovi.com/basla/?dal=kombi-servisi" data-dene>Kombi servisi</a><a href="https://app.enpovi.com/basla/?dal=elektrikci" data-dene>Elektrikçi</a><a href="https://app.enpovi.com/basla/" data-dene>Diğer işler</a></div></div>
+    <div class="sks-s"><h3>Restoran, catering, sürücü kursu, mağaza</h3><p>Bu işler için sitenizi biz hazırlıyoruz; size özel örnek siteyi ücretsiz gösteririz.</p><a class="btn koyu" href="#ornek-site" data-istek>Sitenizi biz hazırlayalım</a></div>
   </div>
   <a class="web-s r" href="hizmetler/web-tasarim/"><span class="ik"><svg><use href="#i-cihaz"/></svg></span><span class="ws-y"><b>Web sitesi hizmetinin ayrıntıları</b><span>Neler dahil, nasıl teslim ediyoruz, alan adı ve yayın süreci.</span></span><span class="ws-ok">İncele<svg><use href="#i-ok-sag"/></svg></span></a>
 </div></section>

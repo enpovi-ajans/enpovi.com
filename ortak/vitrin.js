@@ -51,9 +51,19 @@
     if (r) { var sm = document.createElement("small"); sm.textContent = en ? p + " colour palettes, you choose" : p + " renk, siz seçin";
       r.textContent = en ? t + " designs" : t + " tasarım"; r.appendChild(sm) }
   }
+  /* iş çipleri (G01, Yasin 26 Kasım 2026): platformda tasarımı kalmayan iş dalının "7 gün dene" bağlantısı gizlenir
+     (tıklayan boş adıma düşmesin; "Diğer işler" ve "biz hazırlayalım" kalır). Liste yoksa ya da bozuksa hiçbir şeye dokunulmaz. */
+  function dallar(d) {
+    var l = d && d.dallar;
+    if (!Array.isArray(l) || l.length < 1 || l.length > 500 || !l.every(function (x) { return typeof x === "string" && KIM.test(x) })) return;
+    [].slice.call(document.querySelectorAll("a[data-dene]")).forEach(function (a) {
+      var m = /[?&]dal=([a-z0-9-]+)/.exec(a.getAttribute("href") || "");
+      if (m && l.indexOf(m[1]) < 0) a.style.display = "none";
+    });
+  }
   window.addEventListener("resize", function () { [].slice.call(v.querySelectorAll(".vk-canli")).forEach(olcek) });
   fetch(APP + "/api/enpovi/vitrin/yayin", { cache: "no-store", credentials: "omit" })
     .then(function (r) { return r.ok ? r.json() : null })
-    .then(function (d) { if (gecerli(d) && d.surum !== v.getAttribute("data-surum")) yaz(d) })
+    .then(function (d) { dallar(d); if (gecerli(d) && d.surum !== v.getAttribute("data-surum")) yaz(d) })
     .catch(function () {});
 })();
