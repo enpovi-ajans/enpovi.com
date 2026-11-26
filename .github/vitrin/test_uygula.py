@@ -83,6 +83,10 @@ class Vitrin(unittest.TestCase):
             for k in v["temalar"]:
                 k["paketler"] = ["baslangic", "profesyonel"]; k.pop("paket", None)
         self.assertFalse(bozuk(yeni))
+        # yayındaki biçim (paketler var, paket yok) üstüne bozuk eski alan: yine hata (26 Kasım 2026 vitrin işi kırmızısı)
+        def yeni_bozuk(v):
+            yeni(v); v["temalar"][0]["paket"] = "kurumsal"
+        self.assertTrue(bozuk(yeni_bozuk))
         # iş dalları (G01): isteğe bağlı, varsa sıkı
         self.assertFalse(bozuk(lambda v: v.pop("dallar", None)))
         self.assertTrue(bozuk(lambda v: v.update(dallar=[])))
