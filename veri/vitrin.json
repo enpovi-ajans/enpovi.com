@@ -1,7 +1,7 @@
 {
- "surum": "4a7c1a6b",
+ "surum": "5187e65a",
  "sayi": {
-  "tema": 41,
+  "tema": 45,
   "dal": 534,
   "palet": 17
  },
@@ -11,18 +11,18 @@
  },
  "temalar": [
   {
-   "anahtar": "cicekci/kamelya",
+   "anahtar": "cicekci/botanik",
    "sektor": "cicekci",
    "sektorAd": "Çiçekçi",
    "sektorEn": "Florist",
    "dal": "cicekci",
    "dalAd": "Çiçekçi",
-   "tema": "kamelya",
-   "no": 62,
-   "ad": "Kamelya",
+   "tema": "botanik",
+   "no": 70,
+   "ad": "Botanik",
    "paket": "profesyonel",
    "paketAd": "Profesyonel",
-   "yol": "/tema/cicekci/62/"
+   "yol": "/tema/cicekci/70/"
   },
   {
    "anahtar": "restoran/enpro-kor",
@@ -53,18 +53,18 @@
    "yol": "/tema/guzellik-merkezi/51/"
   },
   {
-   "anahtar": "berber/usta",
+   "anahtar": "berber/kontur",
    "sektor": "berber",
    "sektorAd": "Berber ve erkek kuaförü",
    "sektorEn": "Barber",
    "dal": "erkek-kuaforu-berber",
    "dalAd": "Erkek kuaförü / berber",
-   "tema": "usta",
-   "no": 55,
-   "ad": "Usta",
-   "paket": "baslangic",
-   "paketAd": "Başlangıç",
-   "yol": "/tema/erkek-kuaforu-berber/55/"
+   "tema": "kontur",
+   "no": 69,
+   "ad": "Kontür",
+   "paket": "profesyonel",
+   "paketAd": "Profesyonel",
+   "yol": "/tema/erkek-kuaforu-berber/69/"
   },
   {
    "anahtar": "cocuk/kamp",
@@ -123,18 +123,18 @@
    "yol": "/tema/ev-temizligi/52/"
   },
   {
-   "anahtar": "servis/atolye",
+   "anahtar": "servis/devre",
    "sektor": "servis",
    "sektorAd": "Teknik servis",
    "sektorEn": "Technical service",
    "dal": "kombi-servisi",
    "dalAd": "Kombi servisi",
-   "tema": "atolye",
-   "no": 14,
-   "ad": "Atölye",
-   "paket": "baslangic",
-   "paketAd": "Başlangıç",
-   "yol": "/tema/kombi-servisi/14/"
+   "tema": "devre",
+   "no": 71,
+   "ad": "Devre",
+   "paket": "profesyonel",
+   "paketAd": "Profesyonel",
+   "yol": "/tema/kombi-servisi/71/"
   },
   {
    "anahtar": "kurumsal/enpro-berrak",
@@ -151,18 +151,18 @@
    "yol": "/tema/mali-musavir/33/"
   },
   {
-   "anahtar": "cicekci/fleurie",
+   "anahtar": "cicekci/fleure",
    "sektor": "cicekci",
    "sektorAd": "Çiçekçi",
    "sektorEn": "Florist",
    "dal": "cicekci",
    "dalAd": "Çiçekçi",
-   "tema": "fleurie",
-   "no": 47,
-   "ad": "Fleurie",
-   "paket": "baslangic",
-   "paketAd": "Başlangıç",
-   "yol": "/tema/cicekci/47/"
+   "tema": "fleure",
+   "no": 68,
+   "ad": "Fleuré",
+   "paket": "profesyonel",
+   "paketAd": "Profesyonel",
+   "yol": "/tema/cicekci/68/"
   },
   {
    "anahtar": "restoran/gazete",
