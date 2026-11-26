@@ -68,7 +68,23 @@ def dogrula(v):
         pk = k.get("paketler", [k.get("paket")])
         if not (isinstance(pk, list) and pk and all(isinstance(x, str) and x in SITE_FIYAT for x in pk) and len(set(pk)) == len(pk)):
             h.append("kart %d: paket geçersiz" % i)
+    # satışta seçilebilen iş dalları (G01, Yasin 26 Kasım 2026): sayfadaki "7 gün dene" çipleri bunlardan olmalı (kontrol.py); eski vitrinde yok
+    d = v.get("dallar")
+    if d is not None and not (isinstance(d, list) and 1 <= len(d) <= 500 and all(isinstance(x, str) and KIMLIK.match(x) for x in d) and len(set(d)) == len(d)):
+        h.append("iş dalları geçersiz")
     return h
+
+
+# "7 gün dene" bağlantısındaki iş dalı: ?dal=, &dal= ya da HTML'de &amp;dal= (ortak/vitrin.js ile aynı kural)
+DAL_BAG = re.compile(r"app\.enpovi\.com/basla/?\?(?:[^\"'\s<>]*?&(?:amp;)?)?dal=([a-z0-9-]+)")
+
+
+def dal_hatalari(metin, dallar):
+    """Sayfadaki her ?dal= satışta seçilebilen iş dalı mı (G01). dallar geçersizse (liste değil vb.) hepsi hata: sessizce geçilmez."""
+    bul = sorted(set(DAL_BAG.findall(metin)))
+    if not (isinstance(dallar, list) and dallar and all(isinstance(x, str) and KIMLIK.match(x) for x in dallar)):
+        return ["iş dalı listesi yok ya da geçersiz (veri/vitrin.json dallar), ?dal=%s denetlenemedi" % d for d in bul]
+    return ["?dal=%s satışta tasarımı olan bir iş dalı değil (çipi kaldırın ya da \"biz hazırlayalım\"a yönlendirin)" % d for d in bul if d not in dallar]
 
 
 def gorsel(k):
@@ -149,6 +165,10 @@ def main(argv):
         for k in eksik(v):
             print(APP + k["yol"], gorsel(k))
         return 0
+    # yayındaki vitrinde iş dalı listesi varken yenisinde yoksa (platform eski sürüm) dokunulmaz: sayfadaki çiplerin denetimi kaybolmasın
+    if v.get("dallar") is None and os.path.exists(_yol(VERI)) and json.load(open(_yol(VERI), encoding="utf-8")).get("dallar") is not None:
+        print("vitrinde iş dalı listesi (dallar) yok, yayındakinde var; dokunulmadı")
+        return 1
     if eksik(v):
         print("ekran görüntüsü eksik; dokunulmadı:", ", ".join(gorsel(k) for k in eksik(v)))
         return 1

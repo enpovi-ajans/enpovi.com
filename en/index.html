@@ -304,6 +304,15 @@ h2 em{color:var(--green)}
 .sk p{margin:0;opacity:.82;font-size:14.5px}
 .sk .ik{position:absolute;top:22px;left:22px;width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;place-items:center}
 .sk .ik svg{width:22px;height:22px}
+.sk-site{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sks-s{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.sks-s h3{margin:0;font-size:18px;line-height:1.3}
+.sks-s p{margin:0 0 8px;color:var(--mute);font-size:15px}
+.sks-cip{display:flex;flex-wrap:wrap;gap:8px}
+.sks-cip a{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;border-radius:999px;background:var(--soft);color:var(--ink);font-size:14.5px;font-weight:600;text-decoration:none;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .15s,background .15s}
+.sks-cip a:hover{box-shadow:inset 0 0 0 1px var(--green)}
+@media (max-width:760px){.sk-site{grid-template-columns:1fr}.sks-s{padding:16px}}
+@media (prefers-color-scheme:dark){.sks-s .btn.koyu{box-shadow:inset 0 0 0 1px var(--lime)}}
 .web-s{margin-top:16px;display:flex;align-items:center;gap:16px;padding:24px 24px;border-radius:24px;background:var(--forest);color:#fff;text-decoration:none;transition:transform .4s var(--ease)}
 .web-s:hover{transform:translateY(-3px)}
 .web-s .ik{flex:none;width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.1);display:grid;place-items:center;color:var(--lime2)}
@@ -713,7 +722,7 @@ footer li a{min-width:44px;justify-content:center}
     <div class="dene gir d3">
       <a class="btn lime dene-ana" href="https://app.enpovi.com/basla/" data-dene>Try free for 7 days<svg class="ok-sag"><use href="#i-ok-sag"/></svg></a>
       <p class="dene-not"><span><svg><use href="#i-ok"/></svg>No card needed</span><span><svg><use href="#i-ok"/></svg>No commitment</span><span><svg><use href="#i-ok"/></svg>Managed from your phone</span></p>
-      <div class="dene-is" aria-label="Start by choosing your business"><a href="https://app.enpovi.com/basla/?dal=kadin-kuaforu" data-dene>Hair salon</a><a href="https://app.enpovi.com/basla/?dal=erkek-kuaforu-berber" data-dene>Barber</a><a href="https://app.enpovi.com/basla/?dal=restoran" data-dene>Restaurant</a><a href="https://app.enpovi.com/basla/?dal=cicekci" data-dene>Florist</a><a href="https://app.enpovi.com/basla/?dal=guzellik-merkezi" data-dene>Beauty centre</a><a href="https://app.enpovi.com/basla/?dal=ev-temizligi" data-dene>Cleaning</a><a href="https://app.enpovi.com/basla/" data-dene>Other businesses</a></div>
+      <div class="dene-is" aria-label="Start by choosing your business"><a href="https://app.enpovi.com/basla/?dal=kadin-kuaforu" data-dene>Hair salon</a><a href="https://app.enpovi.com/basla/?dal=erkek-kuaforu-berber" data-dene>Barber</a><a href="https://app.enpovi.com/basla/?dal=kombi-servisi" data-dene>Boiler service</a><a href="https://app.enpovi.com/basla/?dal=cicekci" data-dene>Florist</a><a href="https://app.enpovi.com/basla/?dal=guzellik-merkezi" data-dene>Beauty centre</a><a href="https://app.enpovi.com/basla/?dal=ev-temizligi" data-dene>Cleaning</a><a href="https://app.enpovi.com/basla/" data-dene>Other businesses</a></div>
     </div>
     <details class="ist-ac gir d3" id="istAc"><summary>Or let us prepare your site for you</summary>
     <form class="istek gir d3" id="istek" novalidate aria-labelledby="ornek-site">
@@ -991,6 +1000,11 @@ footer li a{min-width:44px;justify-content:center}
     <a class="sk r d1" href="/hizmetler/catering-instagram-yonetimi/"><img loading="lazy" src="/marka/is/p-catering.webp" srcset="/marka/is/k/p-catering.webp 320w, /marka/is/p-catering.webp 560w" sizes="(max-width:600px) 50vw, 300px" alt=""><span class="ik"><svg><use href="#i-dav"/></svg></span><h3>Catering &amp; events</h3><p>Events, weddings and corporate</p></a>
     <a class="sk duz s3 r d2" href="/hizmetler/surucu-kursu-instagram/"><span class="ik"><svg><use href="#i-ara"/></svg></span><h3>Driving school</h3><p>Enrolment periods and lesson content</p></a>
     <a class="sk duz s4 r d3" href="/hizmetler/magaza-instagram-yonetimi/"><span class="ik"><svg><use href="#i-mag"/></svg></span><h3>Shop &amp; producer</h3><p>Product showcases and campaigns</p></a>
+  </div>
+  <!-- iş dalları: tasarımı hazır olan iş "7 gün dene", olmayan "biz hazırlayalım" (Yasin, 26 Kasım 2026, G01; dallar veri/vitrin.json, kontrol.py denetler) -->
+  <div class="sk-site r">
+    <div class="sks-s"><h3>Businesses with ready designs</h3><p>Set up your site yourself and try it free for 7 days.</p><div class="sks-cip" aria-label="Businesses with ready designs"><a href="https://app.enpovi.com/basla/?dal=kadin-kuaforu" data-dene>Hair salon</a><a href="https://app.enpovi.com/basla/?dal=erkek-kuaforu-berber" data-dene>Barber</a><a href="https://app.enpovi.com/basla/?dal=guzellik-merkezi" data-dene>Beauty centre</a><a href="https://app.enpovi.com/basla/?dal=cicekci" data-dene>Florist</a><a href="https://app.enpovi.com/basla/?dal=ev-temizligi" data-dene>Home cleaning</a><a href="https://app.enpovi.com/basla/?dal=kombi-servisi" data-dene>Boiler service</a><a href="https://app.enpovi.com/basla/?dal=elektrikci" data-dene>Electrician</a><a href="https://app.enpovi.com/basla/" data-dene>Other businesses</a></div></div>
+    <div class="sks-s"><h3>Don't see your business?</h3><p>Let us prepare your site; we'll show you a free sample site made for your business.</p><a class="btn koyu" href="#ornek-site" data-istek>Let us prepare your site</a></div>
   </div>
   <a class="web-s r" href="/hizmetler/web-tasarim/"><span class="ik"><svg><use href="#i-cihaz"/></svg></span><span class="ws-y"><b>Website service details</b><span>What is included, how we deliver, and the domain and publishing process.</span></span><span class="ws-ok">Details (Turkish)<svg><use href="#i-ok-sag"/></svg></span></a>
 </div></section>
