@@ -1,7 +1,7 @@
 {
- "surum": "6bc218d3",
+ "surum": "899d56bc",
  "sayi": {
-  "tema": 19,
+  "tema": 20,
   "dal": 534,
   "palet": 17
  },
@@ -11,21 +11,21 @@
  },
  "temalar": [
   {
-   "anahtar": "cicekci/botanik",
+   "anahtar": "cicekci/demet",
    "sektor": "cicekci",
    "sektorAd": "Çiçekçi",
    "sektorEn": "Florist",
    "dal": "cicekci",
    "dalAd": "Çiçekçi",
-   "tema": "botanik",
-   "no": 70,
-   "ad": "Botanik",
+   "tema": "demet",
+   "no": 74,
+   "ad": "Demet",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/cicekci/70/"
+   "yol": "/tema/cicekci/74/"
   },
   {
    "anahtar": "guzellik/kroma-shift",
@@ -96,21 +96,21 @@
    "yol": "/tema/kombi-servisi/71/"
   },
   {
-   "anahtar": "cicekci/fleure",
+   "anahtar": "cicekci/botanik",
    "sektor": "cicekci",
    "sektorAd": "Çiçekçi",
    "sektorEn": "Florist",
    "dal": "cicekci",
    "dalAd": "Çiçekçi",
-   "tema": "fleure",
-   "no": 68,
-   "ad": "Fleuré",
+   "tema": "botanik",
+   "no": 70,
+   "ad": "Botanik",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/cicekci/68/"
+   "yol": "/tema/cicekci/70/"
   },
   {
    "anahtar": "guzellik/maison-vera",
@@ -164,21 +164,21 @@
    "yol": "/tema/ev-temizligi/72/"
   },
   {
-   "anahtar": "cicekci/fleurie",
+   "anahtar": "cicekci/fleure",
    "sektor": "cicekci",
    "sektorAd": "Çiçekçi",
    "sektorEn": "Florist",
    "dal": "cicekci",
    "dalAd": "Çiçekçi",
-   "tema": "fleurie",
-   "no": 47,
-   "ad": "Fleurie",
+   "tema": "fleure",
+   "no": 68,
+   "ad": "Fleuré",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/cicekci/47/"
+   "yol": "/tema/cicekci/68/"
   },
   {
    "anahtar": "guzellik/mirae-atelier",
