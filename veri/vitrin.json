@@ -1,7 +1,7 @@
 {
- "surum": "21c7bb65",
+ "surum": "417091af",
  "sayi": {
-  "tema": 23,
+  "tema": 25,
   "dal": 534,
   "palet": 17
  },
@@ -28,21 +28,21 @@
    "yol": "/tema/cicekci/74/"
   },
   {
-   "anahtar": "restoran/kor",
+   "anahtar": "restoran/sahan",
    "sektor": "restoran",
    "sektorAd": "Restoran ve kafe",
    "sektorEn": "Restaurant & café",
-   "dal": "restoran",
-   "dalAd": "Restoran",
-   "tema": "kor",
-   "no": 76,
-   "ad": "Kor",
+   "dal": "kahvalti-salonu",
+   "dalAd": "Kahvaltı salonu",
+   "tema": "sahan",
+   "no": 77,
+   "ad": "Sahan",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/restoran/76/"
+   "yol": "/tema/kahvalti-salonu/77/"
   },
   {
    "anahtar": "guzellik/kroma-shift",
@@ -113,21 +113,21 @@
    "yol": "/tema/ev-temizligi/75/"
   },
   {
-   "anahtar": "servis/devre",
+   "anahtar": "servis/petek",
    "sektor": "servis",
    "sektorAd": "Teknik servis",
    "sektorEn": "Technical service",
    "dal": "kombi-servisi",
    "dalAd": "Kombi servisi",
-   "tema": "devre",
-   "no": 71,
-   "ad": "Devre",
+   "tema": "petek",
+   "no": 79,
+   "ad": "Petek",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/kombi-servisi/71/"
+   "yol": "/tema/kombi-servisi/79/"
   },
   {
    "anahtar": "cicekci/botanik",
@@ -145,6 +145,23 @@
    ],
    "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/cicekci/70/"
+  },
+  {
+   "anahtar": "restoran/kor",
+   "sektor": "restoran",
+   "sektorAd": "Restoran ve kafe",
+   "sektorEn": "Restaurant & café",
+   "dal": "restoran",
+   "dalAd": "Restoran",
+   "tema": "kor",
+   "no": 76,
+   "ad": "Kor",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
+   "yol": "/tema/restoran/76/"
   },
   {
    "anahtar": "guzellik/maison-vera",
@@ -196,23 +213,6 @@
    ],
    "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/koltuk-yikama/73/"
-  },
-  {
-   "anahtar": "cicekci/fleure",
-   "sektor": "cicekci",
-   "sektorAd": "Çiçekçi",
-   "sektorEn": "Florist",
-   "dal": "cicekci",
-   "dalAd": "Çiçekçi",
-   "tema": "fleure",
-   "no": 68,
-   "ad": "Fleuré",
-   "paketler": [
-    "baslangic",
-    "profesyonel"
-   ],
-   "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/cicekci/68/"
   }
  ],
  "dallar": [
@@ -224,6 +224,8 @@
   "hali-yikama",
   "i-nsaat-sonrasi-temizlik",
   "kadin-kuaforu",
+  "kafe",
+  "kahvalti-salonu",
   "kebapci",
   "klima-montaj-ve-servisi",
   "koltuk-yikama",
