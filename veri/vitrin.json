@@ -1,7 +1,7 @@
 {
- "surum": "899d56bc",
+ "surum": "c8969bb1",
  "sayi": {
-  "tema": 20,
+  "tema": 21,
   "dal": 534,
   "palet": 17
  },
@@ -62,21 +62,21 @@
    "yol": "/tema/erkek-kuaforu-berber/69/"
   },
   {
-   "anahtar": "temizlik/cozgu",
+   "anahtar": "temizlik/silecek",
    "sektor": "temizlik",
    "sektorAd": "Temizlik",
    "sektorEn": "Cleaning",
    "dal": "ev-temizligi",
    "dalAd": "Ev temizliği",
-   "tema": "cozgu",
-   "no": 73,
-   "ad": "Çözgü",
+   "tema": "silecek",
+   "no": 75,
+   "ad": "Silecek",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/ev-temizligi/73/"
+   "yol": "/tema/ev-temizligi/75/"
   },
   {
    "anahtar": "servis/devre",
@@ -147,21 +147,21 @@
    "yol": "/tema/erkek-kuaforu-berber/54/"
   },
   {
-   "anahtar": "temizlik/duru",
+   "anahtar": "temizlik/cozgu",
    "sektor": "temizlik",
    "sektorAd": "Temizlik",
    "sektorEn": "Cleaning",
    "dal": "ev-temizligi",
    "dalAd": "Ev temizliği",
-   "tema": "duru",
-   "no": 72,
-   "ad": "Duru",
+   "tema": "cozgu",
+   "no": 73,
+   "ad": "Çözgü",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/ev-temizligi/72/"
+   "yol": "/tema/ev-temizligi/73/"
   },
   {
    "anahtar": "cicekci/fleure",
