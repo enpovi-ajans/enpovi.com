@@ -110,10 +110,11 @@ class Vitrin(unittest.TestCase):
         for dil in ("tr", "en"):
             self.assertEqual(U.dal_hatalari(sayfa(dil), self.v.get("dallar")), [], dil)
             self.assertTrue(U.DAL_BAG.findall(sayfa(dil)), dil + ": sayfada iş çipi var")
-        b = '<a href="https://app.enpovi.com/basla/?dal=restoran">'
+        self.assertNotIn("olmayan-dal", self.v["dallar"])  # yayında olmayan dal; gerçek dal adı (ör. restoran) liste büyüdükçe geçerli olur
+        b = '<a href="https://app.enpovi.com/basla/?dal=olmayan-dal">'
         self.assertTrue(U.dal_hatalari(b, self.v["dallar"]))
-        self.assertTrue(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?paket=baslangic&amp;dal=restoran">', self.v["dallar"]))
-        self.assertTrue(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?paket=x&dal=restoran">', self.v["dallar"]))
+        self.assertTrue(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?paket=baslangic&amp;dal=olmayan-dal">', self.v["dallar"]))
+        self.assertTrue(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?paket=x&dal=olmayan-dal">', self.v["dallar"]))
         self.assertEqual(U.dal_hatalari('<a href="https://app.enpovi.com/basla/?dal=cicekci">', ["cicekci"]), [])
         for bozuk in (None, [], "cicekci,restoran", ["../x"]):
             self.assertTrue(U.dal_hatalari(b, bozuk), repr(bozuk))
