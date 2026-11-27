@@ -1,7 +1,7 @@
 {
- "surum": "899d56bc",
+ "surum": "33065f58",
  "sayi": {
-  "tema": 20,
+  "tema": 22,
   "dal": 534,
   "palet": 17
  },
@@ -26,6 +26,23 @@
    ],
    "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/cicekci/74/"
+  },
+  {
+   "anahtar": "restoran/kor",
+   "sektor": "restoran",
+   "sektorAd": "Restoran ve kafe",
+   "sektorEn": "Restaurant & café",
+   "dal": "restoran",
+   "dalAd": "Restoran",
+   "tema": "kor",
+   "no": 76,
+   "ad": "Kor",
+   "paketler": [
+    "baslangic",
+    "profesyonel"
+   ],
+   "paketAd": "Başlangıç ve Profesyonel",
+   "yol": "/tema/restoran/76/"
   },
   {
    "anahtar": "guzellik/kroma-shift",
@@ -62,21 +79,21 @@
    "yol": "/tema/erkek-kuaforu-berber/69/"
   },
   {
-   "anahtar": "temizlik/cozgu",
+   "anahtar": "temizlik/silecek",
    "sektor": "temizlik",
    "sektorAd": "Temizlik",
    "sektorEn": "Cleaning",
    "dal": "ev-temizligi",
    "dalAd": "Ev temizliği",
-   "tema": "cozgu",
-   "no": 73,
-   "ad": "Çözgü",
+   "tema": "silecek",
+   "no": 75,
+   "ad": "Silecek",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/ev-temizligi/73/"
+   "yol": "/tema/ev-temizligi/75/"
   },
   {
    "anahtar": "servis/devre",
@@ -147,21 +164,21 @@
    "yol": "/tema/erkek-kuaforu-berber/54/"
   },
   {
-   "anahtar": "temizlik/duru",
+   "anahtar": "temizlik/cozgu",
    "sektor": "temizlik",
    "sektorAd": "Temizlik",
    "sektorEn": "Cleaning",
    "dal": "ev-temizligi",
    "dalAd": "Ev temizliği",
-   "tema": "duru",
-   "no": 72,
-   "ad": "Duru",
+   "tema": "cozgu",
+   "no": 73,
+   "ad": "Çözgü",
    "paketler": [
     "baslangic",
     "profesyonel"
    ],
    "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/ev-temizligi/72/"
+   "yol": "/tema/ev-temizligi/73/"
   },
   {
    "anahtar": "cicekci/fleure",
@@ -196,23 +213,6 @@
    ],
    "paketAd": "Başlangıç ve Profesyonel",
    "yol": "/tema/guzellik-merkezi/49/"
-  },
-  {
-   "anahtar": "berber/noir",
-   "sektor": "berber",
-   "sektorAd": "Berber ve erkek kuaförü",
-   "sektorEn": "Barber",
-   "dal": "erkek-kuaforu-berber",
-   "dalAd": "Erkek kuaförü / berber",
-   "tema": "noir",
-   "no": 53,
-   "ad": "Noir",
-   "paketler": [
-    "baslangic",
-    "profesyonel"
-   ],
-   "paketAd": "Başlangıç ve Profesyonel",
-   "yol": "/tema/erkek-kuaforu-berber/53/"
   }
  ],
  "dallar": [
@@ -222,22 +222,36 @@
   "anahtarci",
   "baca-temizligi",
   "bahce-bakimi",
+  "baklava-ve-tatlici",
+  "balik-restorani",
   "beyaz-esya-servisi",
   "bilgisayar-tamiri",
   "bolgesel-incelme-merkezi",
+  "borekci",
+  "burgerci",
   "cam-temizligi",
   "camasirhane",
+  "catering-firmasi",
+  "cay-bahcesi",
   "cicekci",
+  "cig-kofteci",
   "cilt-bakim-merkezi",
   "demir-dograma",
   "dis-cephe-temizligi",
   "dogal-sabun-ve-kozmetik-ureticisi",
   "dogalgaz-tesisatcisi",
+  "dondurmaci",
+  "donerci",
   "dovme-studyosu",
   "elektrikci",
   "erkek-kuaforu-berber",
+  "et-lokantasi-steakhouse",
+  "ev-mutfagi-isletmesi",
   "ev-temizligi",
   "ev-yardimcisi-ve-bakici-ajansi",
+  "ev-yemekleri-lokantasi",
+  "firin",
+  "food-truck",
   "gelin-saci-ve-makyaji-studyosu",
   "guvenlik-kamerasi-firmasi",
   "guzellik-merkezi",
@@ -248,34 +262,53 @@
   "i-nsaat-sonrasi-temizlik",
   "jenerator-servisi",
   "kadin-kuaforu",
+  "kafe",
+  "kahvalti-salonu",
+  "kahve-dukkani",
   "kalici-makyaj-studyosu",
   "kaynakci",
+  "kebapci",
   "kirpik-ve-kas-studyosu",
   "klima-montaj-ve-servisi",
+  "kofteci",
   "koltuk-yikama",
   "kombi-servisi",
   "kozmetik-magazasi",
+  "kumpirci",
   "kuru-temizleme",
   "lazer-epilasyon-merkezi",
   "makyaj-artisti",
+  "manti-evi",
   "masaj-salonu",
+  "meyhane",
   "microblading-studyosu",
   "mobilya-montaj",
+  "nargile-kafe",
   "ofis-temizligi",
   "parfumeri",
+  "pastane",
   "peruk-ve-postis-satisi",
+  "pide-ve-lahmacun-salonu",
   "piercing-studyosu",
+  "pizzaci",
   "protez-sac-merkezi",
+  "pub-bar",
+  "restoran",
   "solaryum-merkezi",
   "spa-merkezi",
   "su-kacagi-tespiti",
   "su-tesisatcisi",
+  "tavuk-restorani",
   "telefon-tamiri",
   "televizyon-tamiri",
   "tikaniklik-acma",
   "tirnak-studyosu",
+  "toplu-yemek-firmasi",
   "unisex-kuafor",
   "uydu-ve-anten-servisi",
+  "uzak-dogu-restorani",
+  "vegan-restoran",
+  "waffle-dukkani",
   "yangin-sondurme-sistemleri"
  ]
 }
